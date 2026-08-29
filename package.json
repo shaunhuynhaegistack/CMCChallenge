@@ -17,6 +17,7 @@
     "test:retry": "cross-env RETRY=2 ts-node tools/run-suite.ts chromium",
     "test:headed": "cross-env HEADLESS=false SLOW_MO=250 WORKERS=1 ts-node tools/run-suite.ts chromium",
     "test:failure-demo": "ts-node tools/run-suite.ts showcase",
+    "test:localization": "ts-node tools/run-suite.ts localization",
     "test:unit": "node --test --require ts-node/register lib/unit/*.test.ts",
     "verify": "npm run typecheck && npm run lint && npm run format:check && npm run check:tags && npm run check:guardrails && npm run test:unit",
     "check:target": "ts-node tools/check-target.ts",
