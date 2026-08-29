@@ -6,7 +6,7 @@ import { buildEmployee } from '../test-data/employee-factory';
 import { createEmployeeViaApi } from '../support/actions';
 import { logVerify, logInfo } from '../lib/logger';
 import type { OrangeHrmWorld } from '../support/world';
-import type { Employee } from '../lib/types';
+import type { Employee } from '../lib/BasePage';
 
 /** The fields of a PIM list row that the assertions below read. */
 interface EmployeeRow {

@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import BasePage from '../lib/BasePage';
-import type { Employee } from '../lib/types';
-import selectors from '../lib/selectors';
+import type { Employee } from '../lib/BasePage';
+import { selectors } from '../lib/BasePage';
 
 export class AddEmployeePage extends BasePage {
   readonly path: string;

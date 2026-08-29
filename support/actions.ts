@@ -4,7 +4,7 @@ import { buildEmployee, buildUsername } from '../test-data/employee-factory';
 import environment from '../lib/config/environment';
 import { logInfo } from '../lib/logger';
 import type { OrangeHrmWorld, IsolatedSession } from './world';
-import type { Employee, UserCredentials } from '../lib/types';
+import type { Employee, UserCredentials } from '../lib/BasePage';
 
 interface Role {
   userRoleId: number;

@@ -1,9 +1,9 @@
 import type { APIRequestContext, APIResponse, BrowserContext } from '@playwright/test';
 import endpoints from './endpoints';
 import environment from '../config/environment';
-import { retryAsync } from '../waits';
+import { retryAsync } from '../BasePage';
 import { logInfo } from '../logger';
-import type { Employee } from '../types';
+import type { Employee } from '../BasePage';
 
 export interface ApiResult<T = any> {
   response: APIResponse;
