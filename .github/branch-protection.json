@@ -1,0 +1,19 @@
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": [
+      "Static analysis",
+      "E2E (chromium)",
+      "E2E (firefox)",
+      "E2E (webkit)",
+      "Aggregate report",
+      "Review the diff",
+      "Greptile Review"
+    ]
+  },
+  "enforce_admins": false,
+  "required_pull_request_reviews": null,
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
