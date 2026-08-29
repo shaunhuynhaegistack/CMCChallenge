@@ -22,7 +22,7 @@ export class PersonalDetailsPage extends BasePage {
 
     this.firstName = page.locator('input[name="firstName"]');
     this.lastName = page.locator('input[name="lastName"]');
-    this.saveButtons = page.getByRole('button', { name: 'Save' });
+    this.saveButtons = page.locator(selectors.submitButton);
   }
 
   pathFor(empNumber: number | string) {
@@ -79,7 +79,7 @@ export class PersonalDetailsPage extends BasePage {
   }
 
   async savePersonalDetails() {
-    await this.click(this.page.getByRole('button', { name: 'Save' }).first(), 'Save');
+    await this.click(this.page.locator(selectors.submitButton).first(), 'Save');
     return this.waitForToast('Successfully Updated');
   }
 

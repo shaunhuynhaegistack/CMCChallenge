@@ -1,13 +1,20 @@
 # Sample run
 
 Output from a real pipeline run on `main`, committed so the reports can be read
-without digging through the Actions tab. Working output is git ignored; this
-folder is a snapshot, refreshed when the suite changes shape.
+without digging through the Actions tab. Working output is git ignored.
 
-**102 scenarios (34 × 3 engines), all passing.** One of them — the Firefox
-contact-details scenario — needed a second attempt, which is why the message
-stream in this folder is worth reading: `npm run flaky:check` finds it, and the
-JSON report cannot, because the JSON only keeps the final attempt.
+**This is a dated snapshot, not the current shape of the suite.** It captures
+**102 scenarios (34 × 3 engines), all passing**, from the run that produced it.
+The suite has since grown to 67 scenarios per engine; the artifacts here are
+kept as they were rather than regenerated, because their value is being the
+real output of a real run rather than a matching number. The current numbers
+are on the [Pages site](https://shaunhuynhaegistack.github.io/CMCChallenge/) and
+in any [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions).
+
+One scenario in that run — the Firefox contact-details one — needed a second
+attempt, which is why the message stream here is worth reading: `npm run
+flaky:check` finds the retry and the JSON report cannot, because the JSON only
+keeps the final attempt.
 
 | Path | What it is |
 | --- | --- |

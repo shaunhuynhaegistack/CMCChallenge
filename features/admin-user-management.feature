@@ -49,6 +49,6 @@ Feature: Administering system users
   Scenario: An account deleted through the UI is gone from the API
     Given an employee with an "ESS" account exists
     When I search the user list for that account
-    And I delete the first account in the list
+    And I delete that account from the list
     Then the deletion should be confirmed
     And the API should no longer return that account

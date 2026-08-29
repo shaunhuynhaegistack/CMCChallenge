@@ -2,7 +2,7 @@ import { Given, When, Then, After } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import endpoints from '../lib/api/endpoints';
 import { formatDate } from '../lib/utils/date-format';
-import { logInfo, logVerify } from '../lib/logger';
+import { logInfo, logVerify, logError } from '../lib/logger';
 import { createEmployeeViaApi } from '../support/actions';
 import type { OrangeHrmWorld } from '../support/world';
 
@@ -29,12 +29,35 @@ Given(
   }
 );
 
+/**
+ * Puts the instance back, and says so only if it actually went back.
+ *
+ * These are instance-wide settings on a shared target, so a restore that failed
+ * quietly is worse than one that failed loudly: the next run - anybody's next
+ * run - starts in Spanish with no record of why. The value is read again rather
+ * than assumed from a 200.
+ */
 After({ tags: '@localization' }, async function (this: OrangeHrmWorld) {
   const original = this.state.originalLocalization;
   if (!original || !this.api) return;
 
-  await setLocalization(this, original).catch(() => {});
-  logInfo(`Instance localization restored to ${original.language}, ${original.dateFormat}`);
+  try {
+    await setLocalization(this, original);
+  } catch (error) {
+    logError(`Restoring the instance localization failed: ${(error as Error).message}`);
+  }
+
+  const now = await this.api.getLocalization().catch(() => null);
+  if (now && now.language === original.language && now.dateFormat === original.dateFormat) {
+    logInfo(`Instance localization restored to ${original.language}, ${original.dateFormat}`);
+    return;
+  }
+
+  logError(
+    `The instance was left at language "${now?.language}", date format "${now?.dateFormat}" ` +
+      `instead of "${original.language}", "${original.dateFormat}". Put it back under ` +
+      'Admin > Configuration > Localization.'
+  );
 });
 
 Given('an employee created through the API', async function (this: OrangeHrmWorld) {

@@ -29,7 +29,7 @@ export class AddEmployeePage extends BasePage {
       .locator(selectors.inputGroup)
       .filter({ hasText: 'Employee Id' })
       .locator('input');
-    this.saveButton = page.getByRole('button', { name: 'Save' });
+    this.saveButton = page.locator(selectors.submitButton).first();
     this.requiredErrors = page.locator(selectors.fieldError);
   }
 

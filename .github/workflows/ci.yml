@@ -283,6 +283,10 @@ jobs:
     needs: test
     if: always()
     runs-on: ubuntu-latest
+    # At job level rather than on the step that uses it: a step's own `env` is
+    # not in scope for that step's `if`, so gating on it there is always false.
+    env:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
     steps:
       - uses: actions/checkout@v7
 
@@ -348,8 +352,6 @@ jobs:
         # storage quota on a copy nobody downloads.
         if: always() && env.SLACK_BOT_TOKEN != ''
         id: zip
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           for browser in chromium firefox webkit; do
             if [ -d "reports/$browser" ]; then
