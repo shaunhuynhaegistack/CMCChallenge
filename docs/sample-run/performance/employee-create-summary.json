@@ -1,0 +1,192 @@
+{
+  "name": "employee-create",
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
+  "generatedAt": "2026-08-29T13:50:47.226Z",
+  "totalRequests": 428,
+  "failureRate": 0,
+  "p95Duration": 485.64,
+  "thresholds": [
+    {
+      "metric": "employee_create_success_rate",
+      "expression": "rate>0.95",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration",
+      "expression": "p(95)<6000",
+      "passed": true
+    },
+    {
+      "metric": "employee_create_duration",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "http_req_failed",
+      "expression": "rate<0.05",
+      "passed": true
+    },
+    {
+      "metric": "checks",
+      "expression": "rate>0.95",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration{endpoint:create_employee}",
+      "expression": "p(95)<5000",
+      "passed": true
+    }
+  ],
+  "metrics": [
+    {
+      "name": "employees_created",
+      "type": "counter",
+      "rate": 1.01,
+      "count": 107
+    },
+    {
+      "name": "employees_deleted",
+      "type": "counter",
+      "rate": 1.01,
+      "count": 107
+    },
+    {
+      "name": "data_sent",
+      "type": "counter",
+      "rate": 667.2,
+      "count": 70961
+    },
+    {
+      "name": "http_req_receiving",
+      "type": "trend",
+      "avg": 0.09,
+      "med": 0.09,
+      "p95": 0.14,
+      "p99": 0.16,
+      "max": 0.21
+    },
+    {
+      "name": "http_req_duration{expected_response:true}",
+      "type": "trend",
+      "avg": 316.22,
+      "med": 253.01,
+      "p95": 485.64,
+      "p99": 628.91,
+      "max": 850.06
+    },
+    {
+      "name": "http_req_blocked",
+      "type": "trend",
+      "avg": 1.41,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 264.85
+    },
+    {
+      "name": "iteration_duration",
+      "type": "trend",
+      "avg": 2272.03,
+      "med": 2222.94,
+      "p95": 2460.23,
+      "p99": 2711.08,
+      "max": 3639.07
+    },
+    {
+      "name": "data_received",
+      "type": "counter",
+      "rate": 7332.94,
+      "count": 779904
+    },
+    {
+      "name": "http_req_tls_handshaking",
+      "type": "trend",
+      "avg": 0.59,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 85.5
+    },
+    {
+      "name": "employee_create_success_rate",
+      "type": "rate",
+      "rate": 1
+    },
+    {
+      "name": "http_req_duration",
+      "type": "trend",
+      "avg": 316.22,
+      "med": 253.01,
+      "p95": 485.64,
+      "p99": 628.91,
+      "max": 850.06
+    },
+    {
+      "name": "http_req_sending",
+      "type": "trend",
+      "avg": 0.11,
+      "med": 0.11,
+      "p95": 0.15,
+      "p99": 0.18,
+      "max": 0.19
+    },
+    {
+      "name": "http_req_waiting",
+      "type": "trend",
+      "avg": 316.02,
+      "med": 252.82,
+      "p95": 485.4,
+      "p99": 628.68,
+      "max": 849.85
+    },
+    {
+      "name": "employee_create_duration",
+      "type": "trend",
+      "avg": 265.51,
+      "med": 253.9,
+      "p95": 326.4,
+      "p99": 426.76,
+      "max": 449.3
+    },
+    {
+      "name": "http_req_failed",
+      "type": "rate",
+      "rate": 0
+    },
+    {
+      "name": "iterations",
+      "type": "counter",
+      "rate": 1.01,
+      "count": 107
+    },
+    {
+      "name": "checks",
+      "type": "rate",
+      "rate": 1
+    },
+    {
+      "name": "http_req_duration{endpoint:create_employee}",
+      "type": "trend",
+      "avg": 265.51,
+      "med": 253.9,
+      "p95": 326.4,
+      "p99": 426.76,
+      "max": 449.3
+    },
+    {
+      "name": "http_reqs",
+      "type": "counter",
+      "rate": 4.02,
+      "count": 428
+    },
+    {
+      "name": "http_req_connecting",
+      "type": "trend",
+      "avg": 0.58,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 83.96
+    }
+  ]
+}
