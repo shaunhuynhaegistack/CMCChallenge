@@ -9,7 +9,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 | Repository visibility | Public — the brief allows it (*"GitHub link (public or shared access)"*), and see [why](#why-this-repository-is-public) |
 | Latest test report | Published to GitHub Pages while the repository is public; otherwise the `html-report` artifact on any [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) |
 | Committed snapshot of a run | [`docs/sample-run/`](docs/sample-run) — 102 scenarios (34 × 3 engines), all passing |
-| Scenarios | **46** across 10 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone |
+| Scenarios | **67** across 12 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone |
 | Framework unit tests | 15 |
 | Language | TypeScript — [no JavaScript file in the repository](#typescript) |
 
@@ -42,7 +42,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 ```bash
 npm ci
 npm run install:browsers
-npm test                 # 46 scenarios on Chromium
+npm test                 # 67 scenarios on Chromium
 npm run report           # build the HTML report
 open reports/chromium/html-report/index.html
 ```
@@ -126,11 +126,11 @@ brief is satisfied regardless of visibility.
 | Look at | Why |
 | --- | --- |
 | The `html-report` artifact on the latest [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) | The latest run, all three engines, plus k6 and the failure showcase — without cloning. Also served on GitHub Pages while the repository is public |
-| [Test coverage](#test-coverage) | All 46 scenarios, and which go beyond the brief |
+| [Test coverage](#test-coverage) | All 67 scenarios, and which go beyond the brief |
 | [`features/employee-lifecycle.feature`](features/employee-lifecycle.feature) | The headline scenario: create in the UI → verify by API → update → verify → delete → verify |
 | [`lib/BasePage.ts`](lib/BasePage.ts) | The locator strategy — why a UI change is one file, not fifteen |
 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | The pipeline and the two halves of the merge gate |
-| [Known defects this suite found](#known-defects-this-suite-found) | Real defects in OrangeHRM, and two in this framework its own unit tests caught |
+| [Known defects this suite found](#known-defects-this-suite-found) | Real defects in OrangeHRM, and five in this framework its own tests caught |
 | [Notes on the assignment](#notes-on-the-assignment) | Where the brief is ambiguous, and what was decided instead |
 | [The pull requests](https://github.com/shaunhuynhaegistack/CMCChallenge/pulls?q=is%3Apr) | One per part of the assignment, each gated on CI |
 
@@ -138,7 +138,7 @@ brief is satisfied regardless of visibility.
 
 ## Test coverage
 
-**46 scenarios**, plus 6 that change instance-wide settings and therefore run
+**67 scenarios**, plus 6 that change instance-wide settings and therefore run
 in their own profile. The brief named six things for Part 1; those are marked
 **Brief**. Everything marked **Extra** is coverage added on top — the brief did
 not ask for it.
@@ -156,8 +156,21 @@ not ask for it.
 | 7 | The login page shows the branding and hides the password | `@regression @positive` | Extra |
 | 8 | The password reset page is reachable from the login page | `@regression @negative` | Extra |
 | 9 | Signing in without a password is rejected client-side | `@regression @negative` | Extra |
+| 10 | Sign in is rejected for `wrongCasePassword` | `@regression @negative` | Extra |
+| 11 | Sign in is rejected for `injectionAttempt` | `@regression @negative` | Extra |
+| 12 | Sign in is rejected for `overlongUsername` | `@regression @negative` | Extra |
+| 13 | The rejection message is the same whether or not the account exists | `@regression @security` | Extra |
+| 14 | The user name is not case sensitive | `@regression @positive` | Extra |
+| 15 | Surrounding whitespace in the user name is not trimmed | `@regression @negative` | Extra |
+| 16 | The session cookie is not readable from script | `@regression @security` | Extra |
+| 17 | A signed out session cannot be restored with the back button | `@regression @negative` | Extra |
 
-Scenarios 2 and 3 are one `Scenario Outline` with two examples.
+Scenarios 2, 3 and 10 to 12 are one `Scenario Outline` with five examples.
+
+**13 is the one worth reading.** Two different reasons to refuse a sign-in — no
+such account, and a real account with the wrong secret — must produce one
+message. A screen that distinguishes them answers *"does this account exist?"*
+for anybody willing to ask twice.
 
 ### `features/employee-lifecycle.feature` — `@pim`
 
@@ -218,9 +231,86 @@ Scenario 34 is the kind of defect that is easy to ship and hard to notice: a
 dropdown that has drifted from the data behind it, so a user picks something the
 system no longer has, or never sees something it does.
 
+### `features/password-reset.feature` — `@auth @password-reset` (all Extra)
+
+| # | Scenario | Tags | |
+| --- | --- | --- | --- |
+| 35 | The reset screen offers a username, a submit and a way back | `@smoke @positive` | Extra |
+| 36 | A reset cannot be requested without a username | `@regression @negative` | Extra |
+| 37 | Cancelling returns to the login page | `@regression @positive` | Extra |
+| 38 | The reset screen is reachable from the login page and back again | `@regression @positive` | Extra |
+
+These stop short of submitting a reset. This instance throttles the request and
+then silently stops answering, so a scenario that depends on one being accepted
+is unstable for a reason that has nothing to do with the code. The property a
+submission would have proved is asserted by scenario 13 instead.
+
+### `features/admin-user-management.feature` — `@admin` (all Extra)
+
+| # | Scenario | Tags | |
+| --- | --- | --- | --- |
+| 39 | The user list opens with its filters and its records | `@smoke` | Extra |
+| 40 | An account created through the API is found by its user name | `@regression @api` | Extra |
+| 41 | A user name that does not exist returns nothing rather than everything | `@regression` | Extra |
+| 42 | Resetting the filter brings the full list back | `@regression` | Extra |
+| 43 | A duplicate user name is rejected | `@regression @api` | Extra |
+| 44 | An account deleted through the UI is gone from the API | `@regression @api` | Extra |
+
+Scenario 41 is what found the response race described under
+[known defects](#known-defects-this-suite-found): it reported ten rows while the
+same query returned nothing from the API.
+
+### `features/my-info.feature` — `@myinfo` (all Extra)
+
+| # | Scenario | Tags | |
+| --- | --- | --- | --- |
+| 45 | My Info opens the signed in user's own record | `@smoke` | Extra |
+| 46 | My Info offers the sections of a personnel record | `@regression` | Extra |
+| 47 | My Info and the API describe the same person | `@regression @api` | Extra |
+
+Read-only on purpose. The administrator's record on a shared instance belongs to
+whoever else is using it, and a suite that edits it to prove a point leaves that
+change behind for everybody.
+
+### `features/module-navigation.feature` — `@navigation` (all Extra)
+
+| # | Scenario | Tags | |
+| --- | --- | --- | --- |
+| 48-56 | Each of nine modules is reachable and renders | `@smoke` | Extra |
+| 57 | Maintenance asks for the administrator password again | `@regression @security` | Extra |
+| 58 | The side menu offers every module this role is entitled to | `@regression` | Extra |
+| 59 | A module route answers with a page rather than an error | `@regression` | Extra |
+
+The brief names five modules; this instance ships twelve, and a suite that only
+ever visits five cannot say whether the rest are reachable at all — which is the
+first thing that breaks when a deployment goes wrong.
+
+**Maintenance gets a scenario of its own.** Its menu entry lands straight on
+Purge Records, which permanently deletes employee data on an instance other
+people are using. The product asks for the administrator password again before
+it will do anything, and the suite asserts that prompt and deliberately does not
+answer it.
+
+### `features/localization.feature` — `@localization`, its own profile
+
+**Not counted in the 67**, because these change instance-wide settings and
+cannot run beside anything else. Six scenarios, one worker, each restoring what
+it found even when it fails.
+
+| # | Scenario | Tags | |
+| --- | --- | --- | --- |
+| L1 | The language decides the label on every control | `@smoke @language` | Extra |
+| L2 | Changing the language does not change what the API returns | `@regression @language @api` | Extra |
+| L3-L5 | A stored date is rendered in the instance date format | `@regression @date` | Extra |
+| L6 | The date format is presentation only — the API still stores ISO | `@regression @date @api` | Extra |
+
+L2 and L6 assert what does *not* move: the record and its ISO date are the same
+whatever the screen is showing. That is the line between presentation and data,
+and it is the assertion that makes the other four worth having.
+
 ### `features/failure-showcase.feature` — `@showcase @demo-failure`
 
-**Not part of the assignment, and not counted in the 46.** One scenario that
+**Not part of the assignment, and not counted in the 67.** One scenario that
 fails on purpose, so a reviewer can see what a failure looks like — the report
 entry, the screenshot, the video and the trace — without waiting for a real one.
 
@@ -316,6 +406,9 @@ engineering extras:
 
 | Addition | Why it is here |
 | --- | --- |
+| **Every module the instance ships is checked for reachability** | The brief names five. This instance has twelve, and a suite that visits five cannot say whether the rest survived a deployment. The nine the suite does not own data in are read-only |
+| **The authentication boundary in depth** | Case sensitivity, whitespace, an injection string, an overlong name, `HttpOnly` on the session cookie, the back button after sign-out — and that an unknown account and a real one with the wrong secret are told the same thing |
+| **Localization is proved rather than assumed** | Every control in this product is found by the label a user reads. Six scenarios change the instance language and date format on purpose and assert what moves with them and what does not |
 | **The whole framework is TypeScript** | Every source file, including the tooling and the k6 scripts — see [below](#typescript). The compiler is the first CI gate |
 | **Merge gate in two halves** | `tools/check-guardrails.ts` encodes the rules a reviewer applies by hand — no fixed waits, no assertions in page objects, no hard coded URLs or credentials, no focused or skipped scenarios — and needs no API key. The automated review is the layer on top |
 | **PR review gate on every pull request** | The diff is reviewed against a test-automation rubric; a blocking finding fails the check. One secret to enable |
@@ -329,7 +422,7 @@ engineering extras:
 | **A run page with no false alarms** | The deliberate failure swallows its own exit code rather than using `continue-on-error`, which would stamp a red annotation on a healthy run; the actions are kept on current majors so no job carries a "Node.js 20 is deprecated" warning; and the run banner prints once instead of once per Cucumber worker. A warning nobody can act on trains people to ignore warnings |
 | **Flaky history** | `reports/flaky-history.json` counts how often each scenario has needed a retry, separating one bad night from a genuinely unreliable test |
 | **Enforced tagging rules** | `tools/check-tags.ts` fails CI when a scenario is in neither `@smoke` nor `@regression`. A convention that is only written down erodes |
-| **Framework unit tests** | `lib/unit/`, beside the code they cover — they found two real defects in this framework before CI did |
+| **Framework unit tests** | `lib/unit/`, beside the code they cover — they found two real defects in this framework before CI did, and two more surfaced when the suite was widened |
 | **Centralised selectors** | Every `.oxd-*` class name lives in `lib/BasePage.ts` beside the code that uses it — a design-system change is one file |
 | **Self-cleaning tests** | Every scenario registers what it created and deletes it in an After hook, even when it failed. The k6 script does the same |
 | **Nightly full run** | So a change on the application's side is caught by the pipeline, not by the next pull request |
@@ -489,7 +582,7 @@ assertions behave exactly as they did.
 | --- | --- | --- |
 | `demo` (the local default) | `100` | Fast enough not to be tedious, slow enough to follow what the test is doing when you run it headed |
 | `local` | `150` | Aimed at debugging against a local instance |
-| `ci` | `0` | Nobody is watching. On CI it is pure wall-clock cost — across three engines and 46 scenarios, 100 ms per action is minutes of nothing |
+| `ci` | `0` | Nobody is watching. On CI it is pure wall-clock cost — across three engines and 67 scenarios, 100 ms per action is minutes of nothing |
 
 ```bash
 npm run test:headed          # HEADLESS=false SLOW_MO=250, one worker - watch it work
@@ -509,7 +602,7 @@ nothing more.
 ## Running tests
 
 ```bash
-npm test                      # 46 scenarios on Chromium
+npm test                      # 67 scenarios on Chromium
 npm run test:all              # all three engines, one after another
 npm run test:firefox
 npm run test:webkit
@@ -830,14 +923,18 @@ else had changed the setting. **An assertion on shared configuration is not a
 test, it is a coin flip.** The fix was to read the configuration and assert
 against it.
 
-### And two in this framework, found by its own unit tests
+### And five in this framework, found by its own tests
 
 | Defect | How it was found |
 | --- | --- |
 | **The employee id generator was not unique.** It combined a timestamp with the worker pid, so two records built inside the same millisecond in the same worker got identical ids — which OrangeHRM rejects. | `lib/unit/employee-factory.test.ts` asked for 25 ids and got **1 distinct value**. A sequence component was added |
 | **The report aggregator froze the working directory at import time.** Harmless for the CLI, wrong for any other caller, and it made the module untestable. | The first unit test against it read an empty result set from a fixture that was definitely there |
+| **A filtered search could read the rows from before the filter.** `clickAndWaitForApi` resolved on the first response matching the list route, which can be the request the screen was already making when the click landed. The assertion then counts the unfiltered rows. | Searching the user list for a name that does not exist reported **10 rows** while the same query returned `total=0` from the API. The wait is now narrowed to the query the click actually causes |
+| **A back-button assertion proved nothing.** After signing out, pressing back redraws the dashboard from the browser's own cache without asking the server, so asserting the URL says nothing about whether the session survived. | The scenario failed on a URL that was correct and meaningless. It now reloads the page: a signed out session cannot answer, and the application sends the browser back to the login form |
+| **The row delete action was addressed by position.** `.last()` on a row's icon buttons is the delete on the employee list and the **edit** on the admin user list, which orders them the other way round — so the scenario opened a form and waited for a confirmation dialog that was never coming. | The admin deletion scenario timed out on the dialog. Both are now addressed by the icon they carry |
 
-Both would otherwise have surfaced months later as an unexplained flaky failure.
+All five would otherwise have surfaced months later as an unexplained flaky
+failure, or worse, as a green assertion that was never testing anything.
 
 ---
 
@@ -887,7 +984,7 @@ a worse result. Each lists the decision taken.
    green tells a reviewer nothing about the failure path, so
    `features/failure-showcase.feature` fails on purpose and publishes the report,
    screenshot, video and trace. It is excluded from every normal run and from the
-   46 counted scenarios.
+   67 counted scenarios.
 
 7. **Three days, six parts.** The scope is wide rather than deep by design. Depth
    a real project would add next: leave and recruitment modules, visual

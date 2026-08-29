@@ -60,9 +60,11 @@ would be run.
 | `@regression` | Full functional coverage. Runs on pull requests and on main. |
 | `@e2e` | Crosses more than one module and asserts through both the UI and the API. |
 | `@api` | Asserts against the REST API. |
-| `@auth`, `@pim`, `@rbac` | The functional area, one per feature file. |
+| `@auth`, `@pim`, `@rbac`, `@admin`, `@myinfo`, `@dashboard`, `@recruitment`, `@leave`, `@navigation` | The functional area, one per feature file. Enforced by `npm run check:tags`. |
+| `@security` | Asserts a property an attacker would probe: what a rejection reveals, whether a cookie is readable from script, whether a destructive screen is gated. |
 | `@positive` / `@negative` | Happy path versus error handling. |
 | `@flaky` | Quarantine. Excluded from the blocking run, still executed and reported. |
+| `@localization` | Changes instance-wide settings, so it runs alone in its own profile at one worker. Unreachable from any normal profile. |
 | `@showcase` / `@demo-failure` | The deliberate failure. Unreachable from any normal profile - see below. |
 
 Rules that keep the tags useful:
