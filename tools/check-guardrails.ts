@@ -5,7 +5,7 @@
  * These are the rules an experienced reviewer would apply by hand on every pull
  * request, encoded so they are applied on every pull request. They run with no
  * API key and no third party service, which is what makes the merge gate
- * meaningful on its own; the AI review in the same pipeline is the layer on top
+ * meaningful on its own; the automated review in the same pipeline is the layer on top
  * that catches what a fixed list of rules cannot.
  *
  * Usage:

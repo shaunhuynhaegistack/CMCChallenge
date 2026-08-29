@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * AI review gate.
+ * Automated review gate.
  *
  * Reviews the pull request diff and turns the answer into a merge gate: the job
  * fails when the model reports a blocking finding.
@@ -12,19 +12,20 @@
  *                        against the whole repository rather than the diff
  *                        alone, so it sees consequences elsewhere in the
  *                        codebase.
- *   2. GitHub Models   - free on public repositories, uses the workflow's own
- *                        GITHUB_TOKEN, no secret to configure. Being retired by
- *                        GitHub, so it is the last resort rather than the
- *                        default.
+ *   2. GitHub Models   - free on public repositories and uses the workflow's own
+ *                        GITHUB_TOKEN, so there is no secret to configure; it
+ *                        only needs GITHUB_MODEL naming the model to ask. Being
+ *                        retired by GitHub, so it is the last resort rather than
+ *                        the default.
  *
  * Outputs
- *   - ai-review.md   markdown body, posted as a pull request comment
+ *   - automated-review.md   markdown body, posted as a pull request comment
  *   - exit code 1    at least one blocking finding
  */
 import fs from 'fs';
 
 const DIFF_FILE = process.env.DIFF_FILE || 'pr.diff';
-const OUTPUT_FILE = process.env.OUTPUT_FILE || 'ai-review.md';
+const OUTPUT_FILE = process.env.OUTPUT_FILE || 'automated-review.md';
 const MAX_DIFF_CHARS = Number(process.env.MAX_DIFF_CHARS || 120000);
 
 // When no provider is configured, or the one that is fails, the gate cannot form
@@ -142,7 +143,10 @@ const askGreptile = async (diff: string): Promise<Answer> => {
 };
 
 const askGitHubModels = async (diff: string): Promise<Answer> => {
-  const model = process.env.GITHUB_MODEL || 'openai/gpt-4o-mini';
+  // No default model on purpose: which models GitHub Models offers changes, and a
+  // hard-coded one silently rots into a 404. Naming it makes the fallback a
+  // deliberate choice rather than a stale constant.
+  const model = process.env.GITHUB_MODEL as string;
 
   const response = await fetch('https://models.github.ai/inference/chat/completions', {
     method: 'POST',
@@ -176,7 +180,7 @@ const providers: Provider[] = [
   },
   {
     name: 'GitHub Models',
-    available: () => Boolean(process.env.GITHUB_TOKEN),
+    available: () => Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_MODEL),
     ask: askGitHubModels
   }
 ];
@@ -209,7 +213,7 @@ const renderMarkdown = (
   const advisory = findings.filter((finding) => finding.severity !== 'blocking');
 
   const lines = [
-    `## AI review gate - ${blocking.length ? '❌ Changes requested' : '✅ Approved'}`,
+    `## Automated review gate - ${blocking.length ? '❌ Changes requested' : '✅ Approved'}`,
     '',
     summary,
     '',
@@ -252,7 +256,7 @@ const finish = (markdown: string, exitCode: number): never => {
 
 const notEvaluated = (reason: string): string =>
   [
-    '## AI review gate - ⚠️ Not evaluated',
+    '## Automated review gate - ⚠️ Not evaluated',
     '',
     reason,
     '',
@@ -266,7 +270,7 @@ const notEvaluated = (reason: string): string =>
 
   if (!diff.trim()) {
     finish(
-      '## AI review gate - ✅ Approved\n\nThe pull request contains no reviewable changes.',
+      '## Automated review gate - ✅ Approved\n\nThe pull request contains no reviewable changes.',
       0
     );
   }
