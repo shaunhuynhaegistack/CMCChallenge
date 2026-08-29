@@ -9,6 +9,7 @@ import ContactDetailsPage from './ContactDetailsPage';
 import CandidateListPage from './CandidateListPage';
 import LeaveListPage from './LeaveListPage';
 import PasswordResetPage from './PasswordResetPage';
+import ModuleNavigation from './ModuleNavigation';
 
 /**
  * Page objects are created lazily per Playwright page. Steps therefore never
@@ -52,6 +53,9 @@ export const createPages = (page: Page) => {
     },
     get passwordReset() {
       return memoize('passwordReset', () => new PasswordResetPage(page));
+    },
+    get modules() {
+      return memoize('modules', () => new ModuleNavigation(page));
     }
   };
 };
