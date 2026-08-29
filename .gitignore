@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Test output. docs/sample-run/ is a committed snapshot and is not affected.
+reports/
+ai-review.md
+pr.diff
+test-results/
+playwright-report/
+screenshots/
+videos/
+traces/
+*.tmp
+
+# Performance output
+performance/results/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editors / OS / tooling
+.idea/
+.vscode/
+.claude/
+.DS_Store
+Thumbs.db
