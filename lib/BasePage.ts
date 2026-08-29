@@ -1,8 +1,48 @@
 import type { Locator, Page, Response } from '@playwright/test';
-import { logAction } from './logger';
-import selectors from './selectors';
+import { logAction, logWarn } from './logger';
 
 export type SelectorLike = string | Locator;
+
+const selectors = {
+  // Shell
+  sidePanel: '.oxd-sidepanel',
+  menuItem: '.oxd-main-menu-item',
+  menuItemLabel: '.oxd-main-menu-item span',
+  breadcrumbModule: '.oxd-topbar-header-breadcrumb-module',
+  breadcrumbLevel: '.oxd-topbar-header-breadcrumb-level',
+  userDropdownTab: '.oxd-userdropdown-tab',
+  userDropdownName: '.oxd-userdropdown-name',
+
+  // Forms
+  inputGroup: '.oxd-input-group',
+  fieldError: '.oxd-input-field-error-message',
+  alertText: '.oxd-alert-content-text',
+  radioWrapper: '.oxd-radio-wrapper',
+  autocompleteOption: '.oxd-autocomplete-option',
+  selectText: '.oxd-select-text',
+  selectOption: '.oxd-select-option',
+  formActions: '.oxd-form-actions',
+  checkbox: '.oxd-checkbox-input',
+
+  // Feedback
+  toast: '.oxd-toast',
+  spinner: '.oxd-loading-spinner',
+  dialog: '.oxd-dialog-sheet',
+
+  // Tables
+  tableRow: '.oxd-table-card',
+  tableHeader: '.oxd-table-header',
+  rowActionButton: '.oxd-icon-button',
+  recordCount: '.orangehrm-horizontal-padding span',
+
+  // Screens
+  loginBranding: '.orangehrm-login-branding img',
+  forgotPasswordLink: '.orangehrm-login-forgot-header',
+  dashboardWidget: '.oxd-grid-item.orangehrm-dashboard-widget',
+  dashboardWidgetName: '.orangehrm-dashboard-widget-name'
+} as const;
+
+export { selectors };
 
 /**
  * Shared behaviour for every page object.
@@ -172,3 +212,151 @@ export class BasePage {
 }
 
 export default BasePage;
+
+/* ------------------------------------------------------------------ *
+ * The shapes every layer agrees on. A rename shows up here as a
+ * compile error rather than as a scenario that fails at three in the
+ * morning against a shared instance.
+ * ------------------------------------------------------------------ */
+
+export interface Employee {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  employeeId: string;
+  empNumber?: number;
+}
+
+export interface UserCredentials {
+  username: string;
+  password: string;
+  role?: string;
+  description?: string;
+}
+
+export interface Timeouts {
+  step: number;
+  expect: number;
+  action: number;
+  navigation: number;
+}
+
+export interface ExecutionSettings {
+  browser: string;
+  workers: number;
+  retries: number;
+  headless: boolean;
+  slowMo: number;
+}
+
+export interface StabilitySettings {
+  retryTagFilter: string;
+  trace: string;
+  apiRetryAttempts: number;
+  video: string;
+}
+
+export interface Credentials {
+  adminUsername?: string;
+  adminPassword?: string;
+  essPassword: string;
+}
+
+export interface Environment {
+  name: string;
+  baseUrl: string;
+  apiBasePath: string;
+  timeouts: Timeouts;
+  execution: ExecutionSettings;
+  stability: StabilitySettings;
+  credentials: Credentials;
+}
+
+/* ------------------------------------------------------------------ *
+ * The waits Playwright's own auto-waiting cannot express: a value that
+ * has to appear in an API response, a record a background job still has
+ * to write, and a backoff for a call that failed for reasons unrelated
+ * to the assertion.
+ * ------------------------------------------------------------------ */
+
+// guardrail-allow: no-fixed-waits - polling backoff, not a wait on the application
+export const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+interface WaitOptions {
+  timeout?: number;
+  interval?: number;
+  description?: string;
+}
+
+/**
+ * Polls `predicate` until it returns a truthy value or the timeout expires.
+ *
+ * Playwright's own auto-waiting covers element state, so this is only for the
+ * cases it cannot see - a value that has to appear in an API response, a record
+ * that a background job still has to write, and similar.
+ */
+export const waitUntil = async <T>(
+  predicate: () => T | Promise<T>,
+  { timeout = 15000, interval = 500, description = 'condition' }: WaitOptions = {}
+): Promise<T> => {
+  const deadline = Date.now() + timeout;
+  let lastError: Error | undefined;
+
+  while (Date.now() < deadline) {
+    try {
+      const result = await predicate();
+      if (result) return result;
+    } catch (error) {
+      lastError = error as Error;
+    }
+    await sleep(interval);
+  }
+
+  const reason = lastError ? ` Last error: ${lastError.message}` : '';
+  throw new Error(`Timed out after ${timeout}ms waiting for ${description}.${reason}`);
+};
+
+interface RetryOptions {
+  attempts?: number;
+  delay?: number;
+  description?: string;
+}
+
+/**
+ * Retries an operation with a linear backoff. Used for calls that can fail for
+ * reasons unrelated to the assertion - the shared demo instance occasionally
+ * answers a request with a gateway error under load.
+ */
+export const retryAsync = async <T>(
+  operation: (attempt: number) => Promise<T>,
+  { attempts = 3, delay = 1000, description = 'operation' }: RetryOptions = {}
+): Promise<T> => {
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await operation(attempt);
+    } catch (error) {
+      lastError = error as Error;
+      logWarn(`Attempt ${attempt}/${attempts} of ${description} failed: ${lastError.message}`);
+      if (attempt < attempts) await sleep(delay * attempt);
+    }
+  }
+
+  throw lastError;
+};
+
+/**
+ * The application's structural selectors, in one place.
+ *
+ * OrangeHRM is built on its own component library, whose class names (`oxd-*`)
+ * are the only stable hook some widgets expose - there is no test id anywhere in
+ * the product. Two rules keep that from becoming a maintenance problem:
+ *
+ *   1. Anything a user can name - a button, a field, a menu item - is addressed
+ *      by that name in the page object (`getByRole`, or a field looked up by its
+ *      label). Those survive a restyle, and they read like the interface.
+ *   2. Everything else is addressed by the component class, and every one of
+ *      those classes is listed here. When the design system moves, this file is
+ *      the diff, not fifteen page objects.
+ */

@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import FilterableListPage from './FilterableListPage';
-import selectors from '../lib/selectors';
+import { selectors } from '../lib/BasePage';
 
 export class EmployeeListPage extends FilterableListPage {
   readonly employeeNameFilter: Locator;
