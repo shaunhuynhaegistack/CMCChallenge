@@ -1,7 +1,7 @@
 import type { APIRequestContext, APIResponse, BrowserContext } from '@playwright/test';
 import endpoints from './endpoints';
 import environment from '../config/environment';
-import { retryAsync } from '../utils/waits';
+import { retryAsync } from '../waits';
 import { logInfo } from '../logger';
 import type { Employee } from '../types';
 
