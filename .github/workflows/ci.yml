@@ -76,7 +76,7 @@ jobs:
         run: npm run check:tags
 
       # Deterministic review rules. They run with no API key and no third party
-      # service, so the merge gate is meaningful on its own; the AI review is the
+      # service, so the merge gate is meaningful on its own; the automated review is the
       # layer on top that catches what a fixed list cannot.
       - name: Guardrails
         run: npm run check:guardrails

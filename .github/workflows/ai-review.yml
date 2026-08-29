@@ -1,4 +1,4 @@
-name: AI review gate
+name: PR review gate
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
-  group: ai-review-${{ github.event.pull_request.number }}
+  group: pr-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -57,6 +57,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          [ -f ai-review.md ] || exit 0
-          cat ai-review.md >> "$GITHUB_STEP_SUMMARY"
-          gh pr comment "${{ github.event.pull_request.number }}" --body-file ai-review.md
+          [ -f pr-review.md ] || exit 0
+          cat pr-review.md >> "$GITHUB_STEP_SUMMARY"
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file pr-review.md
