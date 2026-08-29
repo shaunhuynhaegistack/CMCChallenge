@@ -16,6 +16,24 @@ const selectors = {
   // Forms
   inputGroup: '.oxd-input-group',
   fieldError: '.oxd-input-field-error-message',
+
+  // The username input is the one control both unauthenticated screens share,
+  // and the one place in this product where a `name` attribute can be relied on.
+  usernameField: 'input[name="username"]',
+  passwordField: 'input[name="password"]',
+
+  // Addressed structurally on purpose. Everywhere else this suite finds a
+  // control by the label a user reads, but the two unauthenticated screens have
+  // to keep working while that label is being changed - the localization
+  // scenarios switch the instance language and then read the label back, which
+  // is impossible with a locator that already assumes it.
+  submitButton: 'button[type="submit"]',
+  secondaryButton: 'button[type="button"]',
+
+  // Sign-out is reached by its route rather than by the word on the menu item.
+  // The label is translated with the rest of the product, and this suite has
+  // watched the instance language change under a running scenario.
+  logoutLink: 'a[href*="/auth/logout"]',
   alertText: '.oxd-alert-content-text',
   radioWrapper: '.oxd-radio-wrapper',
   autocompleteOption: '.oxd-autocomplete-option',
@@ -38,6 +56,11 @@ const selectors = {
   // Screens
   loginBranding: '.orangehrm-login-branding img',
   forgotPasswordLink: '.orangehrm-login-forgot-header',
+
+  // The password reset screen: its own heading and its own confirmation panel,
+  // neither of which is a toast - the confirmation is a whole page.
+  resetHeading: '.orangehrm-forgot-password-title',
+  resetConfirmation: '.orangehrm-forgot-password-wrapper',
   dashboardWidget: '.oxd-grid-item.orangehrm-dashboard-widget',
   dashboardWidgetName: '.orangehrm-dashboard-widget-name'
 } as const;

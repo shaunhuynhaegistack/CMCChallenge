@@ -29,9 +29,15 @@ export class TopBar extends BasePage {
     return this.textOf(this.userName);
   }
 
+  /**
+   * Signs out through the menu item's own route rather than its label. The word
+   * on it is translated along with the rest of the product, and the display
+   * language on a shared instance is somebody else's setting.
+   */
   async logout() {
     await this.click(this.userDropdown, 'user dropdown');
-    await this.click(this.page.getByRole('menuitem', { name: 'Logout' }), 'Logout');
+    await this.click(this.page.locator(selectors.logoutLink), 'Logout');
+    await this.page.waitForURL('**/auth/login', { waitUntil: 'domcontentloaded' });
   }
 }
 
