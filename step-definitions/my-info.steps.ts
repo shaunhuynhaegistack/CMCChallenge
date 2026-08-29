@@ -25,8 +25,18 @@ Then('the personal details screen should be shown', async function (this: Orange
   await expect(this.page).toHaveURL(/viewPersonalDetails/);
 });
 
-Then("the record shown should be the signed in user's own", function (this: OrangeHrmWorld) {
-  expect(this.state.myEmpNumber, 'My Info resolved to an employee').toBeGreaterThan(0);
+/**
+ * Compared against the record the server says belongs to this session, not
+ * merely against "some employee". A redirect to any valid record would satisfy
+ * the weaker check and prove nothing.
+ */
+Then("the record shown should be the signed in user's own", async function (this: OrangeHrmWorld) {
+  const { body } = await this.api.getMyself();
+
+  logVerify(
+    `My Info opened #${this.state.myEmpNumber}; the session belongs to #${body.data.empNumber}`
+  );
+  expect(this.state.myEmpNumber).toBe(body.data.empNumber);
 });
 
 Then(
@@ -46,7 +56,7 @@ Then(
   'the name on screen should match the API record for that employee',
   async function (this: OrangeHrmWorld) {
     const { firstName, lastName } = await this.pages.personalDetails.readDetails();
-    const { body } = await this.api.getEmployee(this.state.myEmpNumber);
+    const { body } = await this.api.getMyself();
 
     logVerify(
       `Screen shows "${firstName} ${lastName}", API has "${body.data.firstName} ${body.data.lastName}"`

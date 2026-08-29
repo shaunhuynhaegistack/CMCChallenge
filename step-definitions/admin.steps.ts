@@ -20,11 +20,10 @@ Then(
   'the user list should offer the filters',
   async function (this: OrangeHrmWorld, table: DataTable) {
     const expected = table.raw().map(([label]) => label);
+    const offered = await this.pages.adminUsers.filterLabels();
 
-    for (const label of expected) {
-      await expect(this.page.getByText(label, { exact: true }).first()).toBeVisible();
-    }
-    logVerify(`User list offers: ${expected.join(', ')}`);
+    logVerify(`The filter panel offers ${JSON.stringify(offered)}`);
+    expect(offered).toEqual(expect.arrayContaining(expected));
   }
 );
 
@@ -115,8 +114,10 @@ Then('the API should reject it as a duplicate', function (this: OrangeHrmWorld) 
   expect(status).toBe(422);
 });
 
-When('I delete the first account in the list', async function (this: OrangeHrmWorld) {
-  this.state.deletion = await this.pages.adminUsers.deleteFirstRow();
+When('I delete that account from the list', async function (this: OrangeHrmWorld) {
+  this.state.deletion = await this.pages.adminUsers.deleteOnlyRowMatching(
+    this.state.account.username
+  );
 });
 
 Then('the deletion should be confirmed', function (this: OrangeHrmWorld) {

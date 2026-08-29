@@ -25,6 +25,8 @@ export class FilterableListPage extends BasePage {
 
   readonly listApiPath: string;
 
+  readonly filterPanel: Locator;
+
   readonly searchButton: Locator;
 
   readonly resetButton: Locator;
@@ -43,8 +45,11 @@ export class FilterableListPage extends BasePage {
     this.path = path;
     this.listApiPath = listApiPath;
 
-    this.searchButton = page.getByRole('button', { name: 'Search' });
-    this.resetButton = page.getByRole('button', { name: 'Reset' });
+    this.filterPanel = page.locator(selectors.filterPanel);
+    // Scoped to the filter panel and addressed by what they are rather than by
+    // what they say: the panel's submit is Search, its ghost button is Reset.
+    this.searchButton = this.filterPanel.locator(selectors.submitButton);
+    this.resetButton = this.filterPanel.locator(selectors.ghostButton);
     this.rows = page.locator(selectors.tableRow);
     this.recordCountLabel = page.locator(selectors.recordCount).first();
     this.confirmDialog = page.locator(selectors.dialog);
@@ -67,6 +72,16 @@ export class FilterableListPage extends BasePage {
 
   resetFilters() {
     return this.clickAndWaitForApi(this.resetButton, this.listApiPath, 'Reset');
+  }
+
+  /**
+   * The labels the filter panel offers, read from inside the panel rather than
+   * from the page: the same words appear in table headers and in the side menu,
+   * so a page-wide text search would pass on a screen with no filters at all.
+   */
+  async filterLabels(): Promise<string[]> {
+    await this.filterPanel.waitFor({ state: 'visible' });
+    return (await this.filterPanel.locator('label').allInnerTexts()).map((text) => text.trim());
   }
 
   async rowCount() {
@@ -102,6 +117,33 @@ export class FilterableListPage extends BasePage {
     );
 
     return { status: response.status(), toast: await this.readToastIfPresent() };
+  }
+
+  /**
+   * Deletes the row whose text contains `identifier`, and refuses if the list is
+   * showing anything else.
+   *
+   * The instance is shared. Deleting "the first row" after a search trusts that
+   * the filter worked, and a filter that silently returned everything - which
+   * this suite has seen - would delete a record belonging to somebody else.
+   */
+  async deleteOnlyRowMatching(identifier: string) {
+    const rows = await this.rowCount();
+    if (rows !== 1) {
+      throw new Error(
+        `Refusing to delete: the filtered list shows ${rows} rows, not 1. ` +
+          'Something other than the intended record could be removed.'
+      );
+    }
+
+    const [text] = await this.rowTexts();
+    if (!text.includes(identifier)) {
+      throw new Error(
+        `Refusing to delete: the only row reads "${text}", which does not contain "${identifier}".`
+      );
+    }
+
+    return this.deleteFirstRow();
   }
 
   async deleteFirstRow() {

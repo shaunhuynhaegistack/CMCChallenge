@@ -9,7 +9,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 | Repository visibility | Public — the brief allows it (*"GitHub link (public or shared access)"*), and see [why](#why-this-repository-is-public) |
 | Latest test report | Published to GitHub Pages while the repository is public; otherwise the `html-report` artifact on any [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) |
 | Committed snapshot of a run | [`docs/sample-run/`](docs/sample-run) — 102 scenarios (34 × 3 engines), all passing |
-| Scenarios | **67** across 12 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone |
+| Scenarios | **67** across 11 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone, and 1 deliberate failure |
 | Framework unit tests | 15 |
 | Language | TypeScript — [no JavaScript file in the repository](#typescript) |
 
@@ -138,8 +138,9 @@ brief is satisfied regardless of visibility.
 
 ## Test coverage
 
-**67 scenarios**, plus 6 that change instance-wide settings and therefore run
-in their own profile. The brief named six things for Part 1; those are marked
+**67 scenarios** across 11 feature files in the normal profile, plus 6 that
+change instance-wide settings and therefore run in their own, plus the one
+deliberate failure that runs in neither. Thirteen files in total. The brief named six things for Part 1; those are marked
 **Brief**. Everything marked **Extra** is coverage added on top — the brief did
 not ask for it.
 

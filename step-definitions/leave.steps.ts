@@ -11,12 +11,10 @@ Then(
   'the leave list should offer the filters',
   async function (this: OrangeHrmWorld, table: DataTable) {
     const expected = table.hashes().map((row) => row.filter);
+    const offered = await this.pages.leaveList.filterLabels();
 
-    for (const filter of expected) {
-      await expect(this.page.getByText(filter, { exact: true }).first()).toBeVisible();
-    }
-
-    logVerify(`Leave list offers: ${expected.join(', ')}`);
+    logVerify(`The filter panel offers ${JSON.stringify(offered)}`);
+    expect(offered).toEqual(expect.arrayContaining(expected));
   }
 );
 

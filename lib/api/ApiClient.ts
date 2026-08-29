@@ -157,6 +157,12 @@ export class ApiClient {
     return { response, body: await this.json(response) };
   }
 
+  /** The employee record of the signed in account, as the server sees it. */
+  async getMyself(): Promise<ApiResult> {
+    const response = await this.send('GET', endpoints.pim.myself);
+    return { response, body: await this.json(response) };
+  }
+
   async getContactDetails(empNumber: number | string): Promise<ApiResult> {
     const response = await this.send('GET', endpoints.pim.contactDetails(empNumber));
     return { response, body: await this.json(response) };

@@ -13,7 +13,10 @@ Feature: Dashboard
     And the widgets should include "Quick Launch"
 
   @regression
-  Scenario: Every module an administrator can see opens its own screen
+  # Named for what it checks. Reachability across *every* module the instance
+  # ships is features/module-navigation.feature; this is the subset the brief
+  # names, asserted from the dashboard the user lands on.
+  Scenario: The modules the brief names open from the side menu
     Then each of these modules should open from the side menu
       | module      | lands on     |
       | Admin       | /admin/      |

@@ -29,6 +29,9 @@ const selectors = {
   // is impossible with a locator that already assumes it.
   submitButton: 'button[type="submit"]',
   secondaryButton: 'button[type="button"]',
+  // Reset and Cancel are the ghost variant of this product's button component;
+  // Search and Save are the form's submit. Both are true in any language.
+  ghostButton: 'button.oxd-button--ghost',
 
   // Sign-out is reached by its route rather than by the word on the menu item.
   // The label is translated with the rest of the product, and this suite has
@@ -60,6 +63,10 @@ const selectors = {
   // delete then edit, so "the last button" is the delete on one screen and the
   // edit on the other - which deletes nothing and quietly opens a form.
   rowDeleteButton: 'button:has(.bi-trash)',
+  // The filter panel above a list. Asserting a filter's label inside this
+  // container rather than anywhere on the page keeps the check honest: the same
+  // words appear in table headers and in the side menu.
+  filterPanel: '.oxd-table-filter',
   recordCount: '.orangehrm-horizontal-padding span',
 
   // Screens
@@ -69,7 +76,6 @@ const selectors = {
   // The password reset screen: its own heading and its own confirmation panel,
   // neither of which is a toast - the confirmation is a whole page.
   resetHeading: '.orangehrm-forgot-password-title',
-  resetConfirmation: '.orangehrm-forgot-password-wrapper',
   dashboardWidget: '.oxd-grid-item.orangehrm-dashboard-widget',
   dashboardWidgetName: '.orangehrm-dashboard-widget-name'
 } as const;

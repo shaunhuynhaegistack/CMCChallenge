@@ -21,7 +21,9 @@ const endpoints = {
     // Note the singular `employee` - the contact details route does not follow
     // the same shape as the rest of the PIM API.
     contactDetails: (empNumber: number | string): string =>
-      `${API_ROOT}/pim/employee/${empNumber}/contact-details`
+      `${API_ROOT}/pim/employee/${empNumber}/contact-details`,
+    // The record belonging to whoever is signed in, which is what My Info opens.
+    myself: `${API_ROOT}/pim/myself`
   },
   recruitment: {
     candidates: `${API_ROOT}/recruitment/candidates`

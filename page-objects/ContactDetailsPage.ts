@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import BasePage from '../lib/BasePage';
+import { selectors } from '../lib/BasePage';
 
 export class ContactDetailsPage extends BasePage {
   readonly street1: Locator;
@@ -22,7 +23,7 @@ export class ContactDetailsPage extends BasePage {
     this.postcode = this.fieldByLabel('Zip/Postal Code');
     this.mobile = this.fieldByLabel('Mobile');
     this.workEmail = this.fieldByLabel('Work Email');
-    this.saveButton = page.getByRole('button', { name: 'Save' }).first();
+    this.saveButton = page.locator(selectors.submitButton).first();
   }
 
   pathFor(empNumber: number | string) {

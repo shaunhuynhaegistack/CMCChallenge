@@ -27,6 +27,8 @@ performance/results/
 .DS_Store
 Thumbs.db
 
-# Per-developer tool directories, whatever the tool
+# Per-developer tool directories, whatever the tool decides to call itself, and
+# the worktrees some of them create inside the repository.
 .*-local/
 .tooling/
+**/worktrees/
