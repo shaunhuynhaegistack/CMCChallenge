@@ -56,8 +56,13 @@ export class FilterableListPage extends BasePage {
     await this.searchButton.waitFor({ state: 'visible' });
   }
 
-  search(description: string = 'Search') {
-    return this.clickAndWaitForApi(this.searchButton, this.listApiPath, description);
+  /**
+   * `query` is the part of the query string this particular filter adds, so the
+   * wait resolves on the response the click caused rather than on one the screen
+   * was already making when the click landed.
+   */
+  search(description: string = 'Search', query?: string | string[]) {
+    return this.clickAndWaitForApi(this.searchButton, this.listApiPath, description, { query });
   }
 
   resetFilters() {
@@ -100,10 +105,7 @@ export class FilterableListPage extends BasePage {
   }
 
   async deleteFirstRow() {
-    await this.click(
-      this.rows.first().locator(selectors.rowActionButton).last(),
-      'row delete icon'
-    );
+    await this.click(this.rows.first().locator(selectors.rowDeleteButton), 'row delete icon');
     return this.confirmDeletion();
   }
 

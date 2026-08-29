@@ -34,6 +34,9 @@ const selectors = {
   // The label is translated with the rest of the product, and this suite has
   // watched the instance language change under a running scenario.
   logoutLink: 'a[href*="/auth/logout"]',
+
+  // The section tabs down the side of a personnel record.
+  recordTab: '.orangehrm-tabs-item',
   alertText: '.oxd-alert-content-text',
   radioWrapper: '.oxd-radio-wrapper',
   autocompleteOption: '.oxd-autocomplete-option',
@@ -51,6 +54,12 @@ const selectors = {
   tableRow: '.oxd-table-card',
   tableHeader: '.oxd-table-header',
   rowActionButton: '.oxd-icon-button',
+
+  // Addressed by the icon it carries rather than by its position in the row.
+  // The employee list renders edit then delete; the admin user list renders
+  // delete then edit, so "the last button" is the delete on one screen and the
+  // edit on the other - which deletes nothing and quietly opens a form.
+  rowDeleteButton: 'button:has(.bi-trash)',
   recordCount: '.orangehrm-horizontal-padding span',
 
   // Screens
@@ -175,11 +184,22 @@ export class BasePage {
     selector: SelectorLike,
     urlFragment: string,
     description?: string,
-    { method = 'GET' }: { method?: string } = {}
+    { method = 'GET', query }: { method?: string; query?: string | string[] } = {}
   ): Promise<Response> {
+    // `query` narrows the match to the request the click actually caused.
+    // Without it the first matching response can be the one the screen was
+    // already making when the click landed, and the assertion then reads the
+    // rows from before the filter was applied. Several fragments can be given
+    // where one is not enough to tell two requests apart - the autocomplete and
+    // the search behind it are both a `nameOrId` lookup.
+    const fragments = query === undefined ? [] : [query].flat();
+
     const [response] = await Promise.all([
       this.page.waitForResponse(
-        (res) => res.url().includes(urlFragment) && res.request().method() === method
+        (res) =>
+          res.url().includes(urlFragment) &&
+          res.request().method() === method &&
+          fragments.every((fragment) => res.url().includes(fragment))
       ),
       this.click(selector, description)
     ]);

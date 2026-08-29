@@ -15,7 +15,7 @@ export class AdminUserListPage extends FilterableListPage {
 
   async searchByUsername(username: string) {
     await this.type(this.usernameFilter, username, 'Username filter');
-    return this.search();
+    return this.search('Search', 'username=');
   }
 }
 
