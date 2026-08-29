@@ -20,9 +20,12 @@ Feature: Authentication
     And I should stay on the login page
 
     Examples:
-      | user            |
-      | invalidPassword |
-      | unknownUser     |
+      | user              |
+      | invalidPassword   |
+      | unknownUser       |
+      | wrongCasePassword |
+      | injectionAttempt  |
+      | overlongUsername  |
 
   @regression @negative
   Scenario: Submitting an empty form shows field level validation
@@ -59,3 +62,37 @@ Feature: Authentication
     When I sign in as "missingPassword"
     Then only the password field should be flagged as required
     And I should stay on the login page
+
+  @regression @security
+  Scenario: The rejection message is the same whether or not the account exists
+    When I sign in as "unknownUser"
+    And I note the rejection message
+    And I am on the OrangeHRM login page
+    And I sign in as "invalidPassword"
+    Then the rejection message should be identical
+
+  @regression @positive
+  Scenario: The user name is not case sensitive
+    When I sign in as "lowercaseAdmin"
+    Then I should land on the dashboard
+
+  # Observed, not assumed: this product does not trim the user name, so a value
+  # pasted from a document with its surrounding whitespace is refused. Pinned
+  # here so a future change in either direction is noticed.
+  @regression @negative
+  Scenario: Surrounding whitespace in the user name is not trimmed
+    When I sign in as "paddedAdmin"
+    Then I should see the login alert "Invalid credentials"
+    And I should stay on the login page
+
+  @regression @security
+  Scenario: The session cookie is not readable from script
+    When I sign in as "admin"
+    Then the session cookie should be flagged HttpOnly
+
+  @regression @negative
+  Scenario: A signed out session cannot be restored with the back button
+    When I sign in as "admin"
+    And I sign out
+    And I go back in the browser history
+    Then I should stay on the login page

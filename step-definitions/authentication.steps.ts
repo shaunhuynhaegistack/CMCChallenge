@@ -27,10 +27,19 @@ Given('I am signed in as {string}', async function (this: OrangeHrmWorld, userKe
   await signIn(this, userKey);
 });
 
+/**
+ * The route is the assertion, not the heading.
+ *
+ * The breadcrumb reads "Dashboard" in English and "Pizarra de pendientes" in
+ * Spanish, and the display language is an instance-wide setting that this suite
+ * has watched change under a running scenario. What proves the sign-in worked
+ * is that the browser is on the dashboard route with the module chrome
+ * rendered - both of which are true in any language.
+ */
 Then('I should land on the dashboard', async function (this: OrangeHrmWorld) {
   await this.pages.dashboard.waitUntilLoaded();
   await expect(this.page).toHaveURL(/dashboard\/index/);
-  await expect(this.pages.dashboard.topBar.moduleTitle).toHaveText('Dashboard');
+  await expect(this.pages.dashboard.topBar.moduleTitle).toBeVisible();
 });
 
 Then('the top bar should show the logged in user', async function (this: OrangeHrmWorld) {
@@ -43,6 +52,9 @@ Then(
   'I should see the login alert {string}',
   async function (this: OrangeHrmWorld, expectedMessage) {
     const message = await this.pages.login.alertMessage();
+    // Kept for the scenario that compares two rejections with each other.
+    this.state.lastAlert = message;
+
     logVerify(`Login alert: expected "${expectedMessage}", actual "${message}"`);
     expect(message).toBe(expectedMessage);
   }
@@ -101,3 +113,34 @@ Then(
     expect(errors).toEqual(['Required']);
   }
 );
+
+When('I note the rejection message', function (this: OrangeHrmWorld) {
+  this.state.firstRejection = this.state.lastAlert;
+});
+
+/**
+ * Two different reasons to refuse - no such user, and the wrong password - must
+ * produce one message. A screen that distinguishes them answers "does this
+ * account exist?" for anybody willing to ask twice.
+ */
+Then('the rejection message should be identical', function (this: OrangeHrmWorld) {
+  logVerify(
+    `An unknown account was told "${this.state.firstRejection}"; ` +
+      `a real account with the wrong secret was told "${this.state.lastAlert}"`
+  );
+  expect(this.state.lastAlert).toBe(this.state.firstRejection);
+});
+
+Then('the session cookie should be flagged HttpOnly', async function (this: OrangeHrmWorld) {
+  const cookies = await this.context.cookies();
+  const session = cookies.find((cookie) => cookie.name.startsWith('orangehrm'));
+
+  logVerify(`Session cookie ${session?.name} httpOnly=${session?.httpOnly}`);
+  expect(session, 'a session cookie was set').toBeTruthy();
+  expect(session?.httpOnly, 'the session cookie is not readable from script').toBe(true);
+});
+
+When('I go back in the browser history', async function (this: OrangeHrmWorld) {
+  await this.page.goBack();
+  await this.pages.login.waitForSpinnerToDisappear();
+});
