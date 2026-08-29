@@ -1,4 +1,4 @@
-import { logWarn } from '../logger';
+import { logWarn } from './logger';
 
 export const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
