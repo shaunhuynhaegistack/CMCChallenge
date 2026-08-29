@@ -28,5 +28,35 @@
     "password": "",
     "role": "none",
     "description": "Valid user name with the password left blank"
+  },
+  "lowercaseAdmin": {
+    "username": "admin",
+    "password": "admin123",
+    "role": "Admin",
+    "description": "The administrator name in lower case, to pin whether the field is case sensitive"
+  },
+  "paddedAdmin": {
+    "username": "  Admin  ",
+    "password": "admin123",
+    "role": "Admin",
+    "description": "The administrator name with surrounding whitespace, as a paste from a document leaves it"
+  },
+  "wrongCasePassword": {
+    "username": "Admin",
+    "password": "ADMIN123",
+    "role": "none",
+    "description": "The right password in the wrong case - a password must be case sensitive"
+  },
+  "injectionAttempt": {
+    "username": "' OR '1'='1",
+    "password": "' OR '1'='1",
+    "role": "none",
+    "description": "A classic injection string, which must be rejected as credentials rather than interpreted"
+  },
+  "overlongUsername": {
+    "username": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "password": "admin123",
+    "role": "none",
+    "description": "A username far longer than any real one, to prove the form rejects rather than breaks"
   }
 }
