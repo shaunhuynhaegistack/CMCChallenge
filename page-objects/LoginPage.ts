@@ -1,19 +1,15 @@
 import type { Locator, Page } from '@playwright/test';
-import BasePage from '../lib/BasePage';
 import { selectors } from '../lib/BasePage';
+import AuthFormPage from './AuthFormPage';
 
-export class LoginPage extends BasePage {
+export class LoginPage extends AuthFormPage {
   readonly path: string;
-
-  readonly username: Locator;
 
   readonly password: Locator;
 
   readonly submitButton: Locator;
 
   readonly alert: Locator;
-
-  readonly fieldErrors: Locator;
 
   readonly brandingLogo: Locator;
 
@@ -23,20 +19,11 @@ export class LoginPage extends BasePage {
     super(page);
 
     this.path = '/web/index.php/auth/login';
-    this.username = page.locator('input[name="username"]');
-    this.password = page.locator('input[name="password"]');
-    // Addressed by the name on the button, not by its type: a second form on the
-    // page would make `button[type=submit]` ambiguous, the label would not.
-    this.submitButton = page.getByRole('button', { name: 'Login' });
+    this.password = page.locator(selectors.passwordField);
+    this.submitButton = page.locator(selectors.submitButton);
     this.alert = page.locator(selectors.alertText);
-    this.fieldErrors = page.locator(selectors.fieldError);
     this.brandingLogo = page.locator(selectors.loginBranding);
     this.forgotPasswordLink = page.locator(selectors.forgotPasswordLink);
-  }
-
-  async open(baseUrl: string) {
-    await this.navigateTo(`${baseUrl}${this.path}`);
-    await this.username.waitFor({ state: 'visible' });
   }
 
   async login(user: string, secret: string) {
@@ -52,11 +39,6 @@ export class LoginPage extends BasePage {
 
   async alertMessage() {
     return this.textOf(this.alert);
-  }
-
-  async fieldErrorMessages() {
-    await this.fieldErrors.first().waitFor({ state: 'visible' });
-    return (await this.fieldErrors.allInnerTexts()).map((text) => text.trim());
   }
 }
 
