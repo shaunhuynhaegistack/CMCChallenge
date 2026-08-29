@@ -317,7 +317,7 @@ engineering extras:
 | --- | --- |
 | **The whole framework is TypeScript** | Every source file, including the tooling and the k6 scripts — see [below](#typescript). The compiler is the first CI gate |
 | **Merge gate in two halves** | `tools/check-guardrails.ts` encodes the rules a reviewer applies by hand — no fixed waits, no assertions in page objects, no hard coded URLs or credentials, no focused or skipped scenarios — and needs no API key. The automated review is the layer on top |
-| **Automated review on every pull request** | The diff is reviewed against a test-automation rubric; a blocking finding fails the check. One secret to enable |
+| **PR review gate on every pull request** | The diff is reviewed against a test-automation rubric; a blocking finding fails the check. One secret to enable |
 | **Slack and Teams notifications** | Bot token *or* webhook. A broken notification never changes a build result |
 | **GitHub Pages report site** | The latest report from `main`, all engines, k6 and the failure showcase, at a stable URL — published automatically whenever the repository is public |
 | **Failure showcase** | A deliberate failure, published so the failure path is visible without waiting for a real one |
@@ -385,8 +385,8 @@ Notes on how it is set up:
 ```
 .github/
   workflows/ci.yml             static analysis → tests (3 engines) → report → Pages → notify
-  workflows/automated-review.yml      Automated review gate on pull requests
-  scripts/automated-review.ts         the gate itself
+  workflows/ai-review.yml      PR review gate on pull requests
+  scripts/ai-review.ts         the gate itself
   branch-protection.json       the required-checks rule, ready to apply
 
 config/
@@ -648,7 +648,7 @@ JSON array of browsers, and a Cucumber tag expression.
 
 * **Deterministic** — `npm run check:guardrails`, in `Static analysis`. No key, no
   third party, always runs.
-* **Model-assisted** — `.github/workflows/automated-review.yml` reviews the diff against a
+* **Model-assisted** — `.github/workflows/ai-review.yml` reviews the diff against a
   test-automation rubric and **fails the check on a blocking finding**. Two
   providers, the first configured one wins:
 

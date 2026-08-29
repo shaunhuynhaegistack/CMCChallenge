@@ -1,4 +1,4 @@
-name: Automated review gate
+name: PR review gate
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
-  group: automated-review-${{ github.event.pull_request.number }}
+  group: pr-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -50,13 +50,13 @@ jobs:
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AI_REVIEW_STRICT: 'false'
-        run: npx ts-node .github/scripts/automated-review.ts
+        run: npx ts-node .github/scripts/ai-review.ts
 
       - name: Comment on the pull request
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          [ -f automated-review.md ] || exit 0
-          cat automated-review.md >> "$GITHUB_STEP_SUMMARY"
-          gh pr comment "${{ github.event.pull_request.number }}" --body-file automated-review.md
+          [ -f pr-review.md ] || exit 0
+          cat pr-review.md >> "$GITHUB_STEP_SUMMARY"
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file pr-review.md

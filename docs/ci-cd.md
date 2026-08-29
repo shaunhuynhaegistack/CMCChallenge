@@ -59,7 +59,7 @@ encodes the rules a reviewer would otherwise apply by hand:
 This half needs no API key and no third party service, so the gate is meaningful
 on its own.
 
-**Model-assisted**, in `.github/workflows/automated-review.yml` - the layer on top, for what a fixed
+**Model-assisted**, in `.github/workflows/ai-review.yml` - the layer on top, for what a fixed
 list of rules cannot see. The diff is reviewed by a model against a rubric aimed
 at test automation:
 
@@ -151,7 +151,7 @@ Add rule for `main`:
   * `Static analysis`
   * `E2E (chromium)`, `E2E (firefox)`, `E2E (webkit)`
   * `Aggregate report`
-  * `Review the diff` (the automated review gate)
+  * `Review the diff` (the PR review gate)
   * `Greptile Review`
 * Require branches to be up to date before merging
 

@@ -7,7 +7,7 @@
 - [ ] `npm run lint` and `npm run format:check`
 - [ ] `npm test` passes locally
 - [ ] CI is green on all three browsers
-- [ ] Automated review gate reports no blocking findings
+- [ ] PR review gate reports no blocking findings
 
 ## Notes for the reviewer
 

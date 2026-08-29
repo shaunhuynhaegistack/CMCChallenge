@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Automated review gate.
+ * PR review gate.
  *
  * Reviews the pull request diff and turns the answer into a merge gate: the job
  * fails when the model reports a blocking finding.
@@ -19,13 +19,13 @@
  *                        the default.
  *
  * Outputs
- *   - automated-review.md   markdown body, posted as a pull request comment
+ *   - pr-review.md   markdown body, posted as a pull request comment
  *   - exit code 1    at least one blocking finding
  */
 import fs from 'fs';
 
 const DIFF_FILE = process.env.DIFF_FILE || 'pr.diff';
-const OUTPUT_FILE = process.env.OUTPUT_FILE || 'automated-review.md';
+const OUTPUT_FILE = process.env.OUTPUT_FILE || 'pr-review.md';
 const MAX_DIFF_CHARS = Number(process.env.MAX_DIFF_CHARS || 120000);
 
 // When no provider is configured, or the one that is fails, the gate cannot form
@@ -213,7 +213,7 @@ const renderMarkdown = (
   const advisory = findings.filter((finding) => finding.severity !== 'blocking');
 
   const lines = [
-    `## Automated review gate - ${blocking.length ? '❌ Changes requested' : '✅ Approved'}`,
+    `## PR review gate - ${blocking.length ? '❌ Changes requested' : '✅ Approved'}`,
     '',
     summary,
     '',
@@ -256,7 +256,7 @@ const finish = (markdown: string, exitCode: number): never => {
 
 const notEvaluated = (reason: string): string =>
   [
-    '## Automated review gate - ⚠️ Not evaluated',
+    '## PR review gate - ⚠️ Not evaluated',
     '',
     reason,
     '',
@@ -270,7 +270,7 @@ const notEvaluated = (reason: string): string =>
 
   if (!diff.trim()) {
     finish(
-      '## Automated review gate - ✅ Approved\n\nThe pull request contains no reviewable changes.',
+      '## PR review gate - ✅ Approved\n\nThe pull request contains no reviewable changes.',
       0
     );
   }
