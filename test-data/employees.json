@@ -1,0 +1,22 @@
+{
+  "lifecycle": {
+    "firstNamePrefix": "Auto",
+    "lastNamePrefix": "Candidate",
+    "middleName": "QA"
+  },
+  "personalDetailsUpdate": {
+    "otherId": "OTH-2045",
+    "drivingLicenseNo": "DL-77341",
+    "birthday": "1992-04-18",
+    "gender": "Male",
+    "genderId": 1,
+    "maritalStatus": "Single"
+  },
+  "contactDetailsUpdate": {
+    "street1": "12 Automation Way",
+    "city": "Melbourne",
+    "postcode": "3000",
+    "mobile": "0400123456",
+    "workEmail": "qa.automation@example.com"
+  }
+}

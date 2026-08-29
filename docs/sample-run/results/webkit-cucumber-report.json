@@ -1,0 +1,4915 @@
+[
+  {
+    "description": "  As an OrangeHRM user\n  I want the login screen to accept only valid credentials\n  So that employee data stays protected",
+    "elements": [
+      {
+        "description": "",
+        "id": "authentication;sign-in-is-rejected-for-invalidpassword",
+        "keyword": "Scenario Outline",
+        "line": 24,
+        "name": "Sign in is rejected for invalidPassword",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5529255890
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3057905004
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5168783699
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "I sign in as \"invalidPassword\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 667169801
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "I should see the login alert \"Invalid credentials\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:42"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 28895389
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 12266016
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 315769
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 230460
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 192158
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 249617648
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 813586
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 16
+          },
+          {
+            "name": "@negative",
+            "line": 16
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;sign-in-is-rejected-for-unknownuser",
+        "keyword": "Scenario Outline",
+        "line": 25,
+        "name": "Sign in is rejected for unknownUser",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5526093957
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2604901336
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4446921115
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "I sign in as \"unknownUser\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1407442678
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "I should see the login alert \"Invalid credentials\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:42"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 18467502
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6116577
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 261187
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 218928
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 152073
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 299362219
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 769636
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 16
+          },
+          {
+            "name": "@negative",
+            "line": 16
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;an-administrator-signs-in-successfully",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "An administrator signs in successfully",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5533052015
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2864382505
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5466043026
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I sign in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1730091603
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "I should land on the dashboard",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:30"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 112672560
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the top bar should show the logged in user",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:36"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 23021726
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 433367
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 275333
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 169305
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 849981604
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 768783
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@positive",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;submitting-an-empty-form-shows-field-level-validation",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "Submitting an empty form shows field level validation",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5541174758
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2567526585
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4562576587
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "I sign in as \"emptyCredentials\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 139383125
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "both credential fields should be flagged as required",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:55"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 32497147
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 31,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8946265
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 250647
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 222074
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 214701
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 250078180
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 812385
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 27
+          },
+          {
+            "name": "@negative",
+            "line": 27
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;signing-out-returns-the-user-to-the-login-page",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "Signing out returns the user to the login page",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1067034588
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3243200177
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1622370842
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "I sign in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6631380248
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "I sign out",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:61"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 177068834
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2237121
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 179726
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 73706
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 64330
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 176733720
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 330967
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 33
+          },
+          {
+            "name": "@positive",
+            "line": 33
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;the-session-is-invalidated-after-signing-out",
+        "keyword": "Scenario",
+        "line": 40,
+        "name": "The session is invalidated after signing out",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1164794789
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2783166279
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2417297507
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 41,
+            "name": "I sign in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5402865086
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 42,
+            "name": "I sign out",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:61"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 881586699
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "I open the employee list URL directly",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:67"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 46852571
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 44,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3971087
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 157273
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 97241
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 71384
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 189634884
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 386171
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 39
+          },
+          {
+            "name": "@negative",
+            "line": 39
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;the-login-page-presents-the-branding-and-hides-what-is-typed-as-a-password",
+        "keyword": "Scenario",
+        "line": 47,
+        "name": "The login page presents the branding and hides what is typed as a password",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1185830083
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2916119678
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 115806360
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "the page should be titled \"OrangeHRM\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:73"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 17105087
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 49,
+            "name": "the login branding should be visible",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:77"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 234554168
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "the password field should hide what is typed into it",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:81"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4263530
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 132207
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 57487
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 80190
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 69070483
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 274331
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 46
+          },
+          {
+            "name": "@positive",
+            "line": 46
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;the-password-reset-page-is-reachable-from-the-login-page",
+        "keyword": "Scenario",
+        "line": 53,
+        "name": "The password reset page is reachable from the login page",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1029719543
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3875328204
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1037377856
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 54,
+            "name": "I follow the forgotten password link",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:88"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 337245329
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 55,
+            "name": "I should be taken to the password reset page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:92"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8207857
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 165598
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 84978
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 67416
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 273192381
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 348369
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 52
+          },
+          {
+            "name": "@negative",
+            "line": 52
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "authentication;signing-in-without-a-password-is-rejected-before-the-request-is-sent",
+        "keyword": "Scenario",
+        "line": 58,
+        "name": "Signing in without a password is rejected before the request is sent",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 520266700
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4634179834
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am on the OrangeHRM login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:8"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 547396572
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 59,
+            "name": "I sign in as \"missingPassword\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:13"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 204785841
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 60,
+            "name": "only the password field should be flagged as required",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:96"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8940021
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 61,
+            "name": "I should stay on the login page",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:51"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2490805
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 157623
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 79397
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 128449
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 60263371
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 269561
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@auth",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 57
+          },
+          {
+            "name": "@negative",
+            "line": 57
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "authentication",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Authentication",
+    "tags": [
+      {
+        "name": "@auth",
+        "line": 1
+      }
+    ],
+    "uri": "features/authentication.feature"
+  },
+  {
+    "description": "  As a signed in user\n  I want the dashboard to load and the navigation to work\n  So that I can reach the modules my role allows",
+    "elements": [
+      {
+        "description": "",
+        "id": "dashboard;the-dashboard-presents-its-widgets",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "The dashboard presents its widgets",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 816088692
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8814433482
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 500970516
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the dashboard should show at least 3 widgets",
+            "match": {
+              "location": "step-definitions/dashboard.steps.ts:6"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 130292650
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "the widgets should include \"Quick Launch\"",
+            "match": {
+              "location": "step-definitions/dashboard.steps.ts:15"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10149424
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 184273
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 64740
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 67325
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 411732209
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 352427
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@dashboard",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "dashboard;every-module-an-administrator-can-see-opens-its-own-screen",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Every module an administrator can see opens its own screen",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 451031288
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9064187072
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 35934821803
+            },
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "module",
+                      "lands on"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Admin",
+                      "/admin/"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "PIM",
+                      "/pim/"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Leave",
+                      "/leave/"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Time",
+                      "/time/"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recruitment",
+                      "/recruitment"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "My Info",
+                      "/pim/"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Performance",
+                      "/performance"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Directory",
+                      "/directory"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Maintenance",
+                      "/maintenance"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "each of these modules should open from the side menu",
+            "match": {
+              "location": "step-definitions/dashboard.steps.ts:30"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6758361
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 128238
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 46375
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 50914
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 458700449
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 372044
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@dashboard",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 15
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "dashboard",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Dashboard",
+    "tags": [
+      {
+        "name": "@dashboard",
+        "line": 1
+      }
+    ],
+    "uri": "features/dashboard.feature"
+  },
+  {
+    "description": "  As an integrator\n  I want the employee endpoints to behave predictably\n  So that anything built on them can be trusted",
+    "elements": [
+      {
+        "description": "",
+        "id": "employee-api;the-whole-employee-lifecycle-through-the-api-alone",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "The whole employee lifecycle through the API alone",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 616256529
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8947248322
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2056968668
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 527724252
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the API should return the same employee record",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:49"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 860885077
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "I update the personal details of that employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:162"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1094110744
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the API should return the updated personal details",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:76"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 401690661
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "I delete the employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:359"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 606802239
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "the API should no longer return the employee",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:111"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6009324
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 149468
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 71503
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 68357
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 358751689
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 356794
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 10
+          },
+          {
+            "name": "@api",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-api;creating-an-employee-without-firstname-is-rejected",
+        "keyword": "Scenario Outline",
+        "line": 26,
+        "name": "Creating an employee without firstName is rejected",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 877025579
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10678405022
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1180401567
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "I try to create an employee without a \"firstName\"",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:368"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 18151414
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "the API should reject it with status 422",
+            "match": {
+              "location": "step-definitions/common.steps.ts:11"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8278534
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 165899
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 85098
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 52156
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 428573487
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 408802
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 19
+          },
+          {
+            "name": "@negative",
+            "line": 19
+          },
+          {
+            "name": "@api",
+            "line": 19
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-api;creating-an-employee-without-lastname-is-rejected",
+        "keyword": "Scenario Outline",
+        "line": 27,
+        "name": "Creating an employee without lastName is rejected",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1112990313
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10717838698
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 985399702
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "I try to create an employee without a \"lastName\"",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:368"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3059565
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "the API should reject it with status 422",
+            "match": {
+              "location": "step-definitions/common.steps.ts:11"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8597760
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 119131
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43060
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 42588
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 222851851
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 311992
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 19
+          },
+          {
+            "name": "@negative",
+            "line": 19
+          },
+          {
+            "name": "@api",
+            "line": 19
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-api;the-employee-list-endpoint-paginates",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "The employee list endpoint paginates",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 610129032
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10506471264
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3122572878
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 31,
+            "name": "I create 3 employees through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:281"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 792076733
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "I ask the API for the first 2 of them",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:390"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 11434089
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 33,
+            "name": "it should report a total of 3 and return 2 of them",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:399"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1086316251
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "the second page should hold the remaining one, with no overlap",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:410"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 11758786
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 334193
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 65992
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 987593710
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 777840622
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 324986
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 29
+          },
+          {
+            "name": "@api",
+            "line": 29
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "employee-api",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Employee API",
+    "tags": [
+      {
+        "name": "@pim",
+        "line": 1
+      }
+    ],
+    "uri": "features/employee-api.feature"
+  },
+  {
+    "description": "  As an HR administrator\n  I want to create, update and remove an employee\n  So that the workforce records stay accurate\n\n  Every scenario cleans up after itself: whatever the scenario created is deleted\n  through the API in the After hook, even when the scenario fails part way.",
+    "elements": [
+      {
+        "description": "",
+        "id": "employee-lifecycle;full-lifecycle-of-an-employee,-verified-through-the-ui-and-the-api",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "Full lifecycle of an employee, verified through the UI and the API",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 724399368
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 12435629516
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9945927409
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "I create a new employee through the PIM module",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:19"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2999149357
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the employee should be saved and opened on the personal details screen",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:33"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1619724468
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "the API should return the same employee record",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:49"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5320247852
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "I update the personal details of the employee",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:63"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 15307172
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the update should be confirmed on screen",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:72"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 308090326
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "the API should return the updated personal details",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:76"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10830144722
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "I delete the employee from the employee list",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:91"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1048726738
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "the employee should no longer be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:106"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 598213720
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "the API should no longer return the employee",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:111"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 15352616
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 132527
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43971
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 49522
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 495034719
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 595640
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 13
+          },
+          {
+            "name": "@e2e",
+            "line": 13
+          },
+          {
+            "name": "@api",
+            "line": 13
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;mandatory-fields-are-enforced-when-adding-an-employee",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "Mandatory fields are enforced when adding an employee",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 618276541
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 12481808674
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2315777830
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "I open the add employee screen",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:120"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 514796481
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "I save the employee form without filling it in",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:124"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1590599086
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "the first and last name fields should be flagged as required",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:128"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 21514657
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 141904
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 48610
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 55622
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 679435572
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 455719
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 25
+          },
+          {
+            "name": "@negative",
+            "line": 25
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;an-employee-created-through-the-api-is-visible-in-the-ui",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "An employee created through the API is visible in the UI",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1577301435
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 11119894902
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 615084065
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 33,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4246693777
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "I search for that employee in the employee list",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:142"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41664800
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 35,
+            "name": "exactly one employee row should be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:147"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 149395261
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "the listed row should show the employee id and name",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:153"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 22267907
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 163233
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 45905
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 281200817
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 343388741
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 443806
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 31
+          },
+          {
+            "name": "@api",
+            "line": 31
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;personal-details-changed-through-the-api-are-shown-in-the-ui",
+        "keyword": "Scenario",
+        "line": 39,
+        "name": "Personal details changed through the API are shown in the UI",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 705832696
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10356054920
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 789378702
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 40,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 334705955
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "I update the personal details of that employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:162"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4787654459
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 42,
+            "name": "the personal details screen should show the updated values",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:185"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 871144433
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "the date of birth should be shown in the instance date format",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:212"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7955272
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 122488
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 44083
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1171590800
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 124856450
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 334073
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 38
+          },
+          {
+            "name": "@api",
+            "line": 38
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;the-employee-list-can-be-filtered-by-employee-name",
+        "keyword": "Scenario",
+        "line": 46,
+        "name": "The employee list can be filtered by employee name",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 844554076
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10762213123
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1379495341
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 47,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5821446429
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 48,
+            "name": "I search for that employee by name in the employee list",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:226"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 18685820
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "exactly one employee row should be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:147"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 78359626
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "the listed row should show the employee id and name",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:153"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3373710
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 266456
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 67395
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 273581369
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 106049004
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 442955
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 45
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;an-employee-id-that-is-already-in-use-is-rejected",
+        "keyword": "Scenario",
+        "line": 53,
+        "name": "An employee id that is already in use is rejected",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1167538935
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 11048445545
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 427877400
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 54,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 474148273
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 55,
+            "name": "I try to create another employee with the same employee id",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:239"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 861184
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "the API should reject it with status 422",
+            "match": {
+              "location": "step-definitions/common.steps.ts:11"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2681669
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "the rejection should name \"employeeId\" as the invalid parameter",
+            "match": {
+              "location": "step-definitions/common.steps.ts:22"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8226860
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 103874
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47119
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 283773744
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 158467166
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 305139
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 52
+          },
+          {
+            "name": "@negative",
+            "line": 52
+          },
+          {
+            "name": "@api",
+            "line": 52
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;resetting-the-filter-brings-the-full-employee-list-back",
+        "keyword": "Scenario",
+        "line": 60,
+        "name": "Resetting the filter brings the full employee list back",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 528433971
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8188914867
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 273615908
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4571618322
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 62,
+            "name": "I search for that employee in the employee list",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:142"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 19182416
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 63,
+            "name": "exactly one employee row should be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:147"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2598493463
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 64,
+            "name": "I reset the employee list filter",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:250"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 109567594
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 65,
+            "name": "more than one employee row should be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:254"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 15395281
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 139689
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47008
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 659349996
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 370353109
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 339663
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 59
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;the-record-count-on-screen-matches-the-api-for-the-same-filter",
+        "keyword": "Scenario",
+        "line": 68,
+        "name": "The record count on screen matches the API for the same filter",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1042894847
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7918534293
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1096296413
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 69,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 8368471101
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 70,
+            "name": "I search for that employee by name in the employee list",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:226"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 754812600
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 71,
+            "name": "the record count on screen should match the total the API reports for that filter",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:270"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4109534
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 286324
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 70351
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 269668023
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 262884452
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 327872
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 67
+          },
+          {
+            "name": "@api",
+            "line": 67
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;several-employees-can-be-removed-in-one-bulk-delete",
+        "keyword": "Scenario",
+        "line": 74,
+        "name": "Several employees can be removed in one bulk delete",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 735055278
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9410830894
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1289076144
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 75,
+            "name": "I create 2 employees through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:281"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3788635437
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 76,
+            "name": "I search for those employees by their shared name prefix",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:302"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4887002987
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 77,
+            "name": "I delete all the listed employees in one action",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:314"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 160885938
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 78,
+            "name": "no employee rows should be listed",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:322"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 953289059
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 79,
+            "name": "the API should no longer return any of them",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:326"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4262117
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 155009
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39423
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 37741
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 243316684
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 360482
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 73
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "employee-lifecycle;contact-details-saved-in-the-ui-are-returned-by-the-api",
+        "keyword": "Scenario",
+        "line": 82,
+        "name": "Contact details saved in the UI are returned by the API",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 706264599
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9873974089
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 835961039
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 83,
+            "name": "I create an employee through the API",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:138"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 39193566729
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "I save contact details for that employee in the UI",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:333"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 268160167
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 85,
+            "name": "the API should return the same contact details",
+            "match": {
+              "location": "step-definitions/employee.steps.ts:344"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7965362
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 155059
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 40334
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 285419319
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 144788471
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 333170
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@pim",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 81
+          },
+          {
+            "name": "@api",
+            "line": 81
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "employee-lifecycle",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Employee lifecycle",
+    "tags": [
+      {
+        "name": "@pim",
+        "line": 1
+      }
+    ],
+    "uri": "features/employee-lifecycle.feature"
+  },
+  {
+    "description": "  As an administrator\n  I want the leave screens to agree with the leave API\n  So that what a user picks from is what the system actually has",
+    "elements": [
+      {
+        "description": "",
+        "id": "leave;the-leave-list-opens-for-an-administrator",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "The leave list opens for an administrator",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1115102130
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9933607161
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1014681920
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I open the leave list",
+            "match": {
+              "location": "step-definitions/leave.steps.ts:6"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 456675598
+            },
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "filter"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "From Date"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "To Date"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Show Leave with Status"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Leave Type"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Employee Name"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the leave list should offer the filters",
+            "match": {
+              "location": "step-definitions/leave.steps.ts:10"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 18326306
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 176298
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 43330
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 47277
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 279037255
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 335104
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@leave",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "leave;the-leave-types-offered-on-screen-are-the-ones-the-api-reports",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "The leave types offered on screen are the ones the API reports",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1073223960
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6990753173
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 928651026
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "I open the leave list",
+            "match": {
+              "location": "step-definitions/leave.steps.ts:6"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 762594713
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "the leave types in the filter should match the ones the API returns",
+            "match": {
+              "location": "step-definitions/leave.steps.ts:28"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6225788
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 139640
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 57566
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 57818
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 287745290
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 393444
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@leave",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 21
+          },
+          {
+            "name": "@api",
+            "line": 21
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "leave",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Leave",
+    "tags": [
+      {
+        "name": "@leave",
+        "line": 1
+      }
+    ],
+    "uri": "features/leave.feature"
+  },
+  {
+    "description": "  As a hiring administrator\n  I want candidates to be created and found reliably\n  So that an application is never lost between the API and the screen",
+    "elements": [
+      {
+        "description": "",
+        "id": "recruitment;the-candidate-list-opens-with-its-filters",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "The candidate list opens with its filters",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 895489690
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5804117189
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 954090379
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I open the candidate list",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:25"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 425889776
+            },
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "filter"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Job Title"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Vacancy"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Hiring Manager"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Status"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Candidate Name"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the candidate list should offer the filters",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:78"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4524246
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 112580
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 41307
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 58869
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 265458727
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 282105
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@recruitment",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "recruitment;a-candidate-created-through-the-api-appears-in-the-candidate-list",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "A candidate created through the API appears in the candidate list",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 843630942
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6547162268
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 308548932
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "I create a candidate through the API",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:29"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 994531833
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "I open the candidate list",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:25"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1672993857
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 25,
+            "name": "exactly one row should be listed for that candidate",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:49"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 823616696
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 26,
+            "name": "the API should return the same candidate",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:57"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7688938
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 152484
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 62596
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 499387730
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 115750751
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 438206
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@recruitment",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 21
+          },
+          {
+            "name": "@api",
+            "line": 21
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "recruitment;a-candidate-without-an-email-address-is-rejected",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "A candidate without an email address is rejected",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 883024430
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7914044988
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 277836808
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 30,
+            "name": "I try to create a candidate without an email address",
+            "match": {
+              "location": "step-definitions/recruitment.steps.ts:69"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 9564374
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the API should reject it with status 422",
+            "match": {
+              "location": "step-definitions/common.steps.ts:11"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 14624781
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 32,
+            "name": "the rejection should name \"email\" as the invalid parameter",
+            "match": {
+              "location": "step-definitions/common.steps.ts:22"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 19662203
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 149940
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 46177
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 60021
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 354003430
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 347699
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@recruitment",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 28
+          },
+          {
+            "name": "@negative",
+            "line": 28
+          },
+          {
+            "name": "@api",
+            "line": 28
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "recruitment",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Recruitment",
+    "tags": [
+      {
+        "name": "@recruitment",
+        "line": 1
+      }
+    ],
+    "uri": "features/recruitment.feature"
+  },
+  {
+    "description": "  As a security conscious HR team\n  I want each user role to only reach the modules it is entitled to\n  So that self service users cannot administer the system",
+    "elements": [
+      {
+        "description": "",
+        "id": "role-based-access;an-administrator-sees-every-module",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "An administrator sees every module",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 528233787
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7507569854
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 700914581
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the side menu should contain the modules for the \"Admin\" role",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:44"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 7720990
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 127057
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 119122
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 46667
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 156580132
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 327290
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@rbac",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "role-based-access;an-ess-user-cannot-reach-the-administration-modules",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "An ESS user cannot reach the administration modules",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 724779530
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6886147545
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 922411015
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "an employee with an \"ESS\" account exists",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:15"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2254640501
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "the ESS account is listed under Admin - User Management",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 4862514544
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "that user signs in from a separate session",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 417634280
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the side menu should contain the modules for the \"ESS\" role",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:44"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 34147693
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "the side menu should not contain the modules forbidden for the \"ESS\" role",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:57"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 240387590
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "the admin users API should reject the request with status 403",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:68"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 360081715
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "opening the admin page directly should be refused with status 403",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:77"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1752188
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 223437
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3564987
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 534042505
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 106588877
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 343038
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@rbac",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 14
+          },
+          {
+            "name": "@e2e",
+            "line": 14
+          },
+          {
+            "name": "@api",
+            "line": 14
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "role-based-access;an-anonymous-caller-cannot-read-employee-data",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "An anonymous caller cannot read employee data",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 801735454
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 6210828919
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 744374534
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "an unauthenticated client calls the employees API",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:92"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 3432240
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "the API should reject it with status 401",
+            "match": {
+              "location": "step-definitions/common.steps.ts:11"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5537467
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 113332
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 51089135
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 101749
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 454994212
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 320257
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@rbac",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 24
+          },
+          {
+            "name": "@api",
+            "line": 24
+          },
+          {
+            "name": "@negative",
+            "line": 24
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "role-based-access;an-ess-user-can-read-the-directory-but-not-change-it",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "An ESS user can read the directory but not change it",
+        "steps": [
+          {
+            "result": {
+              "status": "passed",
+              "duration": 452182017
+            },
+            "keyword": "Before",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5922461698
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I am signed in as \"admin\"",
+            "match": {
+              "location": "step-definitions/authentication.steps.ts:26"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 928095635
+            },
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 31,
+            "name": "an employee with an \"ESS\" account exists",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:15"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 5308404878
+            },
+            "arguments": [],
+            "keyword": "When ",
+            "line": 32,
+            "name": "that user signs in from a separate session",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:40"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 267257763
+            },
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 33,
+            "name": "that session should be allowed to read the employee list",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:104"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 267198843
+            },
+            "arguments": [],
+            "keyword": "But ",
+            "line": 34,
+            "name": "that session should be refused when it tries to create an employee",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:113"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 1295414092
+            },
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "that user should be able to open My Info",
+            "match": {
+              "location": "step-definitions/role-based-access.steps.ts:122"
+            }
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 2295029
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 129973
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 10302209
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 559245690
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 203059747
+            },
+            "keyword": "After",
+            "hidden": true
+          },
+          {
+            "result": {
+              "status": "passed",
+              "duration": 317611
+            },
+            "keyword": "After",
+            "hidden": true
+          }
+        ],
+        "tags": [
+          {
+            "name": "@rbac",
+            "line": 1
+          },
+          {
+            "name": "@regression",
+            "line": 29
+          },
+          {
+            "name": "@api",
+            "line": 29
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "role-based-access",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Role based access",
+    "tags": [
+      {
+        "name": "@rbac",
+        "line": 1
+      }
+    ],
+    "uri": "features/role-based-access.feature"
+  }
+]

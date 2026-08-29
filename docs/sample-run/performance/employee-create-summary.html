@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>k6 - employee-create</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; color: #1f2328; }
+  h1 { margin-bottom: 0.25rem; }
+  .status { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 600; color: #fff; }
+  .PASSED { background: #1a7f37; }
+  .FAILED { background: #cf222e; }
+  table { border-collapse: collapse; width: 100%; margin-top: 1rem; font-size: 0.9rem; }
+  th, td { border: 1px solid #d0d7de; padding: 0.4rem 0.6rem; text-align: left; }
+  th { background: #f6f8fa; }
+  tr.bad td { background: #ffebe9; }
+  tr.ok td { background: #f0fff4; }
+  code { font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>k6 - employee-create</h1>
+<p><span class="status PASSED">PASSED</span></p>
+<p>Base URL: <code>https://opensource-demo.orangehrmlive.com</code><br>
+Generated: 2026-08-29T13:50:47.226Z</p>
+
+<h2>Thresholds</h2>
+<table><thead><tr><th>Metric</th><th>Threshold</th><th>Result</th></tr></thead>
+<tbody><tr class="ok">
+        <td>employee_create_success_rate</td>
+        <td><code>rate&gt;0.95</code></td>
+        <td>passed</td>
+      </tr><tr class="ok">
+        <td>http_req_duration</td>
+        <td><code>p(95)&lt;6000</code></td>
+        <td>passed</td>
+      </tr><tr class="ok">
+        <td>employee_create_duration</td>
+        <td><code>p(95)&lt;5000</code></td>
+        <td>passed</td>
+      </tr><tr class="ok">
+        <td>http_req_failed</td>
+        <td><code>rate&lt;0.05</code></td>
+        <td>passed</td>
+      </tr><tr class="ok">
+        <td>checks</td>
+        <td><code>rate&gt;0.95</code></td>
+        <td>passed</td>
+      </tr><tr class="ok">
+        <td>http_req_duration{endpoint:create_employee}</td>
+        <td><code>p(95)&lt;5000</code></td>
+        <td>passed</td>
+      </tr></tbody></table>
+
+<h2>Metrics</h2>
+<table><thead><tr><th>Metric</th><th>Type</th><th>avg</th><th>med</th><th>p95</th><th>p99</th><th>max</th><th>rate</th><th>count</th></tr></thead>
+<tbody><tr>
+        <td>employees_created</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1.01</td>
+        <td>107</td>
+      </tr><tr>
+        <td>employees_deleted</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1.01</td>
+        <td>107</td>
+      </tr><tr>
+        <td>data_sent</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>667.2</td>
+        <td>70961</td>
+      </tr><tr>
+        <td>http_req_receiving</td>
+        <td>trend</td>
+        <td>0.09</td>
+        <td>0.09</td>
+        <td>0.14</td>
+        <td>0.16</td>
+        <td>0.21</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_duration{expected_response:true}</td>
+        <td>trend</td>
+        <td>316.22</td>
+        <td>253.01</td>
+        <td>485.64</td>
+        <td>628.91</td>
+        <td>850.06</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_blocked</td>
+        <td>trend</td>
+        <td>1.41</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>264.85</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>iteration_duration</td>
+        <td>trend</td>
+        <td>2272.03</td>
+        <td>2222.94</td>
+        <td>2460.23</td>
+        <td>2711.08</td>
+        <td>3639.07</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>data_received</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>7332.94</td>
+        <td>779904</td>
+      </tr><tr>
+        <td>http_req_tls_handshaking</td>
+        <td>trend</td>
+        <td>0.59</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>85.5</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>employee_create_success_rate</td>
+        <td>rate</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_duration</td>
+        <td>trend</td>
+        <td>316.22</td>
+        <td>253.01</td>
+        <td>485.64</td>
+        <td>628.91</td>
+        <td>850.06</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_sending</td>
+        <td>trend</td>
+        <td>0.11</td>
+        <td>0.11</td>
+        <td>0.15</td>
+        <td>0.18</td>
+        <td>0.19</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_waiting</td>
+        <td>trend</td>
+        <td>316.02</td>
+        <td>252.82</td>
+        <td>485.4</td>
+        <td>628.68</td>
+        <td>849.85</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>employee_create_duration</td>
+        <td>trend</td>
+        <td>265.51</td>
+        <td>253.9</td>
+        <td>326.4</td>
+        <td>426.76</td>
+        <td>449.3</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_failed</td>
+        <td>rate</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>0</td>
+        <td>-</td>
+      </tr><tr>
+        <td>iterations</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1.01</td>
+        <td>107</td>
+      </tr><tr>
+        <td>checks</td>
+        <td>rate</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_req_duration{endpoint:create_employee}</td>
+        <td>trend</td>
+        <td>265.51</td>
+        <td>253.9</td>
+        <td>326.4</td>
+        <td>426.76</td>
+        <td>449.3</td>
+        <td>-</td>
+        <td>-</td>
+      </tr><tr>
+        <td>http_reqs</td>
+        <td>counter</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>4.02</td>
+        <td>428</td>
+      </tr><tr>
+        <td>http_req_connecting</td>
+        <td>trend</td>
+        <td>0.58</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>83.96</td>
+        <td>-</td>
+        <td>-</td>
+      </tr></tbody></table>
+</body>
+</html>

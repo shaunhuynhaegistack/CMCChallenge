@@ -1,0 +1,34 @@
+{
+  "Admin": {
+    "userRoleId": 1,
+    "expectedModules": [
+      "Admin",
+      "PIM",
+      "Leave",
+      "Time",
+      "Recruitment",
+      "My Info",
+      "Performance",
+      "Dashboard",
+      "Directory",
+      "Maintenance",
+      "Claim",
+      "Buzz"
+    ],
+    "forbiddenModules": []
+  },
+  "ESS": {
+    "userRoleId": 2,
+    "expectedModules": [
+      "Leave",
+      "Time",
+      "My Info",
+      "Performance",
+      "Dashboard",
+      "Directory",
+      "Claim",
+      "Buzz"
+    ],
+    "forbiddenModules": ["Admin", "PIM", "Recruitment", "Maintenance"]
+  }
+}

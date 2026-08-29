@@ -1,0 +1,259 @@
+{
+  "name": "employee-lifecycle",
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
+  "generatedAt": "2026-08-29T13:54:19.884Z",
+  "totalRequests": 528,
+  "failureRate": 0,
+  "p95Duration": 486.55,
+  "thresholds": [
+    {
+      "metric": "http_req_duration{endpoint:lifecycle_read}",
+      "expression": "p(95)<4000",
+      "passed": true
+    },
+    {
+      "metric": "http_req_failed",
+      "expression": "rate<0.05",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration{endpoint:lifecycle_update}",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration",
+      "expression": "p(95)<6000",
+      "passed": true
+    },
+    {
+      "metric": "checks",
+      "expression": "rate>0.95",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration{endpoint:lifecycle_delete}",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration{endpoint:lifecycle_create}",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "lifecycle_success_rate",
+      "expression": "rate>0.95",
+      "passed": true
+    }
+  ],
+  "metrics": [
+    {
+      "name": "lifecycle_update_duration",
+      "type": "trend",
+      "avg": 265.99,
+      "med": 258.15,
+      "p95": 329.91,
+      "p99": 379.77,
+      "max": 449.97
+    },
+    {
+      "name": "http_req_duration{endpoint:lifecycle_delete}",
+      "type": "trend",
+      "avg": 258.77,
+      "med": 242.98,
+      "p95": 350.5,
+      "p99": 486.18,
+      "max": 489.21
+    },
+    {
+      "name": "http_req_receiving",
+      "type": "trend",
+      "avg": 0.08,
+      "med": 0.08,
+      "p95": 0.14,
+      "p99": 0.16,
+      "max": 0.42
+    },
+    {
+      "name": "http_req_duration{endpoint:lifecycle_create}",
+      "type": "trend",
+      "avg": 267.37,
+      "med": 257.98,
+      "p95": 308.14,
+      "p99": 414.34,
+      "max": 559.29
+    },
+    {
+      "name": "lifecycle_create_duration",
+      "type": "trend",
+      "avg": 267.37,
+      "med": 257.98,
+      "p95": 308.14,
+      "p99": 414.34,
+      "max": 559.29
+    },
+    {
+      "name": "lifecycle_success_rate",
+      "type": "rate",
+      "rate": 1
+    },
+    {
+      "name": "http_req_blocked",
+      "type": "trend",
+      "avg": 1.19,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 294.27
+    },
+    {
+      "name": "http_reqs",
+      "type": "counter",
+      "rate": 4.92,
+      "count": 528
+    },
+    {
+      "name": "http_req_duration{endpoint:lifecycle_read}",
+      "type": "trend",
+      "avg": 254.75,
+      "med": 238.13,
+      "p95": 372.46,
+      "p99": 439.33,
+      "max": 486.99
+    },
+    {
+      "name": "data_sent",
+      "type": "counter",
+      "rate": 884.93,
+      "count": 95018
+    },
+    {
+      "name": "http_req_failed",
+      "type": "rate",
+      "rate": 0
+    },
+    {
+      "name": "http_req_duration{endpoint:lifecycle_update}",
+      "type": "trend",
+      "avg": 265.99,
+      "med": 258.15,
+      "p95": 329.91,
+      "p99": 379.77,
+      "max": 449.97
+    },
+    {
+      "name": "http_req_duration{expected_response:true}",
+      "type": "trend",
+      "avg": 296.48,
+      "med": 252.62,
+      "p95": 486.55,
+      "p99": 566.13,
+      "max": 653.48
+    },
+    {
+      "name": "http_req_waiting",
+      "type": "trend",
+      "avg": 296.29,
+      "med": 252.43,
+      "p95": 486.39,
+      "p99": 565.93,
+      "max": 653.25
+    },
+    {
+      "name": "lifecycle_delete_duration",
+      "type": "trend",
+      "avg": 258.77,
+      "med": 242.98,
+      "p95": 350.5,
+      "p99": 486.18,
+      "max": 489.21
+    },
+    {
+      "name": "http_req_duration",
+      "type": "trend",
+      "avg": 296.48,
+      "med": 252.62,
+      "p95": 486.55,
+      "p99": 566.13,
+      "max": 653.48
+    },
+    {
+      "name": "data_received",
+      "type": "counter",
+      "rate": 7636.79,
+      "count": 819987
+    },
+    {
+      "name": "lifecycle_read_duration",
+      "type": "trend",
+      "avg": 254.75,
+      "med": 238.13,
+      "p95": 372.46,
+      "p99": 439.33,
+      "max": 486.99
+    },
+    {
+      "name": "lifecycles_completed",
+      "type": "counter",
+      "rate": 0.82,
+      "count": 88
+    },
+    {
+      "name": "group_duration",
+      "type": "trend",
+      "avg": 261.96,
+      "med": 251.25,
+      "p95": 342.82,
+      "p99": 467.76,
+      "max": 559.51
+    },
+    {
+      "name": "http_req_connecting",
+      "type": "trend",
+      "avg": 0.47,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 83.91
+    },
+    {
+      "name": "http_req_tls_handshaking",
+      "type": "trend",
+      "avg": 0.48,
+      "med": 0,
+      "p95": 0,
+      "p99": 0,
+      "max": 85.26
+    },
+    {
+      "name": "http_req_sending",
+      "type": "trend",
+      "avg": 0.11,
+      "med": 0.11,
+      "p95": 0.15,
+      "p99": 0.18,
+      "max": 0.35
+    },
+    {
+      "name": "iteration_duration",
+      "type": "trend",
+      "avg": 2788.16,
+      "med": 2727.61,
+      "p95": 3036.16,
+      "p99": 3124.82,
+      "max": 3213.59
+    },
+    {
+      "name": "iterations",
+      "type": "counter",
+      "rate": 0.82,
+      "count": 88
+    },
+    {
+      "name": "checks",
+      "type": "rate",
+      "rate": 1
+    }
+  ]
+}

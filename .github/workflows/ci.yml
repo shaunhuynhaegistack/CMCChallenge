@@ -1,0 +1,630 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # A full run every morning, so a change on the application's side is caught
+    # by the pipeline rather than by the next person to open a pull request.
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment profile under config/environments
+        type: choice
+        default: ci
+        options: [ci, demo]
+      browsers:
+        description: JSON array of browsers to run
+        default: '["chromium","firefox","webkit"]'
+      tags:
+        description: Cucumber tag expression (leave empty for the whole suite)
+        default: ''
+      perf_profile:
+        description: k6 load profile
+        type: choice
+        default: load
+        options: [smoke, load, stress, spike, soak]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  # The report site is deployed from this workflow, in the same graph as the
+  # tests that produced it.
+  pages: write
+  id-token: write
+
+env:
+  ENV: ${{ inputs.environment || 'ci' }}
+  TAGS: ${{ inputs.tags || '' }}
+  # 2.x, because k6 only gained native TypeScript support in 0.57 and the
+  # load scripts are TypeScript like the rest of the framework.
+  K6_VERSION: '2.2.0'
+
+jobs:
+  static-analysis:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The compiler is the first gate: a type error is a defect the suite would
+      # otherwise only find at runtime, on whichever scenario happened to hit it.
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Tagging rules
+        run: npm run check:tags
+
+      # Deterministic review rules. They run with no API key and no third party
+      # service, so the merge gate is meaningful on its own; the AI review is the
+      # layer on top that catches what a fixed list cannot.
+      - name: Guardrails
+        run: npm run check:guardrails
+
+      - name: Framework unit tests
+        run: npm run test:unit
+
+  matrix:
+    name: Resolve browser matrix
+    runs-on: ubuntu-latest
+    outputs:
+      browsers: ${{ steps.resolve.outputs.browsers }}
+    steps:
+      - id: resolve
+        run: echo "browsers=${{ inputs.browsers || '[\"chromium\",\"firefox\",\"webkit\"]' }}" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: E2E (${{ matrix.browser }})
+    needs: [static-analysis, matrix]
+    runs-on: ubuntu-latest
+    # A full four-engine run takes about four minutes. Twenty is generous for a
+    # bad day on the shared instance and short enough that a wedged job fails
+    # while somebody is still looking, rather than an hour later.
+    timeout-minutes: 20
+    strategy:
+      # One job per engine, all three at once. Inside each job Cucumber runs its
+      # own workers, so the suite is parallel on two levels.
+      #
+      # fail-fast: false is what makes a single engine's failure informative
+      # rather than destructive: the other three finish, upload their results and
+      # appear in the aggregated report, so "it fails on WebKit only" is visible
+      # at a glance instead of hiding behind a cancelled matrix.
+      fail-fast: false
+      matrix:
+        browser: ${{ fromJSON(needs.matrix.outputs.browsers) }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The browser binaries are ~300 MB per engine and change only when the
+      # Playwright version does, so they are keyed on the resolved version rather
+      # than on the whole lock file.
+      - name: Resolve the Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.browser }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      # A cache hit restores the binaries but not the system libraries they link
+      # against, which are not cacheable and are cheap to install.
+      - name: Install browser system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps ${{ matrix.browser }}
+
+      # Credentials are withheld from pull request runs: the job checks out the
+      # branch's own code, so a pull request that edits a step definition or a
+      # helper could otherwise read a secret and post it anywhere. Pull requests
+      # run against the public demo account that ships in the fixtures; only
+      # trusted triggers get the real ones.
+      # Fails in seconds with one clear line when the shared instance is down,
+      # instead of after twenty minutes of assertion failures that all blame the
+      # tests for an environment problem.
+      #
+      # On a pull request an unavailable target is a hard failure - merging
+      # something that was never tested is worse than waiting. Everywhere else it
+      # is a warning and the suite is skipped, because a red badge caused by
+      # somebody else's server is not something this repository can act on.
+      - name: Check the target is up
+        id: preflight
+        env:
+          ADMIN_USERNAME: ${{ github.event_name != 'pull_request' && secrets.ADMIN_USERNAME || '' }}
+          ADMIN_PASSWORD: ${{ github.event_name != 'pull_request' && secrets.ADMIN_PASSWORD || '' }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx ts-node tools/check-target.ts
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
+          elif npx ts-node tools/check-target.ts --soft | tee /tmp/preflight.log && ! grep -q '::warning::' /tmp/preflight.log; then
+            echo "healthy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "healthy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run the suite
+        if: steps.preflight.outputs.healthy == 'true'
+        env:
+          BROWSER: ${{ matrix.browser }}
+          ADMIN_USERNAME: ${{ github.event_name != 'pull_request' && secrets.ADMIN_USERNAME || '' }}
+          ADMIN_PASSWORD: ${{ github.event_name != 'pull_request' && secrets.ADMIN_PASSWORD || '' }}
+        run: |
+          if [ -n "$TAGS" ]; then
+            npx ts-node tools/run-suite.ts "$BROWSER" --tags "$TAGS"
+          else
+            npx ts-node tools/run-suite.ts "$BROWSER"
+          fi
+
+      - name: Detect flaky scenarios
+        if: always() && steps.preflight.outputs.healthy == 'true'
+        run: |
+          {
+            echo "### Flaky check - ${{ matrix.browser }}"
+            echo '```'
+            npx ts-node tools/flaky-detector.ts
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload raw results
+        if: always() && steps.preflight.outputs.healthy == 'true'
+        # A refused upload says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: results-${{ matrix.browser }}
+          path: reports/${{ matrix.browser }}
+          # Short by design: a video is a couple of megabytes and a trace more,
+          # and on a private repository every one of them counts against the
+          # account's storage quota. Long enough to debug last night's run.
+          retention-days: 7
+          if-no-files-found: warn
+
+  failure-showcase:
+    name: Failure showcase
+    needs: static-analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve the Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}-chromium
+
+      - name: Install Playwright Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install browser system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      # The scenario is expected to fail - that is the whole point of it. The
+      # non-zero exit is swallowed here rather than with continue-on-error,
+      # because continue-on-error still stamps a red "exit code 1" annotation on
+      # a run that is perfectly healthy, which is exactly the confusion this job
+      # is supposed to avoid.
+      - name: Run the deliberate failure
+        env:
+          BROWSER: showcase
+          ADMIN_USERNAME: ${{ github.event_name != 'pull_request' && secrets.ADMIN_USERNAME || '' }}
+          ADMIN_PASSWORD: ${{ github.event_name != 'pull_request' && secrets.ADMIN_PASSWORD || '' }}
+        run: |
+          if npx ts-node tools/run-suite.ts showcase; then
+            echo "::warning::The showcase scenario passed. It is supposed to fail - check features/failure-showcase.feature."
+          else
+            echo "The showcase scenario failed, as intended. Its report is published as an artifact."
+          fi
+
+      - name: Build its report
+        if: always()
+        run: npm run report
+
+      - name: Publish the failure showcase
+        if: always()
+        # A refused upload says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: failure-showcase
+          path: reports/showcase
+          retention-days: 7
+
+  report:
+    name: Aggregate report
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # continue-on-error so one browser that produced nothing - because it was
+      # cancelled, or because its upload failed - does not stop the report being
+      # built from the browsers that did.
+      - name: Collect the results of every browser job
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          pattern: results-*
+          path: reports
+          merge-multiple: false
+
+      # download-artifact nests each artifact under its own name; the generator
+      # expects reports/<browser>/cucumber-report.json.
+      - name: Normalise the artifact layout
+        run: |
+          mkdir -p reports
+          for dir in reports/results-*; do
+            [ -d "$dir" ] || continue
+            mv "$dir" "reports/$(basename "$dir" | sed 's/^results-//')"
+          done
+          ls -R reports
+
+      # `|| true` because a skipped suite - the target was unavailable - leaves
+      # nothing to report, and that is not a failure of this repository.
+      - name: Generate the HTML report
+        run: npm run report || echo "::warning::No results to report - the suite did not run."
+
+      - name: Note when nothing ran
+        if: ${{ hashFiles('reports/*/cucumber-report.json') == '' }}
+        run: echo "::warning::No browser produced results. The application under test was most likely unavailable." 
+
+      - name: Publish the HTML report
+        # A refused upload says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: html-report
+          path: reports/*/html-report
+          retention-days: 14
+
+      - name: Write the run summary
+        run: npx ts-node config/report/write-job-summary.ts >> "$GITHUB_STEP_SUMMARY"
+
+      # Optional. Both webhooks are read from repository secrets; when neither is
+      # set the script logs that and exits successfully, so the pipeline behaves
+      # identically for anyone who has not configured them.
+      # One file with the report and the evidence in it, so it can be attached to
+      # a Slack message and downloaded without a GitHub account.
+      - name: Zip the report
+        # Only when a Slack bot is configured to receive it: the zip duplicates
+        # html-report and results-*, so publishing it unconditionally spends
+        # storage quota on a copy nobody downloads.
+        if: always() && env.SLACK_BOT_TOKEN != ''
+        id: zip
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          for browser in chromium firefox webkit; do
+            if [ -d "reports/$browser" ]; then
+              BROWSER="$browser" npx ts-node tools/zip-report.ts "$browser"
+            fi
+          done
+          echo "path=$(ls -1 reports/*.zip 2>/dev/null | head -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the zipped report
+        if: always() && steps.zip.outcome == 'success'
+        # A refused upload says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: report-archive
+          path: reports/*.zip
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Notify Slack and Teams
+        if: always()
+        env:
+          REPORT_ZIP_PATH: ${{ steps.zip.outputs.path }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Either the bot pair or the webhook is enough; see the README.
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        run: |
+          RUN_STARTED_AT=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}" --jq .run_started_at)
+          export RUN_STARTED_AT
+          npx ts-node tools/notify.ts
+
+  publish:
+    name: Publish the report site
+    # In the same graph as the tests, straight after the report they produced.
+    needs: [report, failure-showcase, performance]
+    # `always()`, and the decision about whether to publish is made inside the
+    # job rather than with an `if:` here. A job skipped by a condition still
+    # shows up in a pull request's check list as a permanently skipped check,
+    # and a check list that always has a grey entry in it teaches people to stop
+    # reading the check list.
+    if: always()
+    runs-on: ubuntu-latest
+    # actions/deploy-pages needs this: the OIDC token it exchanges for the
+    # deployment is scoped to the environment, and without the declaration the
+    # deployment API answers 404.
+    #
+    # The environment therefore accepts any branch, and the rule it used to carry
+    # - main only - is the first step of this job instead. That is not a
+    # loosening: an environment rule is evaluated before the first step runs, so
+    # with it in place every pull request failed here outright, which is worse
+    # than the skipped check this job was arranged to avoid.
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      # A pull request builds nothing here: the published site is the state of
+      # main, and GitHub Pages needs a public repository or a paid plan.
+      - name: Decide whether this run publishes
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "A pull request run: the site is published from main only."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "Not main (${{ github.ref }}): the site is published from main only."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.repository.private }}" = "true" ]; then
+            echo "The repository is private, so GitHub Pages is not available."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif [ "${{ needs.report.result }}" != "success" ]; then
+            echo "::warning::The report job did not succeed, so the published site is left as it was."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.gate.outputs.publish == 'true'
+        uses: actions/checkout@v7
+
+      - if: steps.gate.outputs.publish == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # The landing page is built by a TypeScript script, so it needs ts-node.
+      - name: Install dependencies
+        if: steps.gate.outputs.publish == 'true'
+        run: npm ci
+
+      - name: Collect the HTML reports
+        if: steps.gate.outputs.publish == 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: html-report
+          path: html
+
+      - name: Collect the raw results
+        if: steps.gate.outputs.publish == 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          pattern: results-*
+          path: reports
+
+      - name: Collect the k6 summaries
+        if: steps.gate.outputs.publish == 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: performance-results
+          path: perf
+
+      - name: Collect the failure showcase
+        if: steps.gate.outputs.publish == 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: failure-showcase
+          path: showcase
+
+      - name: Assemble the site
+        if: steps.gate.outputs.publish == 'true'
+        run: |
+          mkdir -p reports
+          for dir in reports/results-*; do
+            [ -d "$dir" ] && mv "$dir" "reports/$(basename "$dir" | sed 's/^results-//')"
+          done
+          # The showcase failure is linked from the site but never counted in the
+          # pass/fail table, so it is kept out of reports/.
+          rm -rf reports/showcase
+
+          mkdir -p site
+          for browser in html/*/html-report; do
+            [ -d "$browser" ] || continue
+            cp -r "$browser" "site/$(basename "$(dirname "$browser")")"
+          done
+
+          if ls perf/*.html >/dev/null 2>&1; then
+            mkdir -p site/performance
+            cp perf/*.html site/performance/
+          fi
+
+          if [ -d showcase/html-report ]; then
+            cp -r showcase/html-report site/failure-showcase
+          fi
+
+          SITE_DIR=site npx ts-node config/report/build-pages-site.ts
+          find site -maxdepth 2 -name index.html
+
+      # Nothing to publish means the suite did not run; leaving the previous site
+      # in place is better than replacing it with an empty one.
+      - name: Stop if there is no report to publish
+        id: has-report
+        if: steps.gate.outputs.publish == 'true'
+        run: |
+          if [ -d html ] && [ -n "$(ls -A html 2>/dev/null)" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No report was produced, so the published site is left as it was."
+          fi
+
+      - if: steps.has-report.outputs.publish == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - id: deploy
+        if: steps.has-report.outputs.publish == 'true'
+        uses: actions/deploy-pages@v5
+
+      - name: Say where it went
+        if: steps.deploy.outcome == 'success'
+        run: echo "Published to ${{ steps.deploy.outputs.page_url }}"
+
+      - name: Say why nothing was published
+        if: steps.gate.outputs.publish != 'true'
+        run: echo "Nothing published from this run - the site is built from main only."
+
+  performance:
+    name: k6 performance
+    # After the browser jobs, not alongside them. Three engines running the full
+    # scenario set against the same shared instance is load in its own right, and
+    # a load test measured through someone else's traffic measures nothing.
+    # `always()` so the numbers are still collected when a scenario fails.
+    needs: [static-analysis, test]
+    if: always() && needs.static-analysis.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Reported, not gating. The thresholds are still evaluated and a breach is
+    # visible in the log and in the published summary, but the latency of a
+    # third party demo instance is not something this repository can fix, so it
+    # does not turn the pipeline red. On a system we owned this would gate.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+
+      # The summariser is part of the framework, so this job needs the framework's
+      # dependencies even though it does not run a browser.
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache the k6 binary
+        id: k6-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.local/bin/k6
+          key: k6-${{ runner.os }}-${{ env.K6_VERSION }}
+
+      - name: Install k6
+        if: steps.k6-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.local/bin
+          curl -sSL "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
+            | tar -xz --strip-components=1 -C ~/.local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
+
+      - name: Put k6 on the path
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/k6" version
+
+      # The target is a shared public instance, so a pull request runs the same
+      # scripts as a short smoke and main runs the full load profile. Both write
+      # the same summaries, so a regression in their shape shows up on the pull
+      # request that caused it.
+      - name: Choose the load profile
+        id: load
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "profile=smoke" >> "$GITHUB_OUTPUT"
+          else
+            echo "profile=${{ inputs.perf_profile || 'load' }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Same reasoning as the suite, and it matters more here: a k6 script is
+      # arbitrary code with outbound HTTP, so a pull request that edits one must
+      # never be handed a real credential.
+      - name: Run the load tests
+        env:
+          PERF_PROFILE: ${{ steps.load.outputs.profile }}
+          ADMIN_USERNAME: ${{ github.event_name != 'pull_request' && secrets.ADMIN_USERNAME || '' }}
+          ADMIN_PASSWORD: ${{ github.event_name != 'pull_request' && secrets.ADMIN_PASSWORD || '' }}
+        run: |
+          mkdir -p performance/results
+          failed=0
+          for script in login employee-create employee-search employee-lifecycle; do
+            # A collapsed group per script keeps the run page readable, and
+            # --log-format=raw prints the script's own log lines instead of
+            # wrapping each one in k6's time=/level=/msg= envelope.
+            echo "::group::k6 - $script (profile: $PERF_PROFILE)"
+            k6 run --log-format=raw "performance/scenarios/$script.ts" || failed=1
+            echo "::endgroup::"
+          done
+          exit $failed
+
+      - name: Summarise the load test in the run page
+        if: always()
+        run: npx ts-node tools/summarise-performance.ts >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish the performance results
+        if: always()
+        # A refused upload says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: performance-results
+          path: performance/results
+          retention-days: 14

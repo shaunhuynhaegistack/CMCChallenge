@@ -1,0 +1,62 @@
+name: AI review gate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  models: read
+
+jobs:
+  review:
+    name: Review the diff
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Reports, lock files and screenshots add noise without adding signal.
+      - name: Build the reviewable diff
+        run: |
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          git diff --unified=2 "origin/${{ github.base_ref }}...HEAD" \
+            -- . ':(exclude)package-lock.json' ':(exclude)reports/**' > pr.diff
+          wc -c pr.diff
+
+      - name: Ask the model
+        id: review
+        env:
+          # First configured provider wins: Greptile, then GitHub Models as the
+          # no-secret fallback.
+          GREPTILE_API_KEY: ${{ secrets.GREPTILE_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AI_REVIEW_STRICT: 'false'
+        run: npx ts-node .github/scripts/ai-review.ts
+
+      - name: Comment on the pull request
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          [ -f ai-review.md ] || exit 0
+          cat ai-review.md >> "$GITHUB_STEP_SUMMARY"
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file ai-review.md
