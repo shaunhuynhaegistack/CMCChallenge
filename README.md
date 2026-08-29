@@ -279,7 +279,7 @@ found real defects in this framework — see
 
 | Requirement | How |
 | --- | --- |
-| Retry logic | Environment driven: 0 locally, 2 on CI, narrowable with `RETRY_TAG_FILTER`. The API client separately retries only `429/500/502/503/504` |
+| Retry logic | Environment driven: 0 locally, 2 on CI — so a scenario is run **three times** before CI calls it failed. Narrowable with `RETRY_TAG_FILTER`. The API client separately retries only `429/500/502/503/504` |
 | Smart waiting | Playwright auto-waiting → response waits (`clickAndWaitForApi`) → state polling. There is **no `waitForTimeout` anywhere**, enforced by `npm run check:guardrails` |
 | Screenshot capture on failure | Full-page screenshot on every failed attempt, on disk and attached inside the HTML report |
 | Flaky detection | `npm run flaky:check` reads the Cucumber **message stream** — the JSON report keeps only the final attempt, so it cannot see a retry at all |
@@ -471,7 +471,7 @@ Resolved in `lib/config/environment.ts`, lowest priority first:
 | `HEADLESS` | `true` | `false` to watch the run |
 | `SLOW_MO` | `100` (`0` on `ci`) | Milliseconds Playwright pauses before each action — see below |
 | `WORKERS` | `3` (`4` on `ci`) | Cucumber parallel workers |
-| `RETRY` | `1` (`2` on `ci`) | Scenario retries. Every retry is still reported by `npm run flaky:check` |
+| `RETRY` | `1` (`2` on `ci`) | Scenario retries, so `2` means three attempts. Every retry is still reported by `npm run flaky:check` |
 | `RETRY_TAG_FILTER` | empty | Limit retries to a tag expression, e.g. `@flaky` |
 | `TRACE` | `retained-on-failure` | `on` keeps every trace, `off` disables |
 | `VIDEO` | `retain-on-failure` | `on` keeps every video, `off` disables |
@@ -689,12 +689,67 @@ CodeRabbit works the same way and is also free for public repositories.
 
 ## Stability
 
-* Retries are environment driven: none locally, two on CI.
+### A failing scenario is run again before it is believed
+
+| Environment | `--retry` | Attempts before a scenario is called failed |
+| --- | ---: | ---: |
+| `local` | 0 | **1** |
+| `demo` | 1 | **2** |
+| `ci` | 2 | **3** |
+| the `showcase` profile | 0 | **1** — it is supposed to fail |
+
+Retries are on where the target is least predictable and off where it is not, so
+a real failure is never hidden while developing. They apply to every scenario;
+`RETRY_TAG_FILTER` narrows them to a tag expression if you would rather only
+retry the ones already known to be unreliable.
+
+### A retry is reported, not swallowed
+
+Retrying quietly is how a suite stops being trusted, so nothing is quiet here.
+`npm run flaky:check` reads the Cucumber **message stream** — the only source
+that keeps every attempt; the JSON report keeps the final one and would show a
+clean pass — and prints what needed a second chance:
+
+```
+1 scenario(s) needed a retry, 1 of them recovered:
+
+- [firefox] Contact details saved in the UI are returned by the API
+    attempts      : 2 (final: passed)
+    first failure : page.waitForResponse: Timeout 30000ms exceeded
+    seen flaky    : 1 run(s) so far
+```
+
+CI runs that step with `if: always()`, so it reports on a red job too, and writes
+it to the run summary page rather than burying it in the log. `seen flaky` comes
+from `reports/flaky-history.json`, which is what separates one bad night from a
+test that is genuinely unreliable.
+
+### What retries cannot do, and what covers that instead
+
+A retry rescues a scenario that hit a moment of noise. It does nothing when the
+target itself is unavailable, because the second and third attempts fail for the
+same reason — the run simply takes three times as long to arrive at the same
+place. That is not hypothetical: a CI run of this suite failed on all three
+engines with
+
+```
+waiting for getByRole('button', { name: 'Login' }) to be visible
+Timeout 30000ms exceeded
+```
+
+which is the shared demo instance not serving its login form. The same commit
+passed 34/34 locally and passed on CI on the next run.
+
+`npm run check:target` exists for exactly that case: it asks whether the login
+page answers, whether the credentials are accepted and whether the API responds
+*before* the suite starts, so an outage reads as an outage instead of as thirty
+assertion failures that all say the wrong thing.
+
+### The rest
+
 * Waits are auto-waiting first, response waits second, state polling last. No
   `waitForTimeout` anywhere — the guardrail check enforces it.
 * Every failed attempt writes a screenshot, a video and a Playwright trace.
-* `npm run flaky:check` reads the message stream — the only source that keeps
-  retried attempts — and reports which scenarios recovered on a retry.
 
 Detection and mitigation in [docs/test-stability.md](docs/test-stability.md).
 
