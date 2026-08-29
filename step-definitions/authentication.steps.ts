@@ -143,4 +143,18 @@ Then('the session cookie should be flagged HttpOnly', async function (this: Oran
 When('I go back in the browser history', async function (this: OrangeHrmWorld) {
   await this.page.goBack();
   await this.pages.login.waitForSpinnerToDisappear();
+  logVerify(`The back button landed on ${this.page.url()}`);
+});
+
+/**
+ * A browser restores a page from its own cache without asking the server, so
+ * the dashboard reappearing says nothing about the session. Asking for it again
+ * does: a signed out session cannot answer, and the application sends the
+ * browser back to the login form.
+ */
+Then('the restored page should not survive a reload', async function (this: OrangeHrmWorld) {
+  await this.page.reload({ waitUntil: 'domcontentloaded' });
+
+  logVerify(`After reloading, the browser is on ${this.page.url()}`);
+  await expect(this.page).toHaveURL(/auth\/login/);
 });

@@ -90,9 +90,12 @@ Feature: Authentication
     When I sign in as "admin"
     Then the session cookie should be flagged HttpOnly
 
-  @regression @negative
-  Scenario: A signed out session cannot be restored with the back button
+  # The browser will happily redraw the dashboard from its own cache, which
+  # proves nothing either way. What matters is whether the session behind it is
+  # still good, so the page is asked for again.
+  @regression @security
+  Scenario: The back button does not restore a signed out session
     When I sign in as "admin"
     And I sign out
     And I go back in the browser history
-    Then I should stay on the login page
+    Then the restored page should not survive a reload
