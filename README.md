@@ -9,7 +9,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 | Repository visibility | Public — the brief allows it (*"GitHub link (public or shared access)"*), and see [why](#why-this-repository-is-public) |
 | Latest test report | Published to GitHub Pages while the repository is public; otherwise the `html-report` artifact on any [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) |
 | Committed snapshot of a run | [`docs/sample-run/`](docs/sample-run) — 102 scenarios (34 × 3 engines), all passing |
-| Scenarios | **34** across 8 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit |
+| Scenarios | **46** across 10 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone |
 | Framework unit tests | 15 |
 | Language | TypeScript — [no JavaScript file in the repository](#typescript) |
 
@@ -42,7 +42,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 ```bash
 npm ci
 npm run install:browsers
-npm test                 # 34 scenarios on Chromium
+npm test                 # 46 scenarios on Chromium
 npm run report           # build the HTML report
 open reports/chromium/html-report/index.html
 ```
@@ -126,7 +126,7 @@ brief is satisfied regardless of visibility.
 | Look at | Why |
 | --- | --- |
 | The `html-report` artifact on the latest [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) | The latest run, all three engines, plus k6 and the failure showcase — without cloning. Also served on GitHub Pages while the repository is public |
-| [Test coverage](#test-coverage) | All 34 scenarios, and which go beyond the brief |
+| [Test coverage](#test-coverage) | All 46 scenarios, and which go beyond the brief |
 | [`features/employee-lifecycle.feature`](features/employee-lifecycle.feature) | The headline scenario: create in the UI → verify by API → update → verify → delete → verify |
 | [`lib/BasePage.ts`](lib/BasePage.ts) | The locator strategy — why a UI change is one file, not fifteen |
 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | The pipeline and the two halves of the merge gate |
@@ -138,7 +138,8 @@ brief is satisfied regardless of visibility.
 
 ## Test coverage
 
-**34 scenarios.** The brief named six things for Part 1; those are marked
+**46 scenarios**, plus 6 that change instance-wide settings and therefore run
+in their own profile. The brief named six things for Part 1; those are marked
 **Brief**. Everything marked **Extra** is coverage added on top — the brief did
 not ask for it.
 
@@ -219,7 +220,7 @@ system no longer has, or never sees something it does.
 
 ### `features/failure-showcase.feature` — `@showcase @demo-failure`
 
-**Not part of the assignment, and not counted in the 34.** One scenario that
+**Not part of the assignment, and not counted in the 46.** One scenario that
 fails on purpose, so a reviewer can see what a failure looks like — the report
 entry, the screenshot, the video and the trace — without waiting for a real one.
 
@@ -488,7 +489,7 @@ assertions behave exactly as they did.
 | --- | --- | --- |
 | `demo` (the local default) | `100` | Fast enough not to be tedious, slow enough to follow what the test is doing when you run it headed |
 | `local` | `150` | Aimed at debugging against a local instance |
-| `ci` | `0` | Nobody is watching. On CI it is pure wall-clock cost — across three engines and 34 scenarios, 100 ms per action is minutes of nothing |
+| `ci` | `0` | Nobody is watching. On CI it is pure wall-clock cost — across three engines and 46 scenarios, 100 ms per action is minutes of nothing |
 
 ```bash
 npm run test:headed          # HEADLESS=false SLOW_MO=250, one worker - watch it work
@@ -508,7 +509,7 @@ nothing more.
 ## Running tests
 
 ```bash
-npm test                      # 34 scenarios on Chromium
+npm test                      # 46 scenarios on Chromium
 npm run test:all              # all three engines, one after another
 npm run test:firefox
 npm run test:webkit
@@ -809,6 +810,9 @@ scenario or handled in exactly one place.
 | **Employee id silently truncated in the UI.** The column holds 10 characters. The API rejects a longer value with `422`; the UI accepts it, cuts it short and reports success — so the record is saved under an id nobody asked for and the follow-up search finds nothing. | A UI creation "succeeded", the list search returned zero rows | The limit is enforced once in `test-data/employee-factory.ts`, asserted by a unit test |
 | **The personal details form discards input typed before its own XHR lands.** It renders empty inputs and populates them when the record arrives, overwriting anything already typed — and the save then reports success while storing nothing. This is data loss, not a test timing problem. | Two fields saved as empty strings while the toast said "Successfully Updated" | `PersonalDetailsPage.waitUntilLoaded`; the contact details screen has the same shape and the same fix |
 | **Offset pagination is not stable over a sort key with ties.** Two records that compare equal can come back in a different order on each request, so page two repeats a row page one already returned and drops another entirely — records silently disappear from any UI that pages. | Three employees sharing a last name: sorted by that name, page two returned `[825]` when page one had already returned `[825, 824]`. Sorted by employee id, no overlap | `ApiClient.listEmployees` sorts by employee id, which is unique. The suite found this by flaking, and the flaky detector named the scenario |
+| **The display language is instance-wide, mutable by anyone, and changes under a running suite.** Every control in this product is addressed by the label a user reads — it ships no test id anywhere — so the moment somebody switches the instance to Spanish, every scenario fails on a button that is perfectly visible and simply says `Ingresar`. | Three CI runs failed on all three engines with `waiting for getByRole('button', { name: 'Login' })`; the failure screenshot shows the login form rendered in Spanish. On a later run the breadcrumb came back as `Pizarra de pendientes` **mid-run**, having been English when the run started | Two layers, because one is not enough on a shared target: `tools/run-suite.ts` normalises language and date format before the suite starts, and `signIn` re-checks after every sign-in and repairs the drift. Both log what they found |
+| **The password reset request is throttled.** After a handful of submissions the form stops answering: it neither navigates to the confirmation nor reports an error, it simply stays where it is. | Submitting a reset navigated to `/auth/sendPasswordReset` on the first attempts and stopped doing so afterwards, with no message | `features/password-reset.feature` asserts the screen, its validation and its navigation, and deliberately stops short of submitting. The property a submission would have proved — that the response does not reveal whether an account exists — is asserted on the login form instead |
+| **The login form does not trim the user name.** A value pasted from a document with its surrounding whitespace is refused as invalid credentials, with no hint that the spaces are the reason. | `"  Admin  "` with the correct password is rejected; `Admin` is accepted | Pinned by a scenario asserting the current behaviour, so a change in either direction is noticed rather than discovered |
 | **A deleted employee returns `422 Invalid Parameter`, not `404`.** | `GET /pim/employees/{n}` after deletion | The deletion assertion accepts either |
 | **Filtered lists keep the previous rows on screen** while the new request is in flight, so an assertion made straight after Search reads stale data. | The first flaky failure this suite produced — roughly one run in three | `BasePage.clickAndWaitForApi` waits for the response the click triggered |
 | **Dates render in an instance-wide format anyone can change.** The API stores ISO; the UI renders whatever *Admin → Configuration → Localization* says. On a shared instance that is other people's mutable state. | Stored `1992-04-18`; the screen showed `1992-18-04` one evening and `1992-04-18` the next morning | The assertion reads the format from `/api/v2/admin/localization` and renders the expected value with it (`lib/utils/date-format.ts`) |
@@ -883,7 +887,7 @@ a worse result. Each lists the decision taken.
    green tells a reviewer nothing about the failure path, so
    `features/failure-showcase.feature` fails on purpose and publishes the report,
    screenshot, video and trace. It is excluded from every normal run and from the
-   34 counted scenarios.
+   46 counted scenarios.
 
 7. **Three days, six parts.** The scope is wide rather than deep by design. Depth
    a real project would add next: leave and recruitment modules, visual
