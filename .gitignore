@@ -24,6 +24,9 @@ performance/results/
 # Editors / OS / tooling
 .idea/
 .vscode/
-.claude/
 .DS_Store
 Thumbs.db
+
+# Per-developer tool directories, whatever the tool
+.*-local/
+.tooling/
