@@ -1,0 +1,11 @@
+{
+  "login": {
+    "invalidCredentials": "Invalid credentials",
+    "requiredField": "Required"
+  },
+  "toast": {
+    "saved": "Successfully Saved",
+    "updated": "Successfully Updated",
+    "deleted": "Successfully Deleted"
+  }
+}
