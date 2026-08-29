@@ -2,7 +2,9 @@ import { expect } from '@playwright/test';
 import { resolveUser, load } from '../lib/utils/data-helper';
 import { buildEmployee, buildUsername } from '../test-data/employee-factory';
 import environment from '../lib/config/environment';
-import { logInfo } from '../lib/logger';
+import endpoints from '../lib/api/endpoints';
+import { EXPECTED_LANGUAGE, EXPECTED_DATE_FORMAT } from '../lib/api/instance';
+import { logInfo, logWarn } from '../lib/logger';
 import type { OrangeHrmWorld, IsolatedSession } from './world';
 import type { Employee, UserCredentials } from '../lib/BasePage';
 
@@ -55,8 +57,35 @@ export const signIn = async (
   await session.pages.login.open(world.baseUrl);
   await session.pages.login.login(user.username, user.password);
   await session.pages.dashboard.waitUntilLoaded();
+  await ensureLocalization(world);
 
   return user;
+};
+
+/**
+ * Repairs the instance localization if it has drifted since the run started.
+ *
+ * The runner normalises it once before the suite begins, which is enough on a
+ * target nobody else touches. This one is public: the display language was
+ * observed changing *while* a run was in progress, and every assertion on a
+ * label the user reads fails the moment it does - the module breadcrumb comes
+ * back as "Pizarra de pendientes" and the scenario reports a defect that is not
+ * there.
+ *
+ * Checked here because this is the first point in a scenario where a session
+ * exists, and it costs one GET. The PUT only happens when something is wrong.
+ */
+const ensureLocalization = async (world: OrangeHrmWorld): Promise<void> => {
+  const { dateFormat, language } = await world.api.getLocalization();
+  if (language === EXPECTED_LANGUAGE && dateFormat === EXPECTED_DATE_FORMAT) return;
+
+  logWarn(
+    `The instance drifted to language "${language}", date format "${dateFormat}" mid-run. ` +
+      'Putting it back.'
+  );
+  await world.api.send('PUT', endpoints.admin.localization, {
+    data: { language: EXPECTED_LANGUAGE, dateFormat: EXPECTED_DATE_FORMAT }
+  });
 };
 
 /**

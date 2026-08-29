@@ -21,6 +21,7 @@
  *   npx ts-node tools/check-target.ts [--soft]
  */
 import environment from '../lib/config/environment';
+import { readLocalization } from '../lib/api/instance';
 
 /** What one check hands to the next: the session cookie and the CSRF token. */
 interface CheckState {
@@ -127,6 +128,22 @@ const checks: Check[] = [
 
       const body = (await response.json()) as { meta: { total: number } };
       return { detail: `${body.meta.total} employees on the instance`, cookie: previous.cookie };
+    }
+  },
+  {
+    /**
+     * Reported, not changed. Bringing the two localization settings to where
+     * the suite expects them is the runner's job - see the precondition in
+     * tools/run-suite.ts - because that has to happen on every run and not only
+     * on the ones that bother to ask whether the target is up. Here it is
+     * simply part of the picture of what is wrong when something is.
+     */
+    name: 'the instance localization',
+    run: async (previous: CheckState) => {
+      const { language, dateFormat } = await withTimeout('The localization API', () =>
+        readLocalization(baseUrl, (previous.cookie || '').split(';')[0])
+      );
+      return { detail: `language ${language}, date format ${dateFormat}`, cookie: previous.cookie };
     }
   }
 ];
