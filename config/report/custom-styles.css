@@ -1,0 +1,223 @@
+/*
+ * Report styling for multiple-cucumber-html-reporter.
+ *
+ * The reporter renders tags and the browser column as Font Awesome icons, which
+ * are unreadable in a report someone else has to look at: these rules turn the
+ * tag icons into readable badges and give each engine a recognisable glyph.
+ * The chart block below locks the doughnut size - without it Chart.js grows the
+ * canvas on every re-render and the summary panel drifts.
+ */
+/* Header: Show "Tags" text exactly like "Feature name" */
+table.table thead tr th i.fa-tags {
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif !important;
+    font-style: normal !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    color: inherit !important;
+    line-height: inherit !important;
+}
+
+table.table thead tr th i.fa-tags:before {
+    content: 'Tags' !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    font-style: normal !important;
+    font-size: inherit !important;
+}
+
+/* Table body: Hide tag icons */
+table.table tbody tr td i.fa-tag:before,
+table.table tbody tr td i.fa-tags:before {
+    content: '' !important;
+    display: none !important;
+}
+
+/* Hide the icon itself in table body only */
+table.table tbody tr td i.fa-tag,
+table.table tbody tr td i.fa-tags {
+    font-family: inherit !important;
+    font-style: normal !important;
+    font-size: 0 !important;
+}
+
+/* Show tag text as light purple badge in table body only */
+table.table tbody tr td i.fa-tag span,
+table.table tbody tr td i.fa-tags span {
+    display: inline-block !important;
+    padding: 4px 12px !important;
+    background: #b19cd9 !important;
+    background-color: #b19cd9 !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    font-style: normal !important;
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif !important;
+    margin: 0 4px !important;
+    vertical-align: middle !important;
+    line-height: 1.4 !important;
+}
+
+/* Browser icons - ONLY target Browser column (7th column, NOT 6th!) */
+table.table tbody tr td:nth-child(7) i[class*="fa-"] {
+    font-size: 0 !important;
+}
+
+table.table tbody tr td:nth-child(7) i[class*="fa-"]:before {
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+    font-style: normal !important;
+    font-size: 18px !important;
+    content: '❓' !important;
+}
+
+/* Browser name span - ONLY in Browser column (7th) */
+table.table tbody tr td:nth-child(7) i[class*="fa-"] span {
+    font-size: 13px !important;
+    font-weight: normal !important;
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif !important;
+    margin-left: 8px !important;
+}
+
+/* Scenario chart summary layout */
+table.chart[data-report-layout="v2"] {
+    width: auto !important;
+    border-collapse: collapse !important;
+}
+
+table.chart[data-report-layout="v2"] > tr > th,
+table.chart[data-report-layout="v2"] > tr > td,
+table.chart[data-report-layout="v2"] > tbody > tr > th,
+table.chart[data-report-layout="v2"] > tbody > tr > td {
+    vertical-align: middle !important;
+    text-align: left !important;
+    padding: 4px 16px !important;
+}
+
+table.chart[data-report-layout="v2"] > tr > th:first-child,
+table.chart[data-report-layout="v2"] > tbody > tr > th:first-child {
+    padding-left: 4px !important;
+    padding-right: 8px !important;
+}
+
+table.chart[data-report-layout="v2"] > tr > td:first-child,
+table.chart[data-report-layout="v2"] > tbody > tr > td:first-child {
+    padding: 0 !important;
+}
+
+table.chart[data-report-layout="v2"] th {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding-top: 0 !important;
+    padding-bottom: 6px !important;
+    vertical-align: bottom !important;
+}
+
+table.chart[data-report-layout="v2"] th p {
+    margin: 0 !important;
+}
+
+table.chart[data-report-layout="v2"] td.chart {
+    position: relative !important;
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+    height: 140px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    box-sizing: content-box !important;
+}
+
+table.chart[data-report-layout="v2"] td.chart #feature-chart,
+table.chart[data-report-layout="v2"] td.chart #scenario-chart {
+    width: 140px !important;
+    height: 140px !important;
+    max-width: 140px !important;
+    max-height: 140px !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+table.chart[data-report-layout="v2"] td.chart .total {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 140px !important;
+    height: 140px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 2em !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    pointer-events: none !important;
+}
+
+table.chart[data-report-layout="v2"] .report-status-progress-header {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+table.chart[data-report-layout="v2"] .report-status-header {
+    display: inline-block !important;
+    min-width: 110px !important;
+    padding-right: 24px !important;
+}
+
+table.chart[data-report-layout="v2"] .report-progress-header {
+    display: inline-block !important;
+    min-width: 70px !important;
+}
+
+table.chart[data-report-layout="v2"] .report-pair-table {
+    border: 0 !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+table.chart[data-report-layout="v2"] .report-pair-table td {
+    border: 0 !important;
+    padding: 6px 0 !important;
+    vertical-align: middle !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    height: 28px !important;
+}
+
+table.chart[data-report-layout="v2"] .report-pair-table td.report-status-cell {
+    padding-right: 24px !important;
+    white-space: nowrap !important;
+    min-width: 110px !important;
+}
+
+table.chart[data-report-layout="v2"] .report-pair-table td.report-progress-cell {
+    padding-left: 0 !important;
+    white-space: nowrap !important;
+    min-width: 70px !important;
+}
+
+table.chart[data-report-layout="v2"] .report-pair-table p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+}
+
+table.chart[data-report-layout="v2"] .report-meta-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+}
+
+/* Keep Scenarios and Metadata panels the same height */
+.row .x_panel.fixed_height_320 {
+    height: 320px !important;
+    min-height: 320px !important;
+}
