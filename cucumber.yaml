@@ -28,7 +28,7 @@ default:
     snippetInterface: async-await
   strict: true
   failFast: false
-  tags: not @demo-failure
+  tags: not @demo-failure and not @localization
   # The JSON report only keeps the final attempt of a retried scenario. The
   # message stream keeps every attempt, which is what the flaky detector needs.
   format:
@@ -49,7 +49,7 @@ chromium:
     snippetInterface: async-await
   strict: true
   failFast: false
-  tags: not @demo-failure
+  tags: not @demo-failure and not @localization
   # The JSON report only keeps the final attempt of a retried scenario. The
   # message stream keeps every attempt, which is what the flaky detector needs.
   format:
@@ -70,7 +70,7 @@ firefox:
     snippetInterface: async-await
   strict: true
   failFast: false
-  tags: not @demo-failure
+  tags: not @demo-failure and not @localization
   # The JSON report only keeps the final attempt of a retried scenario. The
   # message stream keeps every attempt, which is what the flaky detector needs.
   format:
@@ -91,7 +91,7 @@ webkit:
     snippetInterface: async-await
   strict: true
   failFast: false
-  tags: not @demo-failure
+  tags: not @demo-failure and not @localization
   # The JSON report only keeps the final attempt of a retried scenario. The
   # message stream keeps every attempt, which is what the flaky detector needs.
   format:
@@ -121,3 +121,27 @@ showcase:
     - summary
     - json:reports/showcase/cucumber-report.json
     - message:reports/showcase/cucumber-messages.ndjson
+
+# Changes instance-wide settings - the display language and the date format -
+# so it cannot run beside anything else. Its own tag, its own folder, and
+# tools/run-suite.ts forces one worker for it.
+localization:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: '@localization'
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/localization/cucumber-report.json
+    - message:reports/localization/cucumber-messages.ndjson

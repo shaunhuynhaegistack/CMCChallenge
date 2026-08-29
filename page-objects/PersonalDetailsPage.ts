@@ -83,6 +83,12 @@ export class PersonalDetailsPage extends BasePage {
     return this.waitForToast('Successfully Updated');
   }
 
+  /** The date exactly as the screen renders it, before any parsing. */
+  async dateOfBirth(): Promise<string> {
+    await this.waitUntilLoaded();
+    return this.valueOf(this.fieldByLabel('Date of Birth'));
+  }
+
   async readDetails() {
     return {
       firstName: await this.valueOf(this.firstName),

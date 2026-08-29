@@ -30,7 +30,9 @@ const AREA_TAGS = [
   '@recruitment',
   '@leave',
   '@api',
-  '@showcase'
+  '@showcase',
+  // Changes instance-wide settings, so it is an area of its own that runs alone.
+  '@localization'
 ];
 // @demo-failure counts as its own suite: the showcase scenario is deliberately
 // outside @smoke and @regression so no normal run can pick it up.
