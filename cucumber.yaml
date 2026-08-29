@@ -1,0 +1,123 @@
+# Cucumber looks for its configuration here by name, and it only reads
+# JavaScript, JSON or YAML - never TypeScript. Everything static about a profile
+# lives here; the two values that are per environment rather than per profile -
+# how many workers and how many retries - are passed on the command line by
+# tools/run-suite.ts, which resolves the environment first. That split is what
+# lets the framework hold no JavaScript file at all without pretending those
+# numbers are constants.
+#
+# One profile per browser, each writing into its own folder, so a multi-browser
+# run never overwrites another browser's results. YAML merge keys would remove
+# the repetition below, but Cucumber's config loader does not resolve them.
+#
+# `tags` belongs to the profile rather than to the command line because a
+# profile's tags are ANDed with any --tags argument - which is what keeps the
+# deliberate failure out of every normal run no matter how it is invoked, and
+# why the showcase gets a profile of its own.
+
+default:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: not @demo-failure
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/chromium/cucumber-report.json
+    - message:reports/chromium/cucumber-messages.ndjson
+
+chromium:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: not @demo-failure
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/chromium/cucumber-report.json
+    - message:reports/chromium/cucumber-messages.ndjson
+
+firefox:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: not @demo-failure
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/firefox/cucumber-report.json
+    - message:reports/firefox/cucumber-messages.ndjson
+
+webkit:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: not @demo-failure
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/webkit/cucumber-report.json
+    - message:reports/webkit/cucumber-messages.ndjson
+
+# Runs only the deliberate failure, on Chromium, reporting into its own folder
+# so the failure report never mixes with a real run's results.
+showcase:
+  # ts-node compiles the step definitions on the way in, so Cucumber loads the
+  # TypeScript sources directly and a stack trace points at the real line.
+  requireModule:
+    - ts-node/register
+  require:
+    - support/**/*.ts
+    - hooks/**/*.ts
+    - step-definitions/**/*.ts
+  formatOptions:
+    snippetInterface: async-await
+  strict: true
+  failFast: false
+  tags: '@demo-failure'
+  # The JSON report only keeps the final attempt of a retried scenario. The
+  # message stream keeps every attempt, which is what the flaky detector needs.
+  format:
+    - summary
+    - json:reports/showcase/cucumber-report.json
+    - message:reports/showcase/cucumber-messages.ndjson

@@ -1,0 +1,17 @@
+{
+  "name": "ci",
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
+  "apiBasePath": "/web/index.php/api/v2",
+  "timeouts": {
+    "step": 90000,
+    "expect": 20000,
+    "action": 30000,
+    "navigation": 60000
+  },
+  "execution": {
+    "workers": 4,
+    "retries": 2,
+    "headless": true,
+    "slowMo": 0
+  }
+}
