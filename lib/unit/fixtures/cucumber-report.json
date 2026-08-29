@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Authentication",
+    "elements": [
+      {
+        "name": "An administrator signs in successfully",
+        "steps": [
+          { "result": { "status": "passed", "duration": 1000000000 } },
+          { "result": { "status": "passed", "duration": 500000000 } }
+        ]
+      },
+      {
+        "name": "Sign in is rejected for unknownUser",
+        "steps": [
+          { "result": { "status": "passed", "duration": 1000000000 } },
+          { "result": { "status": "failed", "duration": 2000000000, "error_message": "boom" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Employee lifecycle",
+    "elements": [
+      {
+        "name": "Skipped by a tag filter",
+        "steps": [{ "result": { "status": "skipped", "duration": 0 } }]
+      }
+    ]
+  }
+]
