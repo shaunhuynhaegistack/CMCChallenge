@@ -1,0 +1,16 @@
+{
+  "comment": "The k6 scripts run in k6's own runtime, not in Node: ES modules, k6 globals, and imports that carry the .ts extension because that is how k6 resolves them. They are type checked separately for that reason.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "typeRoots": ["../node_modules/@types"],
+    "strict": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "types": ["k6"]
+  },
+  "include": ["**/*.ts"]
+}
