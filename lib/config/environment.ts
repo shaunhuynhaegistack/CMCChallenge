@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import type { Environment } from '../types';
+import type { Environment } from '../BasePage';
 
 dotenv.config();
 

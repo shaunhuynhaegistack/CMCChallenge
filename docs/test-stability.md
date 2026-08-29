@@ -37,7 +37,7 @@ mechanisms, in order of preference:
    has actually been populated by its own XHR. The page renders empty inputs
    first and overwrites them when the response lands, so anything typed before
    that is silently discarded - a save would then appear to succeed while storing
-   nothing. `lib/waits.ts` provides `waitUntil` and `retryAsync` for the
+   nothing. `lib/BasePage.ts` provides `waitUntil` and `retryAsync` for the
    cases the first two cannot express.
 
 ## Evidence on failure

@@ -1,5 +1,5 @@
 import { load } from '../lib/utils/data-helper';
-import type { Employee } from '../lib/types';
+import type { Employee } from '../lib/BasePage';
 
 // The employee id column is limited to 10 characters. The API rejects anything
 // longer with a 422 while the UI silently truncates it, so the limit is enforced

@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import BasePage from '../../lib/BasePage';
-import selectors from '../../lib/selectors';
+import { selectors } from '../../lib/BasePage';
 
 /**
  * Left hand navigation. Which items appear here is driven by the role of the

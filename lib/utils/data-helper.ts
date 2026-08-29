@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import environment from '../config/environment';
-import type { UserCredentials } from '../types';
+import type { UserCredentials } from '../BasePage';
 
 const cache = new Map<string, unknown>();
 

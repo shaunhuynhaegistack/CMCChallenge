@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import BasePage from '../lib/BasePage';
-import selectors from '../lib/selectors';
+import { selectors } from '../lib/BasePage';
 import SideMenu from './components/SideMenu';
 import TopBar from './components/TopBar';
 
