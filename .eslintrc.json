@@ -1,0 +1,53 @@
+{
+  "root": true,
+  "ignorePatterns": ["node_modules/", "reports/", "performance/results/", "docs/sample-run/"],
+  "env": {
+    "node": true,
+    "es2022": true,
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "rules": {
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "prefer-const": "error",
+    "eqeqeq": ["error", "smart"],
+    "no-await-in-loop": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
+  "overrides": [
+    {
+      "files": ["step-definitions/**/*.ts", "hooks/**/*.ts", "support/**/*.ts"],
+      "rules": {
+        "func-names": "off"
+      }
+    },
+    {
+      "files": ["performance/**/*.ts"],
+      "env": {
+        "browser": false,
+        "node": false,
+        "es2022": true
+      },
+      "globals": {
+        "__ENV": "readonly",
+        "__VU": "readonly",
+        "__ITER": "readonly",
+        "console": "readonly"
+      }
+    }
+  ]
+}
