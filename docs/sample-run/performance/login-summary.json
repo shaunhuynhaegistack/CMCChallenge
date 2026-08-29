@@ -1,0 +1,189 @@
+{
+  "name": "login",
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
+  "generatedAt": "2026-08-29T13:49:00.749Z",
+  "totalRequests": 432,
+  "failureRate": 0,
+  "p95Duration": 919.87,
+  "thresholds": [
+    {
+      "metric": "http_req_duration{endpoint:validate}",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "checks",
+      "expression": "rate>0.95",
+      "passed": true
+    },
+    {
+      "metric": "http_req_failed",
+      "expression": "rate<0.05",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration",
+      "expression": "p(95)<5000",
+      "passed": true
+    },
+    {
+      "metric": "http_req_duration{endpoint:login_page}",
+      "expression": "p(95)<4000",
+      "passed": true
+    },
+    {
+      "metric": "login_success_rate",
+      "expression": "rate>0.95",
+      "passed": true
+    }
+  ],
+  "metrics": [
+    {
+      "name": "http_req_tls_handshaking",
+      "type": "trend",
+      "avg": 0.98,
+      "med": 0,
+      "p95": 0,
+      "p99": 57.32,
+      "max": 86.04
+    },
+    {
+      "name": "http_req_duration",
+      "type": "trend",
+      "avg": 445.71,
+      "med": 469.64,
+      "p95": 919.87,
+      "p99": 1717.43,
+      "max": 2184.07
+    },
+    {
+      "name": "data_sent",
+      "type": "counter",
+      "rate": 740.34,
+      "count": 78043
+    },
+    {
+      "name": "http_reqs",
+      "type": "counter",
+      "rate": 4.1,
+      "count": 432
+    },
+    {
+      "name": "iterations",
+      "type": "counter",
+      "rate": 2.05,
+      "count": 216
+    },
+    {
+      "name": "http_req_connecting",
+      "type": "trend",
+      "avg": 0.96,
+      "med": 0,
+      "p95": 0,
+      "p99": 56.26,
+      "max": 83.97
+    },
+    {
+      "name": "http_req_waiting",
+      "type": "trend",
+      "avg": 445.5,
+      "med": 469.43,
+      "p95": 919.66,
+      "p99": 1717.22,
+      "max": 2183.88
+    },
+    {
+      "name": "http_req_blocked",
+      "type": "trend",
+      "avg": 2.23,
+      "med": 0,
+      "p95": 0,
+      "p99": 114.71,
+      "max": 294.32
+    },
+    {
+      "name": "http_req_duration{endpoint:login_page}",
+      "type": "trend",
+      "avg": 310.05,
+      "med": 236.36,
+      "p95": 673.23,
+      "p99": 1493.22,
+      "max": 1712.67
+    },
+    {
+      "name": "data_received",
+      "type": "counter",
+      "rate": 11640.99,
+      "count": 1227128
+    },
+    {
+      "name": "http_req_receiving",
+      "type": "trend",
+      "avg": 0.11,
+      "med": 0.11,
+      "p95": 0.16,
+      "p99": 0.21,
+      "max": 1.47
+    },
+    {
+      "name": "login_duration",
+      "type": "trend",
+      "avg": 896.36,
+      "med": 725.5,
+      "p95": 2108.5,
+      "p99": 3187.85,
+      "max": 3396
+    },
+    {
+      "name": "iteration_duration",
+      "type": "trend",
+      "avg": 1896.98,
+      "med": 1726.28,
+      "p95": 3109.09,
+      "p99": 4188.75,
+      "max": 4396.06
+    },
+    {
+      "name": "http_req_duration{expected_response:true}",
+      "type": "trend",
+      "avg": 445.71,
+      "med": 469.64,
+      "p95": 919.87,
+      "p99": 1717.43,
+      "max": 2184.07
+    },
+    {
+      "name": "http_req_sending",
+      "type": "trend",
+      "avg": 0.1,
+      "med": 0.1,
+      "p95": 0.14,
+      "p99": 0.2,
+      "max": 0.26
+    },
+    {
+      "name": "login_success_rate",
+      "type": "rate",
+      "rate": 1
+    },
+    {
+      "name": "http_req_duration{endpoint:validate}",
+      "type": "trend",
+      "avg": 581.38,
+      "med": 479.88,
+      "p95": 1254.65,
+      "p99": 2050.81,
+      "max": 2184.07
+    },
+    {
+      "name": "checks",
+      "type": "rate",
+      "rate": 1
+    },
+    {
+      "name": "http_req_failed",
+      "type": "rate",
+      "rate": 0
+    }
+  ]
+}
