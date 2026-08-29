@@ -340,12 +340,16 @@ found real defects in this framework — see
 
 | Requirement | Where |
 | --- | --- |
-| Authentication | `features/authentication.feature` (9 scenarios) |
+| Authentication | `features/authentication.feature` (17 scenarios), extended with `features/password-reset.feature` — the two screens an unauthenticated user can reach |
 | Employee creation | `features/employee-lifecycle.feature` |
-| Role based validation | `features/role-based-access.feature` — Admin vs a provisioned ESS account |
+| Role based validation | `features/role-based-access.feature` — Admin vs a provisioned ESS account — and `features/admin-user-management.feature` for the screen those accounts are administered from |
 | Employee update | `features/employee-lifecycle.feature` — personal details and contact details |
 | API level verification | `lib/api/ApiClient.ts`, asserted after every mutation |
 | Employee deletion | `features/employee-lifecycle.feature` — single and bulk |
+
+The brief asks for six things. The scenarios above cover them; everything marked
+**Extra** in the [coverage table](#test-coverage) is on top of that, and the
+reason each one is there is given beside it rather than left to be guessed.
 
 ### Part 2 — Framework design and engineering
 
