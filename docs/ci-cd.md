@@ -59,7 +59,7 @@ encodes the rules a reviewer would otherwise apply by hand:
 This half needs no API key and no third party service, so the gate is meaningful
 on its own.
 
-**AI**, in `.github/workflows/ai-review.yml` - the layer on top, for what a fixed
+**Model-assisted**, in `.github/workflows/ai-review.yml` - the layer on top, for what a fixed
 list of rules cannot see. The diff is reviewed by a model against a rubric aimed
 at test automation:
 
@@ -80,7 +80,7 @@ The script tries providers in order and the first configured one wins:
 | Order | Provider | Configuration | Notes |
 | --- | --- | --- | --- |
 | 1 | **Greptile** | Repository secret `GREPTILE_API_KEY` | Reviews against an index of the **whole repository**, not just the diff, so it can see a consequence in a file the diff never touched |
-| 2 | **GitHub Models** | None - uses the workflow's own `GITHUB_TOKEN` | Free on public repositories, but GitHub has begun retiring it, so it is the last resort |
+| 2 | **GitHub Models** | None beyond the workflow's own `GITHUB_TOKEN`; `GITHUB_MODEL` names the model to ask | Free on public repositories, but GitHub has begun retiring it, so it is the last resort |
 
 **To turn the gate on: add one repository secret.**
 *Settings → Secrets and variables → Actions → New repository secret*. Nothing
@@ -151,7 +151,7 @@ Add rule for `main`:
   * `Static analysis`
   * `E2E (chromium)`, `E2E (firefox)`, `E2E (webkit)`
   * `Aggregate report`
-  * `Review the diff` (the AI gate)
+  * `Review the diff` (the PR review gate)
   * `Greptile Review`
 * Require branches to be up to date before merging
 

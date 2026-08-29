@@ -316,8 +316,8 @@ engineering extras:
 | Addition | Why it is here |
 | --- | --- |
 | **The whole framework is TypeScript** | Every source file, including the tooling and the k6 scripts — see [below](#typescript). The compiler is the first CI gate |
-| **Merge gate in two halves** | `tools/check-guardrails.ts` encodes the rules a reviewer applies by hand — no fixed waits, no assertions in page objects, no hard coded URLs or credentials, no focused or skipped scenarios — and needs no API key. The AI review is the layer on top |
-| **AI review on every pull request** | The diff is reviewed against a test-automation rubric; a blocking finding fails the check. One secret to enable |
+| **Merge gate in two halves** | `tools/check-guardrails.ts` encodes the rules a reviewer applies by hand — no fixed waits, no assertions in page objects, no hard coded URLs or credentials, no focused or skipped scenarios — and needs no API key. The automated review is the layer on top |
+| **PR review gate on every pull request** | The diff is reviewed against a test-automation rubric; a blocking finding fails the check. One secret to enable |
 | **Slack and Teams notifications** | Bot token *or* webhook. A broken notification never changes a build result |
 | **GitHub Pages report site** | The latest report from `main`, all engines, k6 and the failure showcase, at a stable URL — published automatically whenever the repository is public |
 | **Failure showcase** | A deliberate failure, published so the failure path is visible without waiting for a real one |
@@ -385,7 +385,7 @@ Notes on how it is set up:
 ```
 .github/
   workflows/ci.yml             static analysis → tests (3 engines) → report → Pages → notify
-  workflows/ai-review.yml      AI review gate on pull requests
+  workflows/ai-review.yml      PR review gate on pull requests
   scripts/ai-review.ts         the gate itself
   branch-protection.json       the required-checks rule, ready to apply
 
@@ -648,14 +648,14 @@ JSON array of browsers, and a Cucumber tag expression.
 
 * **Deterministic** — `npm run check:guardrails`, in `Static analysis`. No key, no
   third party, always runs.
-* **AI** — `.github/workflows/ai-review.yml` reviews the diff against a
+* **Model-assisted** — `.github/workflows/ai-review.yml` reviews the diff against a
   test-automation rubric and **fails the check on a blocking finding**. Two
   providers, the first configured one wins:
 
   | Provider | Secret | Notes |
   | --- | --- | --- |
   | Greptile | `GREPTILE_API_KEY` | Reviews against an index of the **whole repository**, so it can flag a consequence in a file the diff never touched |
-  | GitHub Models | none | Free on public repositories, but being retired by GitHub, so it is the last resort |
+  | GitHub Models | none, but `GITHUB_MODEL` must name a model | Free on public repositories and uses the workflow's own token, but being retired by GitHub, so it is the last resort |
 
   With none configured the check reports "not evaluated" and passes, rather than
   blocking the repository on somebody else's outage.
@@ -828,7 +828,7 @@ a worse result. Each lists the decision taken.
    green tells a reviewer nothing about the failure path, so
    `features/failure-showcase.feature` fails on purpose and publishes the report,
    screenshot, video and trace. It is excluded from every normal run and from the
-   29 counted scenarios.
+   34 counted scenarios.
 
 7. **Three days, six parts.** The scope is wide rather than deep by design. Depth
    a real project would add next: leave and recruitment modules, visual
