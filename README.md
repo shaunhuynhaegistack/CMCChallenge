@@ -130,7 +130,7 @@ brief is satisfied regardless of visibility.
 | [`features/employee-lifecycle.feature`](features/employee-lifecycle.feature) | The headline scenario: create in the UI → verify by API → update → verify → delete → verify |
 | [`lib/BasePage.ts`](lib/BasePage.ts) | The locator strategy — why a UI change is one file, not fifteen |
 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | The pipeline and the two halves of the merge gate |
-| [Known defects this suite found](#known-defects-this-suite-found) | Real defects in OrangeHRM, and five in this framework its own tests caught |
+| [Known defects this suite found](#known-defects-this-suite-found) | Real defects in OrangeHRM, and six in this framework its own tests caught |
 | [Notes on the assignment](#notes-on-the-assignment) | Where the brief is ambiguous, and what was decided instead |
 | [The pull requests](https://github.com/shaunhuynhaegistack/CMCChallenge/pulls?q=is%3Apr) | One per part of the assignment, each gated on CI |
 
@@ -943,7 +943,7 @@ else had changed the setting. **An assertion on shared configuration is not a
 test, it is a coin flip.** The fix was to read the configuration and assert
 against it.
 
-### And five in this framework, found by its own tests
+### And six in this framework, found by its own tests
 
 | Defect | How it was found |
 | --- | --- |
@@ -952,8 +952,9 @@ against it.
 | **A filtered search could read the rows from before the filter.** `clickAndWaitForApi` resolved on the first response matching the list route, which can be the request the screen was already making when the click landed. The assertion then counts the unfiltered rows. | Searching the user list for a name that does not exist reported **10 rows** while the same query returned `total=0` from the API. The wait is now narrowed to the query the click actually causes |
 | **A back-button assertion proved nothing.** After signing out, pressing back redraws the dashboard from the browser's own cache without asking the server, so asserting the URL says nothing about whether the session survived. | The scenario failed on a URL that was correct and meaningless. It now reloads the page: a signed out session cannot answer, and the application sends the browser back to the login form |
 | **The row delete action was addressed by position.** `.last()` on a row's icon buttons is the delete on the employee list and the **edit** on the admin user list, which orders them the other way round — so the scenario opened a form and waited for a confirmation dialog that was never coming. | The admin deletion scenario timed out on the dialog. Both are now addressed by the icon they carry |
+| **A reload was the wrong way to ask the question, on one engine.** The back-button scenario reloaded the restored page to make the server answer for it. Firefox aborts a reload with `NS_BINDING_ABORTED` when the answer is a redirect, because the document that issued the request is replaced before it finishes — so the scenario failed on the redirect it was waiting for. | Only Firefox, and only sometimes: 66 of 67 on that engine while Chromium and WebKit were clean. It navigates to the same address instead, which asks the same thing and survives the redirect |
 
-All five would otherwise have surfaced months later as an unexplained flaky
+All six would otherwise have surfaced months later as an unexplained flaky
 failure, or worse, as a green assertion that was never testing anything.
 
 ---

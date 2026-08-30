@@ -152,10 +152,18 @@ When('I go back in the browser history', async function (this: OrangeHrmWorld) {
  * the dashboard reappearing says nothing about the session. Asking for it again
  * does: a signed out session cannot answer, and the application sends the
  * browser back to the login form.
+ *
+ * Asked with a fresh navigation to the same address rather than with `reload`.
+ * Firefox aborts a reload with `NS_BINDING_ABORTED` when the server answers it
+ * with a redirect - the document that issued the request is replaced before the
+ * request finishes - which failed this scenario on Firefox alone while proving
+ * nothing about the session. The question is the same either way, and the
+ * answer is the address the browser ends up on.
  */
 Then('the restored page should not survive a reload', async function (this: OrangeHrmWorld) {
-  await this.page.reload({ waitUntil: 'domcontentloaded' });
+  const restored = this.page.url();
+  await this.page.goto(restored, { waitUntil: 'domcontentloaded' });
 
-  logVerify(`After reloading, the browser is on ${this.page.url()}`);
+  logVerify(`After asking for ${restored} again, the browser is on ${this.page.url()}`);
   await expect(this.page).toHaveURL(/auth\/login/);
 });
