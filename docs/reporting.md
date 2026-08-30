@@ -63,7 +63,7 @@ would be run.
 | `@auth`, `@pim`, `@rbac`, `@admin`, `@myinfo`, `@dashboard`, `@recruitment`, `@leave`, `@navigation` | The functional area, one per feature file. Enforced by `npm run check:tags`. |
 | `@security` | Asserts a property an attacker would probe: what a rejection reveals, whether a cookie is readable from script, whether a destructive screen is gated. |
 | `@positive` / `@negative` | Happy path versus error handling. |
-| `@flaky` | Quarantine. Excluded from the blocking run, still executed and reported. |
+| `@flaky` | Quarantine. No scenario carries it today; when one does, the blocking run excludes it with `--tags "not @flaky"` and it keeps running in a separate, non-blocking invocation. `npm run check:tags` reports every scenario that has it. |
 | `@localization` | Changes instance-wide settings, so it runs alone in its own profile at one worker. Unreachable from any normal profile. |
 | `@showcase` / `@demo-failure` | The deliberate failure. Unreachable from any normal profile - see below. |
 
@@ -98,7 +98,7 @@ overridden individually. See [architecture.md](architecture.md) for the full
 precedence order.
 
 ```bash
-ENV=demo npm test                       # public demo, no retries
+ENV=demo npm test                       # public demo, one retry
 ENV=ci npm test                         # longer timeouts, two retries, 4 workers
 ENV=local BASE_URL=http://localhost:8080 npm test
 BROWSER=firefox npm run test:firefox
