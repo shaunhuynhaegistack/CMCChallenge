@@ -5,6 +5,7 @@ npm-debug.log*
 # Test output. docs/sample-run/ is a committed snapshot and is not affected.
 reports/
 pr-review.md
+pr-review-summary.md
 pr.diff
 test-results/
 playwright-report/
