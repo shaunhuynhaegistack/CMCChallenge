@@ -322,6 +322,10 @@ const notEvaluated = (reason: string): string =>
 
   finish(
     notEvaluated(`Every configured provider failed.\n\n- ${failures.join('\n- ')}`),
-    STRICT ? 1 : 0
+    STRICT ? 1 : 0,
+    // Same reasoning as a missing provider above: a provider outage is not
+    // something the author of the pull request can act on, so it belongs in the
+    // run summary rather than as a comment on every push.
+    { comment: STRICT }
   );
 })();
