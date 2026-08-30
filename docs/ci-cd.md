@@ -59,7 +59,7 @@ encodes the rules a reviewer would otherwise apply by hand:
 This half needs no API key and no third party service, so the gate is meaningful
 on its own.
 
-**Model-assisted**, in `.github/workflows/ai-review.yml` - the layer on top, for what a fixed
+**Model-assisted**, in `.github/workflows/pr-review.yml` - the layer on top, for what a fixed
 list of rules cannot see. The diff is reviewed by a model against a rubric aimed
 at test automation:
 
@@ -88,7 +88,7 @@ else changes.
 
 With no provider configured, or when every configured provider fails, the check
 reports "not evaluated" and passes, so an outage elsewhere cannot block the
-repository. Set `AI_REVIEW_STRICT: 'true'` in the workflow to make those cases
+repository. Set `REVIEW_STRICT: 'true'` in the workflow to make those cases
 fail instead - worth doing once a provider is configured and proven.
 
 ### Greptile - and how to get it for free

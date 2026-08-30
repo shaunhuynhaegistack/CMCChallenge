@@ -31,7 +31,7 @@ const MAX_DIFF_CHARS = Number(process.env.MAX_DIFF_CHARS || 120000);
 // When no provider is configured, or the one that is fails, the gate cannot form
 // an opinion. Strict mode fails the job in that case; the default is to warn and
 // pass so an outage in somebody else's service does not block every pull request.
-const STRICT = process.env.AI_REVIEW_STRICT === 'true';
+const STRICT = process.env.REVIEW_STRICT === 'true';
 
 const SYSTEM_PROMPT = `You are a senior test automation engineer reviewing a pull request in a
 Playwright + Cucumber end-to-end testing repository.
@@ -248,8 +248,17 @@ const renderMarkdown = (
   return { markdown: lines.join('\n'), blockingCount: blocking.length };
 };
 
-const finish = (markdown: string, exitCode: number): never => {
-  fs.writeFileSync(OUTPUT_FILE, markdown);
+/**
+ * `comment` decides whether the result is worth putting on the pull request.
+ *
+ * A review - approving or blocking - always is. "Nothing was configured" is a
+ * message for whoever maintains the pipeline, not for whoever opened the pull
+ * request: they cannot act on it, and a comment nobody can act on is how people
+ * learn to skim past comments. That one goes to the run summary and the log,
+ * where a maintainer will see it and a contributor will not be interrupted by it.
+ */
+const finish = (markdown: string, exitCode: number, { comment = true } = {}): never => {
+  if (comment) fs.writeFileSync(OUTPUT_FILE, markdown);
   console.log(markdown);
   process.exit(exitCode);
 };
@@ -282,7 +291,10 @@ const notEvaluated = (reason: string): string =>
       notEvaluated(
         'No review provider is configured. Add `GREPTILE_API_KEY` as a repository secret to enable the gate.'
       ),
-      STRICT ? 1 : 0
+      STRICT ? 1 : 0,
+      // Not on the pull request: the person who opened it cannot fix a missing
+      // repository secret, and in strict mode the failing check already says so.
+      { comment: STRICT }
     );
   }
 
