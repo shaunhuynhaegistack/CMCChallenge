@@ -17,6 +17,6 @@
     "transpileOnly": false,
     "files": true
   },
-  "include": ["**/*.ts", "types/**/*.d.ts", ".github/scripts/**/*.ts"],
+  "include": ["**/*.ts", ".github/scripts/**/*.ts"],
   "exclude": ["node_modules", "reports", "performance", "docs"]
 }

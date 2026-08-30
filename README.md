@@ -473,9 +473,11 @@ Notes on how it is set up:
   none locally — so `tools/run-suite.ts` resolves the environment and passes
   them on the command line. That is what lets the repository hold no JavaScript
   at all without pretending those numbers are constants.
-- **`types/`** holds declarations for the one dependency that ships none
-  (`multiple-cucumber-html-reporter`). It declares only the options this project
-  passes, so a typo in that call is still caught.
+- **The report generator carries its own type declaration.**
+  `multiple-cucumber-html-reporter` ships none, so
+  `config/report/multiple-cucumber-html-reporter.d.ts` declares the options this
+  project actually passes - a typo in that call is still a compile error, and
+  the declaration sits beside its one caller rather than in a folder of its own.
 
 ---
 
@@ -491,7 +493,8 @@ Notes on how it is set up:
 config/
   playwright.config.ts         browser settings, derived from the environment
   environments/                demo.json, ci.json, local.json
-  report/                      report generator, custom styles, job summary, Pages landing page
+  report/                      report generator, custom styles, job summary, Pages
+                               landing page, and the reporter's type declaration
 
 cucumber.yaml                  one profile per browser, plus the showcase profile
 tsconfig.json                  the framework's compiler settings
@@ -517,7 +520,6 @@ test-data/                     fixtures, and the factory that builds unique reco
 
 performance/                   k6 scenarios, load profiles, shared thresholds, reporter
                                (its own tsconfig - k6's runtime, not Node's)
-types/                         type declarations for dependencies that ship none
 tools/                         flaky detector, checkers, notifier, report open/zip
 docs/                          architecture, ci-cd, stability, reporting, performance
 docs/sample-run/               committed snapshot of a real pipeline run
