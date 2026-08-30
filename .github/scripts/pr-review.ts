@@ -25,6 +25,9 @@
 import fs from 'fs';
 
 const DIFF_FILE = process.env.DIFF_FILE || 'pr.diff';
+// Two files on purpose: the summary is always written, the comment only when
+// the result is one a contributor can act on.
+const SUMMARY_FILE = process.env.SUMMARY_FILE || 'pr-review-summary.md';
 const OUTPUT_FILE = process.env.OUTPUT_FILE || 'pr-review.md';
 const MAX_DIFF_CHARS = Number(process.env.MAX_DIFF_CHARS || 120000);
 
@@ -199,9 +202,12 @@ const parseReview = (raw: string): Review => {
       findings: Array.isArray(parsed.findings) ? parsed.findings : []
     };
   } catch {
-    // The model ignored the format. Surface the raw answer rather than pretending
-    // the review passed.
-    return { summary: 'The model did not return valid JSON.', findings: [], raw: cleaned };
+    // A model that ignored the response format has told us nothing about the
+    // diff. Returning an empty finding list here would render as "Approved" and
+    // exit 0 - a gate that waves a change through because the answer was
+    // unreadable is worse than no gate. Treated as a provider failure instead,
+    // which lands in the "not evaluated" path where it belongs.
+    throw new Error(`the response was not valid JSON: ${cleaned.slice(0, 200)}`);
   }
 };
 
@@ -249,15 +255,17 @@ const renderMarkdown = (
 };
 
 /**
- * `comment` decides whether the result is worth putting on the pull request.
+ * Every result is written to the run summary. `comment` decides only whether it
+ * is also put on the pull request.
  *
- * A review - approving or blocking - always is. "Nothing was configured" is a
- * message for whoever maintains the pipeline, not for whoever opened the pull
- * request: they cannot act on it, and a comment nobody can act on is how people
- * learn to skim past comments. That one goes to the run summary and the log,
- * where a maintainer will see it and a contributor will not be interrupted by it.
+ * A review - approving or blocking - belongs on the pull request. "Nothing was
+ * configured" does not: the person who opened it cannot add a repository
+ * secret, and a comment nobody can act on is how people learn to skim past
+ * comments. It still has to reach whoever maintains the pipeline, so it goes to
+ * the summary and the log, which is why those are written unconditionally.
  */
 const finish = (markdown: string, exitCode: number, { comment = true } = {}): never => {
+  fs.writeFileSync(SUMMARY_FILE, markdown);
   if (comment) fs.writeFileSync(OUTPUT_FILE, markdown);
   console.log(markdown);
   process.exit(exitCode);
