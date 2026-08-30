@@ -3,9 +3,15 @@ import { resolveUser, load } from '../lib/utils/data-helper';
 import { buildEmployee, buildUsername } from '../test-data/employee-factory';
 import environment from '../lib/config/environment';
 import endpoints from '../lib/api/endpoints';
-import { EXPECTED_LANGUAGE, EXPECTED_DATE_FORMAT } from '../lib/api/instance';
+import {
+  EXPECTED_LANGUAGE,
+  EXPECTED_DATE_FORMAT,
+  signIn as apiSignIn,
+  normaliseLocalization
+} from '../lib/api/instance';
 import { logInfo, logWarn } from '../lib/logger';
 import type { OrangeHrmWorld, IsolatedSession } from './world';
+import type AuthFormPage from '../page-objects/AuthFormPage';
 import type { Employee, UserCredentials } from '../lib/BasePage';
 
 interface Role {
@@ -89,6 +95,37 @@ const ensureLocalization = async (world: OrangeHrmWorld): Promise<void> => {
 };
 
 /**
+ * The same repair, for the scenarios that never sign in.
+ *
+ * The login and password reset screens assert the words the product renders -
+ * "Required", the rejection message, the button labels - and those are English
+ * only while the instance says so. `ensureLocalization` cannot help there: it
+ * asserts through the session the scenario has not created yet, and these
+ * screens are the ones reached without one.
+ *
+ * So the check is the label already on screen, which costs nothing when
+ * everything is fine. Only when it has drifted does this pay for an admin
+ * sign-in over plain fetch - the same path the runner uses before the suite -
+ * and reload the screen with the setting put back.
+ */
+export const ensureAuthScreenLanguage = async (
+  world: OrangeHrmWorld,
+  screen: AuthFormPage
+): Promise<void> => {
+  const label = await screen.submitButtonLabel();
+  if (label === screen.expectedSubmitLabel) return;
+
+  logWarn(
+    `The ${screen.constructor.name} submit button reads "${label}" rather than ` +
+      `"${screen.expectedSubmitLabel}", so the instance language has drifted. Putting it back.`
+  );
+
+  const cookie = await apiSignIn(world.baseUrl);
+  await normaliseLocalization(world.baseUrl, cookie);
+  await screen.open(world.baseUrl);
+};
+
+/**
  * Creates an employee over the API and registers it for teardown.
  * Used wherever an employee is a precondition rather than the subject - driving
  * the Add Employee form for setup would make those scenarios slower and would
@@ -156,6 +193,10 @@ export const signInAsInSeparateSession = async (
   await session.pages.login.open(world.baseUrl);
   await session.pages.login.login(username, password);
   await session.pages.dashboard.waitUntilLoaded();
+  // The same repair `signIn` performs. The setting is instance-wide, so a drift
+  // between the first sign-in and this one reaches the new context too, and the
+  // role assertions read the side menu labels the user sees.
+  await ensureLocalization(world);
 
   return session;
 };

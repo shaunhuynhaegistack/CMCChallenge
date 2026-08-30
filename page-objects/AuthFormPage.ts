@@ -25,6 +25,15 @@ export abstract class AuthFormPage extends BasePage {
   /** The submit control, named differently on each screen. */
   abstract readonly submitButton: Locator;
 
+  /**
+   * What that control reads when the instance is in the language the suite
+   * expects. Stated here rather than in a step definition because it is the
+   * only signal these screens give about the display language: they carry no
+   * `lang` attribute and their markup names no locale, and the localization API
+   * that would answer needs a session a signed-out scenario does not have.
+   */
+  abstract readonly expectedSubmitLabel: string;
+
   constructor(page: Page) {
     super(page);
 

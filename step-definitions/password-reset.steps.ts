@@ -2,9 +2,11 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { logVerify } from '../lib/logger';
 import type { OrangeHrmWorld } from '../support/world';
+import { ensureAuthScreenLanguage } from '../support/actions';
 
 Given('I am on the password reset page', async function (this: OrangeHrmWorld) {
   await this.pages.passwordReset.open(this.baseUrl);
+  await ensureAuthScreenLanguage(this, this.pages.passwordReset);
 });
 
 When('I go back to the password reset page', async function (this: OrangeHrmWorld) {
