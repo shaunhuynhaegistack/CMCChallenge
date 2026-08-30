@@ -8,7 +8,7 @@ in TypeScript, with a CI pipeline, a merge gate, k6 load tests and Slack/Teams r
 | Application under test | <https://opensource-demo.orangehrmlive.com/> |
 | Repository visibility | Public — the brief allows it (*"GitHub link (public or shared access)"*), and see [why](#why-this-repository-is-public) |
 | Latest test report | Published to GitHub Pages while the repository is public; otherwise the `html-report` artifact on any [workflow run](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) |
-| Committed snapshot of a run | [`docs/sample-run/`](docs/sample-run) — 102 scenarios (34 × 3 engines), all passing |
+| Committed snapshot of a run | [`docs/sample-run/`](docs/sample-run) — a dated snapshot: 102 scenarios (34 × 3 engines), all passing, from the run that produced it |
 | Scenarios | **67** across 11 feature files, on **3 engines in parallel**: Chromium, Firefox, WebKit — plus 6 localization scenarios that must run alone, and 1 deliberate failure |
 | Framework unit tests | 15 |
 | Language | TypeScript — [no JavaScript file in the repository](#typescript) |
@@ -177,58 +177,58 @@ for anybody willing to ask twice.
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 10 | **Full lifecycle**: create in UI → API check → update → API check → delete → API check | `@smoke @e2e @api` | **Brief** (creation, update, deletion, API verification) |
-| 11 | Mandatory fields are enforced when adding an employee | `@regression @negative` | Extra |
-| 12 | An employee created through the API is visible in the UI | `@regression @api` | Extra |
-| 13 | Personal details changed through the API are shown in the UI | `@regression @api` | Extra |
-| 14 | The employee list can be filtered by employee name | `@regression` | Extra |
-| 15 | An employee id that is already in use is rejected | `@regression @negative @api` | Extra |
-| 16 | Resetting the filter brings the full employee list back | `@regression` | Extra |
-| 17 | The record count on screen matches the API for the same filter | `@regression @api` | Extra |
-| 18 | Several employees can be removed in one bulk delete | `@regression` | Extra |
-| 19 | Contact details saved in the UI are returned by the API | `@regression @api` | Extra |
+| 18 | **Full lifecycle**: create in UI → API check → update → API check → delete → API check | `@smoke @e2e @api` | **Brief** (creation, update, deletion, API verification) |
+| 19 | Mandatory fields are enforced when adding an employee | `@regression @negative` | Extra |
+| 20 | An employee created through the API is visible in the UI | `@regression @api` | Extra |
+| 21 | Personal details changed through the API are shown in the UI | `@regression @api` | Extra |
+| 22 | The employee list can be filtered by employee name | `@regression` | Extra |
+| 23 | An employee id that is already in use is rejected | `@regression @negative @api` | Extra |
+| 24 | Resetting the filter brings the full employee list back | `@regression` | Extra |
+| 25 | The record count on screen matches the API for the same filter | `@regression @api` | Extra |
+| 26 | Several employees can be removed in one bulk delete | `@regression` | Extra |
+| 27 | Contact details saved in the UI are returned by the API | `@regression @api` | Extra |
 
 ### `features/role-based-access.feature` — `@rbac`
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 20 | An administrator sees every module | `@regression` | **Brief** (role-based validation) |
-| 21 | An ESS user cannot reach the administration modules (UI menu, admin page `403`, admin API `403`) | `@regression @e2e @api` | **Brief** |
-| 22 | An anonymous caller cannot read employee data (`401`) | `@regression @api @negative` | Extra |
-| 23 | An ESS user can read the directory but not change it (`200` read, `403` create) | `@regression @api` | Extra |
+| 28 | An administrator sees every module | `@regression` | **Brief** (role-based validation) |
+| 29 | An ESS user cannot reach the administration modules (UI menu, admin page `403`, admin API `403`) | `@regression @e2e @api` | **Brief** |
+| 30 | An anonymous caller cannot read employee data (`401`) | `@regression @api @negative` | Extra |
+| 31 | An ESS user can read the directory but not change it (`200` read, `403` create) | `@regression @api` | Extra |
 
 ### `features/employee-api.feature` — `@pim`, API only
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 24 | The whole employee lifecycle through the API alone | `@regression @api` | Extra |
-| 25 | Creating an employee without a `firstName` is rejected | `@regression @negative @api` | Extra |
-| 26 | Creating an employee without a `lastName` is rejected | `@regression @negative @api` | Extra |
-| 27 | The employee list endpoint paginates | `@regression @api` | Extra |
+| 32 | The whole employee lifecycle through the API alone | `@regression @api` | Extra |
+| 33 | Creating an employee without a `firstName` is rejected | `@regression @negative @api` | Extra |
+| 34 | Creating an employee without a `lastName` is rejected | `@regression @negative @api` | Extra |
+| 35 | The employee list endpoint paginates | `@regression @api` | Extra |
 
 ### `features/dashboard.feature` — `@dashboard`
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 28 | The dashboard presents its widgets | `@smoke` | Extra |
-| 29 | The modules the brief names open from the side menu | `@regression` | Extra |
+| 36 | The dashboard presents its widgets | `@smoke` | Extra |
+| 37 | The modules the brief names open from the side menu | `@regression` | Extra |
 
 ### `features/recruitment.feature` — `@recruitment` (all Extra)
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 30 | The candidate list opens with its filters | `@smoke` | Extra |
-| 31 | A candidate created through the API appears in the candidate list | `@regression @api` | Extra |
-| 32 | A candidate without an email address is rejected | `@regression @negative @api` | Extra |
+| 38 | The candidate list opens with its filters | `@smoke` | Extra |
+| 39 | A candidate created through the API appears in the candidate list | `@regression @api` | Extra |
+| 40 | A candidate without an email address is rejected | `@regression @negative @api` | Extra |
 
 ### `features/leave.feature` — `@leave` (all Extra)
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 33 | The leave list opens for an administrator | `@smoke` | Extra |
-| 34 | The leave types offered on screen are the ones the API reports | `@regression @api` | Extra |
+| 41 | The leave list opens for an administrator | `@smoke` | Extra |
+| 42 | The leave types offered on screen are the ones the API reports | `@regression @api` | Extra |
 
-Scenario 34 is the kind of defect that is easy to ship and hard to notice: a
+Scenario 42 is the kind of defect that is easy to ship and hard to notice: a
 dropdown that has drifted from the data behind it, so a user picks something the
 system no longer has, or never sees something it does.
 
@@ -236,10 +236,10 @@ system no longer has, or never sees something it does.
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 35 | The reset screen offers a username, a submit and a way back | `@smoke @positive` | Extra |
-| 36 | A reset cannot be requested without a username | `@regression @negative` | Extra |
-| 37 | Cancelling returns to the login page | `@regression @positive` | Extra |
-| 38 | The reset screen is reachable from the login page and back again | `@regression @positive` | Extra |
+| 43 | The reset screen offers a username, a submit and a way back | `@smoke @positive` | Extra |
+| 44 | A reset cannot be requested without a username | `@regression @negative` | Extra |
+| 45 | Cancelling returns to the login page | `@regression @positive` | Extra |
+| 46 | The reset screen is reachable from the login page and back again | `@regression @positive` | Extra |
 
 These stop short of submitting a reset. This instance throttles the request and
 then silently stops answering, so a scenario that depends on one being accepted
@@ -250,14 +250,14 @@ submission would have proved is asserted by scenario 13 instead.
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 39 | The user list opens with its filters and its records | `@smoke` | Extra |
-| 40 | An account created through the API is found by its user name | `@regression @api` | Extra |
-| 41 | A user name that does not exist returns nothing rather than everything | `@regression` | Extra |
-| 42 | Resetting the filter brings the full list back | `@regression` | Extra |
-| 43 | A duplicate user name is rejected | `@regression @api` | Extra |
-| 44 | An account deleted through the UI is gone from the API | `@regression @api` | Extra |
+| 47 | The user list opens with its filters and its records | `@smoke` | Extra |
+| 48 | An account created through the API is found by its user name | `@regression @api` | Extra |
+| 49 | A user name that does not exist returns nothing rather than everything | `@regression` | Extra |
+| 50 | Resetting the filter brings the full list back | `@regression` | Extra |
+| 51 | A duplicate user name is rejected | `@regression @api` | Extra |
+| 52 | An account deleted through the UI is gone from the API | `@regression @api` | Extra |
 
-Scenario 41 is what found the response race described under
+Scenario 49 is what found the response race described under
 [known defects](#known-defects-this-suite-found): it reported ten rows while the
 same query returned nothing from the API.
 
@@ -265,9 +265,9 @@ same query returned nothing from the API.
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 45 | My Info opens the signed in user's own record | `@smoke` | Extra |
-| 46 | My Info offers the sections of a personnel record | `@regression` | Extra |
-| 47 | My Info and the API describe the same person | `@regression @api` | Extra |
+| 53 | My Info opens the signed in user's own record | `@smoke` | Extra |
+| 54 | My Info offers the sections of a personnel record | `@regression` | Extra |
+| 55 | My Info and the API describe the same person | `@regression @api` | Extra |
 
 Read-only on purpose. The administrator's record on a shared instance belongs to
 whoever else is using it, and a suite that edits it to prove a point leaves that
@@ -277,10 +277,10 @@ change behind for everybody.
 
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
-| 48-56 | Each of nine modules is reachable and renders | `@smoke` | Extra |
-| 57 | Maintenance asks for the administrator password again | `@regression @security` | Extra |
-| 58 | The side menu offers every module this role is entitled to | `@regression` | Extra |
-| 59 | A module route answers with a page rather than an error | `@regression` | Extra |
+| 56-64 | Each of nine modules is reachable and renders | `@smoke` | Extra |
+| 65 | Maintenance asks for the administrator password again | `@regression @security` | Extra |
+| 66 | The side menu offers every module this role is entitled to | `@regression` | Extra |
+| 67 | A module route answers with a page rather than an error | `@regression` | Extra |
 
 The brief names five modules; this instance ships twelve, and a suite that only
 ever visits five cannot say whether the rest are reachable at all — which is the
@@ -368,14 +368,14 @@ reason each one is there is given beside it rather than left to be guessed.
 | Install dependencies | `npm ci` plus a cached Playwright browser install |
 | Execute automated tests | One job per browser engine, all three in parallel |
 | Generate reports | An aggregation job builds the HTML report from every engine's results |
-| Publish artifacts | `results-<browser>`, `html-report`, `performance-results`, `failure-showcase` — all downloadable from the run |
+| Publish artifacts | `results-<browser>`, `html-report`, `performance-results`, `failure-showcase`, `flaky-history-<browser>` — all downloadable from the run |
 | Parallelisation | Two levels: a three-engine matrix, and Cucumber's own workers inside each job (4 under the `ci` profile). `fail-fast: false` means one engine failing does **not** cancel the others — they finish, upload their results and appear in the aggregated report, so "it only fails on WebKit" is visible at a glance |
 
 ### Part 4 — Test stability and reliability
 
 | Requirement | How |
 | --- | --- |
-| Retry logic | Environment driven: 0 locally, 2 on CI — so a scenario is run **three times** before CI calls it failed. Narrowable with `RETRY_TAG_FILTER`. The API client separately retries only `429/500/502/503/504` |
+| Retry logic | Environment driven: 1 locally, 2 on CI — so a scenario is run **three times** before CI calls it failed. Narrowable with `RETRY_TAG_FILTER`. The API client separately retries only `429/500/502/503/504` |
 | Smart waiting | Playwright auto-waiting → response waits (`clickAndWaitForApi`) → state polling. There is **no `waitForTimeout` anywhere**, enforced by `npm run check:guardrails` |
 | Screenshot capture on failure | Full-page screenshot on every failed attempt, on disk and attached inside the HTML report |
 | Flaky detection | `npm run flaky:check` reads the Cucumber **message stream** — the JSON report keeps only the final attempt, so it cannot see a retry at all |
@@ -425,7 +425,7 @@ engineering extras:
 | **Four k6 scripts and five load profiles** | The brief asked for two endpoints; the suite covers login, employee creation, the read path and the full CRUD journey, each runnable as smoke, load, stress, spike or soak |
 | **Cached CI** | npm, the Playwright browsers (keyed on the resolved Playwright version) and the k6 binary are all cached, so a repeat run installs nothing |
 | **A run page with no false alarms** | The deliberate failure swallows its own exit code rather than using `continue-on-error`, which would stamp a red annotation on a healthy run; the actions are kept on current majors so no job carries a "Node.js 20 is deprecated" warning; and the run banner prints once instead of once per Cucumber worker. A warning nobody can act on trains people to ignore warnings |
-| **Flaky history** | `reports/flaky-history.json` counts how often each scenario has needed a retry, separating one bad night from a genuinely unreliable test |
+| **Flaky history** | `reports/flaky-history.json` counts how often each scenario has needed a retry, separating one bad night from a genuinely unreliable test. Carried between CI runs through the actions cache, and published as `flaky-history-<browser>` |
 | **Enforced tagging rules** | `tools/check-tags.ts` fails CI when a scenario is in neither `@smoke` nor `@regression`. A convention that is only written down erodes |
 | **Framework unit tests** | `lib/unit/`, beside the code they cover — they found two real defects in this framework before CI did, and two more surfaced when the suite was widened |
 | **Centralised selectors** | Every `.oxd-*` class name lives in `lib/BasePage.ts` beside the code that uses it — a design-system change is one file |
@@ -469,8 +469,8 @@ Notes on how it is set up:
 - **`cucumber.yaml`** exists because Cucumber only reads its configuration from
   JavaScript, JSON or YAML, never TypeScript. The static shape of each profile
   lives there. Two settings cannot: how many workers and how many retries belong
-  to the *environment* rather than to the profile — four and two on CI, two and
-  none locally — so `tools/run-suite.ts` resolves the environment and passes
+  to the *environment* rather than to the profile — four and two on CI, three and
+  one locally — so `tools/run-suite.ts` resolves the environment and passes
   them on the command line. That is what lets the repository hold no JavaScript
   at all without pretending those numbers are constants.
 - **The report generator carries its own type declaration.**
@@ -496,7 +496,8 @@ config/
   report/                      report generator, custom styles, job summary, Pages
                                landing page, and the reporter's type declaration
 
-cucumber.yaml                  one profile per browser, plus the showcase profile
+cucumber.yaml                  one profile per browser, plus the showcase and
+                               localization profiles
 tsconfig.json                  the framework's compiler settings
 
 features/                      Gherkin only — no selectors, no code
@@ -668,7 +669,7 @@ performance/results/                        k6 JSON, HTML and raw summaries
 | --- | --- |
 | `html-report` artifact, or GitHub Pages while the repository is public | Latest run on `main`: all three engines, the k6 summaries and the failure showcase |
 | [`docs/sample-run/`](docs/sample-run) | Committed snapshot: raw results, message stream, k6 summaries, a failure screenshot |
-| [Actions](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) → a run | `html-report`, `results-<browser>`, `performance-results`, `failure-showcase` — all downloadable |
+| [Actions](https://github.com/shaunhuynhaegistack/CMCChallenge/actions) → a run | `html-report`, `results-<browser>`, `performance-results`, `failure-showcase`, `flaky-history-<browser>` — all downloadable |
 | The run summary page | Pass/fail per browser, the flaky check, and the k6 threshold table |
 
 Full detail in [docs/reporting.md](docs/reporting.md).
@@ -807,8 +808,10 @@ CodeRabbit works the same way and is also free for public repositories.
 | `ci` | 2 | **3** |
 | the `showcase` profile | 0 | **1** — it is supposed to fail |
 
-Retries are on where the target is least predictable and off where it is not, so
-a real failure is never hidden while developing. They apply to every scenario;
+Retries rise with how little the target can be relied on: none against a local
+instance, one against the shared demo, two on CI. Nothing is hidden by them -
+every retry is recorded in the message stream and reported by `npm run
+flaky:check`. They apply to every scenario;
 `RETRY_TAG_FILTER` narrows them to a tag expression if you would rather only
 retry the ones already known to be unreliable.
 
@@ -887,7 +890,7 @@ under different load:
 | --- | --- | --- |
 | `smoke` | 1 VU, 20s | Is the script and the target alive? Runs on every pull request |
 | `load` (default) | Ramp to peak, hold, ramp down | Does it hold at the expected load? |
-| `stress` | Steps to 4× peak | *Which step* does it start to degrade at |
+| `stress` | Steps to 2× then 4× peak | *Which step* does it start to degrade at |
 | `spike` | Idle, 5× burst, idle | Does it recover after a sudden burst |
 | `soak` | Half peak, long hold | Does it drift over time |
 
@@ -918,7 +921,7 @@ scenario or handled in exactly one place.
 | **Employee id silently truncated in the UI.** The column holds 10 characters. The API rejects a longer value with `422`; the UI accepts it, cuts it short and reports success — so the record is saved under an id nobody asked for and the follow-up search finds nothing. | A UI creation "succeeded", the list search returned zero rows | The limit is enforced once in `test-data/employee-factory.ts`, asserted by a unit test |
 | **The personal details form discards input typed before its own XHR lands.** It renders empty inputs and populates them when the record arrives, overwriting anything already typed — and the save then reports success while storing nothing. This is data loss, not a test timing problem. | Two fields saved as empty strings while the toast said "Successfully Updated" | `PersonalDetailsPage.waitUntilLoaded`; the contact details screen has the same shape and the same fix |
 | **Offset pagination is not stable over a sort key with ties.** Two records that compare equal can come back in a different order on each request, so page two repeats a row page one already returned and drops another entirely — records silently disappear from any UI that pages. | Three employees sharing a last name: sorted by that name, page two returned `[825]` when page one had already returned `[825, 824]`. Sorted by employee id, no overlap | `ApiClient.listEmployees` sorts by employee id, which is unique. The suite found this by flaking, and the flaky detector named the scenario |
-| **The display language is instance-wide, mutable by anyone, and changes under a running suite.** Every control in this product is addressed by the label a user reads — it ships no test id anywhere — so the moment somebody switches the instance to Spanish, every scenario fails on a button that is perfectly visible and simply says `Ingresar`. | Three CI runs failed on all three engines with `waiting for getByRole('button', { name: 'Login' })`; the failure screenshot shows the login form rendered in Spanish. On a later run the breadcrumb came back as `Pizarra de pendientes` **mid-run**, having been English when the run started | Two layers, because one is not enough on a shared target: `tools/run-suite.ts` normalises language and date format before the suite starts, and `signIn` re-checks after every sign-in and repairs the drift. Both log what they found |
+| **The display language is instance-wide, mutable by anyone, and changes under a running suite.** Every control in this product is addressed by the label a user reads — it ships no test id anywhere — so the moment somebody switches the instance to Spanish, every scenario fails on a button that is perfectly visible and simply says `Ingresar`. | Three CI runs failed on all three engines with `waiting for getByRole('button', { name: 'Login' })`; the failure screenshot shows the login form rendered in Spanish. On a later run the breadcrumb came back as `Pizarra de pendientes` **mid-run**, having been English when the run started | Three layers, because one is not enough on a shared target: `tools/run-suite.ts` normalises language and date format before the suite starts; every sign-in re-checks and repairs the drift, in the scenario's own session and in the second session the role scenarios open; and the signed-out screens, which have no session to ask, compare the submit button's own label and repair over the API when it has moved. All three log what they found |
 | **The password reset request is throttled.** After a handful of submissions the form stops answering: it neither navigates to the confirmation nor reports an error, it simply stays where it is. | Submitting a reset navigated to `/auth/sendPasswordReset` on the first attempts and stopped doing so afterwards, with no message | `features/password-reset.feature` asserts the screen, its validation and its navigation, and deliberately stops short of submitting. The property a submission would have proved — that the response does not reveal whether an account exists — is asserted on the login form instead |
 | **The login form does not trim the user name.** A value pasted from a document with its surrounding whitespace is refused as invalid credentials, with no hint that the spaces are the reason. | `"  Admin  "` with the correct password is rejected; `Admin` is accepted | Pinned by a scenario asserting the current behaviour, so a change in either direction is noticed rather than discovered |
 | **A deleted employee returns `422 Invalid Parameter`, not `404`.** | `GET /pim/employees/{n}` after deletion | The deletion assertion accepts either |

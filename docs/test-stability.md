@@ -6,15 +6,15 @@ Retries are configured per environment, not per scenario:
 
 | Environment | `retries` | Why |
 | --- | --- | --- |
-| `demo` (local default) | 0 | A failure while developing should be visible, not hidden |
+| `demo` (local default) | 1 | The target is shared and public, so one retry separates a broken test from someone else's traffic - and the retry is still reported |
 | `ci` | 2 | The demo instance is shared and public, so some failures are genuinely environmental |
 
 `RETRY_TAG_FILTER` narrows retries to a tag expression - set it to `@flaky` to
 retry only the scenarios that are known to depend on the shared instance and let
 everything else fail on the first attempt.
 
-There is a second, much narrower retry inside `lib/api/ApiClient`: a `429`, `502`,
-`503` or `504` is retried with a linear backoff. Those statuses are infrastructure
+There is a second, much narrower retry inside `lib/api/ApiClient`: a `429`, `500`,
+`502`, `503` or `504` is retried with a linear backoff. Those statuses are infrastructure
 noise rather than test results. Every other status is handed to the assertion
 untouched, so a genuine `403` or `422` still fails the scenario immediately.
 
@@ -68,9 +68,12 @@ definition of flaky used here.
 
 For each such scenario the tool reports the number of attempts, the final status,
 the first failure message, and how many recorded runs that scenario has flaked in.
-The running count is kept in `reports/flaky-history.json`; publishing it as a CI
-artifact lets the counts accumulate across runs, which is what separates one bad
-night on a shared demo instance from a test that is genuinely unreliable.
+The running count is kept in `reports/flaky-history.json`. A fresh runner starts
+with nothing, so CI restores the file from the actions cache before the detector
+runs and saves it again afterwards, per browser. That is what lets the counts
+accumulate and separates one bad night on a shared demo instance from a test
+that is genuinely unreliable; the file is also published as the
+`flaky-history-<browser>` artifact so the counts can be read without a checkout.
 
 CI runs the detector after every browser job and writes the result into the run
 summary. `--fail-on-flaky` makes it exit non-zero, which is worth enabling once a
@@ -80,9 +83,11 @@ suite is expected to be clean.
 
 The order matters - retries are last, not first.
 
-1. **Quarantine, do not ignore.** A scenario that flakes repeatedly gets `@flaky`
-   and is excluded from the blocking run (`--tags "not @flaky"`) while still being
-   executed in a non-blocking job. It keeps producing data instead of rotting.
+1. **Quarantine, do not ignore.** A scenario that flakes repeatedly gets `@flaky`.
+   The blocking run then excludes it with `--tags "not @flaky"` and it is run
+   separately without gating the merge, so it keeps producing data instead of
+   rotting. Nothing carries the tag today, so no profile hard-codes the
+   exclusion - `npm run check:tags` names every scenario that acquires it.
 2. **Classify the cause before touching the test.** The trace and the first
    failure message usually place it in one of four buckets:
    - *timing* - the assertion ran before the application settled. Fixed with a
@@ -99,6 +104,21 @@ The order matters - retries are last, not first.
 4. **Watch the trend.** `reports/flaky-history.json` shows whether a scenario is
    getting better or worse. A scenario that keeps reappearing is deleted or
    rewritten - a test nobody trusts is worse than no test.
+
+## Localization drift, and where it is repaired
+
+The display language and the date format are instance-wide settings on a public
+instance anyone can change, and every control here is addressed by the label a
+user reads. Repair therefore happens at three points rather than one:
+
+| Point | What it can use | When it runs |
+| --- | --- | --- |
+| `tools/run-suite.ts` | An admin sign-in over plain fetch | Once, before the suite starts |
+| `signIn` / `signInAsInSeparateSession` in `support/actions.ts` | The session that has just been created | After every sign-in, including the second session the role scenarios open |
+| `ensureAuthScreenLanguage` in `support/actions.ts` | Only what is on screen - a signed-out scenario has no session | On the login and password reset screens, comparing the submit button's own label and repairing over the API only when it has moved |
+
+The third exists because the unauthenticated scenarios assert the words the
+product renders and are the only ones the second point cannot reach.
 
 ## Known instability in this application
 

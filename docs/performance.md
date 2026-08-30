@@ -40,8 +40,9 @@ VUS=20 HOLD=5m npm run perf:search
 
 ## Thresholds
 
-Defined once in `performance/lib/thresholds.ts` and imported by both scripts, so
-the service level objective is not buried inside a scenario.
+Defined once in `performance/lib/thresholds.ts` and imported by every script, so
+the service level objective is not buried inside a scenario. The table below
+covers the two the brief named; the other two are built the same way.
 
 | Metric | Login | Employee creation |
 | --- | --- | --- |
@@ -90,7 +91,7 @@ fetching a script from the internet.
 
 * **The session cannot be shared between iterations.** k6 gives every iteration a
   fresh cookie jar, so a script that logs in only on the first iteration gets
-  `401 Session expired` from the second one onwards. Both scripts authenticate
+  `401 Session expired` from the second one onwards. Every script authenticates
   per iteration, and the threshold that matters is scoped to the tagged request
   so the login cost does not distort it.
 * **The load test cleans up after itself.** Every employee it creates is deleted
@@ -100,15 +101,18 @@ fetching a script from the internet.
 ## CI
 
 The `performance` job runs **after** the browser jobs rather than alongside them:
-three engines running 29 scenarios each against the same shared instance is load
+three engines running the whole scenario set each against the same shared
+instance is load
 in its own right, and a load test measured through someone else's traffic
 measures nothing. That is not a theory - the first run that overlapped them
 failed every error-rate threshold on all four scripts while passing every latency
 one, which is exactly what contention looks like.
 
-It runs on pushes to `main` and on manual dispatch, never on a pull request - a load test against a shared public
-instance should not run on every commit. Results are published as the
-`performance-results` artifact.
+A pull request runs the `smoke` profile - one virtual user for twenty seconds,
+enough to prove the scripts still parse and the target still answers. The full
+`load` profile is reserved for pushes to `main` and for manual dispatch, because
+a real load test against a shared public instance should not run on every
+commit. Results are published as the `performance-results` artifact.
 
 The job is `continue-on-error: true`: thresholds are evaluated and a breach is
 visible in the log and the published summary, but the latency of a third party

@@ -10,7 +10,10 @@ required checks before a merge is allowed.
 | `static-analysis` | `npm ci`, ESLint, Prettier, tagging rules, guardrails, framework unit tests |
 | `matrix` | Resolves the browser list (all three by default, overridable on manual runs) |
 | `test` | One job per engine - Chromium, Firefox, WebKit - installing dependencies and browsers, running the suite and uploading the raw results |
+| `failure-showcase` | Runs the deliberate failure in its own profile, non-blocking, so the reports have a failure to show |
 | `report` | Downloads every browser's results, generates the HTML report, publishes it as an artifact and writes the run summary |
+| `publish` | Deploys the report to GitHub Pages, from `main` only - on a pull request it runs, says why it is not publishing, and passes |
+| `performance` | The k6 load tests, after the browser jobs rather than beside them - see [performance.md](performance.md) |
 
 ### Parallelisation
 
@@ -19,7 +22,7 @@ Two levels:
 1. **Across engines** - the `test` job is a matrix over `chromium`, `firefox`
    and `webkit`, so all three run at the same time. `fail-fast: false`
    is what makes one engine's failure informative rather than destructive: the
-   other three finish, upload their results and appear in the aggregated report,
+   other two finish, upload their results and appear in the aggregated report,
    so "it only fails on WebKit" is visible at a glance instead of hiding behind a
    cancelled matrix.
 2. **Inside a job** - Cucumber runs `execution.workers` scenarios in parallel
@@ -30,6 +33,7 @@ Two levels:
 | Artifact | Contents |
 | --- | --- |
 | `results-<browser>` | Cucumber JSON plus the screenshots of failed scenarios |
+| `flaky-history-<browser>` | How often each scenario has needed a retry, carried between runs through the actions cache |
 | `html-report` | The generated HTML report for every browser |
 
 The run summary (scenario counts per browser and the list of failures) is written
