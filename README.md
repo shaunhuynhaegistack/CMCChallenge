@@ -764,7 +764,7 @@ JSON array of browsers, and a Cucumber tag expression.
   | Provider | Secret | Notes |
   | --- | --- | --- |
   | Greptile | `GREPTILE_API_KEY` | Reviews against an index of the **whole repository**, so it can flag a consequence in a file the diff never touched |
-  | GitHub Models | none, but `GITHUB_MODEL` must name a model | Free on public repositories and uses the workflow's own token, but being retired by GitHub, so it is the last resort |
+  | GitHub Models | no secret; the repository **variable** `GITHUB_MODEL` names the model to ask | Free on public repositories and uses the workflow's own token, but being retired by GitHub, so it is the last resort |
 
   With none configured the check reports "not evaluated" and passes, rather than
   blocking the repository on somebody else's outage.
