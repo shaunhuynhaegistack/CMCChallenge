@@ -151,22 +151,24 @@ not ask for it.
 | 1 | An administrator signs in successfully | `@smoke @positive` | **Brief** |
 | 2 | Sign in is rejected for `invalidPassword` | `@regression @negative` | **Brief** |
 | 3 | Sign in is rejected for `unknownUser` | `@regression @negative` | **Brief** |
-| 4 | Submitting an empty form shows field level validation | `@regression @negative` | Extra |
-| 5 | Signing out returns the user to the login page | `@smoke @positive` | Extra |
-| 6 | The session is invalidated after signing out | `@regression @negative` | Extra |
-| 7 | The login page shows the branding and hides the password | `@regression @positive` | Extra |
-| 8 | The password reset page is reachable from the login page | `@regression @negative` | Extra |
-| 9 | Signing in without a password is rejected client-side | `@regression @negative` | Extra |
-| 10 | Sign in is rejected for `wrongCasePassword` | `@regression @negative` | Extra |
-| 11 | Sign in is rejected for `injectionAttempt` | `@regression @negative` | Extra |
-| 12 | Sign in is rejected for `overlongUsername` | `@regression @negative` | Extra |
+| 4 | Sign in is rejected for `wrongCasePassword` | `@regression @negative` | Extra |
+| 5 | Sign in is rejected for `injectionAttempt` | `@regression @negative` | Extra |
+| 6 | Sign in is rejected for `overlongUsername` | `@regression @negative` | Extra |
+| 7 | Submitting an empty form shows field level validation | `@regression @negative` | Extra |
+| 8 | Signing out returns the user to the login page | `@smoke @positive` | Extra |
+| 9 | The session is invalidated after signing out | `@regression @negative` | Extra |
+| 10 | The login page shows the branding and hides the password | `@regression @positive` | Extra |
+| 11 | The password reset page is reachable from the login page | `@regression @negative` | Extra |
+| 12 | Signing in without a password is rejected client-side | `@regression @negative` | Extra |
 | 13 | The rejection message is the same whether or not the account exists | `@regression @security` | Extra |
 | 14 | The user name is not case sensitive | `@regression @positive` | Extra |
 | 15 | Surrounding whitespace in the user name is not trimmed | `@regression @negative` | Extra |
 | 16 | The session cookie is not readable from script | `@regression @security` | Extra |
 | 17 | A signed out session cannot be restored with the back button | `@regression @negative` | Extra |
 
-Scenarios 2, 3 and 10 to 12 are one `Scenario Outline` with five examples.
+Scenarios 2 to 6 are one `Scenario Outline` with five examples; the first two are
+the rejections the brief named. Every table here follows its feature file's own
+order, so a number is where the scenario actually is.
 
 **13 is the one worth reading.** Two different reasons to refuse a sign-in — no
 such account, and a real account with the wrong secret — must produce one

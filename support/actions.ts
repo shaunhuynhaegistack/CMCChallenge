@@ -63,7 +63,7 @@ export const signIn = async (
   await session.pages.login.open(world.baseUrl);
   await session.pages.login.login(user.username, user.password);
   await session.pages.dashboard.waitUntilLoaded();
-  await ensureLocalization(world);
+  await ensureLocalization(world, session);
 
   return user;
 };
@@ -80,8 +80,17 @@ export const signIn = async (
  *
  * Checked here because this is the first point in a scenario where a session
  * exists, and it costs one GET. The PUT only happens when something is wrong.
+ *
+ * The setting is read and written through `world.api` because that is the admin
+ * session; `session` is whose screen has to be redrawn afterwards, which is not
+ * the same thing when the caller is the role scenarios' second, ESS session. A
+ * repair that stopped at the API would leave the page that is about to be
+ * asserted still rendered in the language the suite has just corrected.
  */
-const ensureLocalization = async (world: OrangeHrmWorld): Promise<void> => {
+const ensureLocalization = async (
+  world: OrangeHrmWorld,
+  session: OrangeHrmWorld | IsolatedSession
+): Promise<void> => {
   const { dateFormat, language } = await world.api.getLocalization();
   if (language === EXPECTED_LANGUAGE && dateFormat === EXPECTED_DATE_FORMAT) return;
 
@@ -92,6 +101,7 @@ const ensureLocalization = async (world: OrangeHrmWorld): Promise<void> => {
   await world.api.send('PUT', endpoints.admin.localization, {
     data: { language: EXPECTED_LANGUAGE, dateFormat: EXPECTED_DATE_FORMAT }
   });
+  await session.page.reload({ waitUntil: 'domcontentloaded' });
 };
 
 /**
@@ -195,8 +205,9 @@ export const signInAsInSeparateSession = async (
   await session.pages.dashboard.waitUntilLoaded();
   // The same repair `signIn` performs. The setting is instance-wide, so a drift
   // between the first sign-in and this one reaches the new context too, and the
-  // role assertions read the side menu labels the user sees.
-  await ensureLocalization(world);
+  // role assertions read the side menu labels the user sees. Checked through the
+  // admin session, redrawn in this one - an ESS account cannot write the setting.
+  await ensureLocalization(world, session);
 
   return session;
 };
