@@ -56,10 +56,10 @@ jobs:
         run: npx ts-node .github/scripts/pr-review.ts
 
       # Every result reaches the run summary. Only a result the author can act
-      # on - a review, approving or blocking - is also put on the pull request;
-      # "no provider configured" is a message for whoever maintains the
-      # pipeline, and a comment nobody can act on teaches people to skim past
-      # comments.
+      # on - a review, approving or blocking - is also put on the pull request.
+      # "No provider configured" and "every provider failed" are messages for
+      # whoever maintains the pipeline, and a comment nobody can act on teaches
+      # people to skim past comments.
       - name: Record the result in the run summary
         if: always()
         run: |
