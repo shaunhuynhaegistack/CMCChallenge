@@ -12,6 +12,7 @@ import {
 import { logInfo, logWarn } from '../lib/logger';
 import type { OrangeHrmWorld, IsolatedSession } from './world';
 import type AuthFormPage from '../page-objects/AuthFormPage';
+import { waitUntil, retryAsync } from '../lib/BasePage';
 import type { Employee, UserCredentials } from '../lib/BasePage';
 
 interface Role {
@@ -105,6 +106,35 @@ const ensureLocalization = async (
 };
 
 /**
+ * A translation key that has not been replaced by its translation yet, such as
+ * `auth.login`. The screen renders the key while its language bundle is still
+ * loading, so a label read in that window is neither the expected one nor a
+ * drift - it is a page that has not finished.
+ */
+const UNRESOLVED_LABEL = /^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$/;
+
+/**
+ * The submit label once the screen has stopped rendering the raw key.
+ *
+ * Without this the drift check fires on a half-rendered page and pays for an
+ * admin sign-in to repair a language that never moved. That was observed: the
+ * button read "auth.login", the repair was attempted, and the scenario failed
+ * on the sign-in rather than on anything it was testing.
+ */
+const settledSubmitLabel = async (screen: AuthFormPage): Promise<string> => {
+  const label = await screen.submitButtonLabel();
+  if (!UNRESOLVED_LABEL.test(label)) return label;
+
+  return waitUntil(
+    async () => {
+      const current = await screen.submitButtonLabel();
+      return UNRESOLVED_LABEL.test(current) ? '' : current;
+    },
+    { timeout: 10000, interval: 250, description: 'the submit button to render its label' }
+  );
+};
+
+/**
  * The same repair, for the scenarios that never sign in.
  *
  * The login and password reset screens assert the words the product renders -
@@ -122,7 +152,7 @@ export const ensureAuthScreenLanguage = async (
   world: OrangeHrmWorld,
   screen: AuthFormPage
 ): Promise<void> => {
-  const label = await screen.submitButtonLabel();
+  const label = await settledSubmitLabel(screen);
   if (label === screen.expectedSubmitLabel) return;
 
   logWarn(
@@ -130,8 +160,17 @@ export const ensureAuthScreenLanguage = async (
       `"${screen.expectedSubmitLabel}", so the instance language has drifted. Putting it back.`
   );
 
-  const cookie = await apiSignIn(world.baseUrl);
-  await normaliseLocalization(world.baseUrl, cookie);
+  // Retried because this is the one repair with no session behind it: it signs
+  // in from scratch over plain fetch, and the shared instance has answered that
+  // sign-in with a login page carrying no CSRF token. Failing here would fail a
+  // scenario on the repair rather than on anything it was testing.
+  await retryAsync(
+    async () => {
+      const cookie = await apiSignIn(world.baseUrl);
+      await normaliseLocalization(world.baseUrl, cookie);
+    },
+    { attempts: 3, delay: 1000, description: 'repairing the instance language' }
+  );
   await screen.open(world.baseUrl);
 };
 
