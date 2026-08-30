@@ -9,6 +9,8 @@ export class LoginPage extends AuthFormPage {
 
   readonly submitButton: Locator;
 
+  readonly expectedSubmitLabel = 'Login';
+
   readonly alert: Locator;
 
   readonly brandingLogo: Locator;

@@ -19,6 +19,8 @@ export class PasswordResetPage extends AuthFormPage {
 
   readonly submitButton: Locator;
 
+  readonly expectedSubmitLabel = 'Reset Password';
+
   readonly cancelButton: Locator;
 
   readonly heading: Locator;

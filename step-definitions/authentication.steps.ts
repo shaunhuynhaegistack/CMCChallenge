@@ -2,12 +2,13 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import type { OrangeHrmWorld } from '../support/world';
 import { expect } from '@playwright/test';
 import { resolveUser } from '../lib/utils/data-helper';
-import { signIn } from '../support/actions';
+import { signIn, ensureAuthScreenLanguage } from '../support/actions';
 import { logVerify, logInfo } from '../lib/logger';
 
 Given('I am on the OrangeHRM login page', async function (this: OrangeHrmWorld) {
   await this.pages.login.open(this.baseUrl);
   await expect(this.page).toHaveURL(/auth\/login/);
+  await ensureAuthScreenLanguage(this, this.pages.login);
 });
 
 When('I sign in as {string}', async function (this: OrangeHrmWorld, userKey) {
