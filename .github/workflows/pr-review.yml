@@ -49,9 +49,13 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AI_REVIEW_STRICT: 'false'
-        run: npx ts-node .github/scripts/ai-review.ts
+          REVIEW_STRICT: 'false'
+        run: npx ts-node .github/scripts/pr-review.ts
 
+      # The script writes pr-review.md only when the result is worth putting on
+      # the pull request. "No provider configured" is written to the log and the
+      # run summary instead - it is a message for whoever maintains the
+      # pipeline, and the contributor cannot act on it.
       - name: Comment on the pull request
         if: always()
         env:

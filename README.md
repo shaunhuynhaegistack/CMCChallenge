@@ -484,8 +484,8 @@ Notes on how it is set up:
 ```
 .github/
   workflows/ci.yml             static analysis → tests (3 engines) → report → Pages → notify
-  workflows/ai-review.yml      PR review gate on pull requests
-  scripts/ai-review.ts         the gate itself
+  workflows/pr-review.yml      PR review gate on pull requests
+  scripts/pr-review.ts         the gate itself
   branch-protection.json       the required-checks rule, ready to apply
 
 config/
@@ -755,7 +755,7 @@ JSON array of browsers, and a Cucumber tag expression.
 
 * **Deterministic** — `npm run check:guardrails`, in `Static analysis`. No key, no
   third party, always runs.
-* **Model-assisted** — `.github/workflows/ai-review.yml` reviews the diff against a
+* **Model-assisted** — `.github/workflows/pr-review.yml` reviews the diff against a
   test-automation rubric and **fails the check on a blocking finding**. Two
   providers, the first configured one wins:
 
