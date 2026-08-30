@@ -44,8 +44,11 @@ jobs:
         id: review
         env:
           # First configured provider wins: Greptile, then GitHub Models as the
-          # no-secret fallback.
+          # fallback. The fallback needs no secret, but it does need to be told
+          # which model to ask - GITHUB_MODEL is a repository *variable* rather
+          # than a secret, because a model name is not one.
           GREPTILE_API_KEY: ${{ secrets.GREPTILE_API_KEY }}
+          GITHUB_MODEL: ${{ vars.GITHUB_MODEL }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_BASE_REF: ${{ github.base_ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

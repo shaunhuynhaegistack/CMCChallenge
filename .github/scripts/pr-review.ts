@@ -297,7 +297,9 @@ const notEvaluated = (reason: string): string =>
   if (configured.length === 0) {
     finish(
       notEvaluated(
-        'No review provider is configured. Add `GREPTILE_API_KEY` as a repository secret to enable the gate.'
+        'No review provider is configured. Either add `GREPTILE_API_KEY` as a repository ' +
+          'secret, or set the `GITHUB_MODEL` repository variable to name a model on ' +
+          'GitHub Models, which needs no secret of its own.'
       ),
       STRICT ? 1 : 0,
       // Not on the pull request: the person who opened it cannot fix a missing

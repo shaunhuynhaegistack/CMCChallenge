@@ -80,7 +80,7 @@ The script tries providers in order and the first configured one wins:
 | Order | Provider | Configuration | Notes |
 | --- | --- | --- | --- |
 | 1 | **Greptile** | Repository secret `GREPTILE_API_KEY` | Reviews against an index of the **whole repository**, not just the diff, so it can see a consequence in a file the diff never touched |
-| 2 | **GitHub Models** | None beyond the workflow's own `GITHUB_TOKEN`; `GITHUB_MODEL` names the model to ask | Free on public repositories, but GitHub has begun retiring it, so it is the last resort |
+| 2 | **GitHub Models** | No secret beyond the workflow's own `GITHUB_TOKEN`; the repository **variable** `GITHUB_MODEL` names the model to ask, since a model name is not a secret | Free on public repositories, but GitHub has begun retiring it, so it is the last resort |
 
 **To turn the gate on: add one repository secret.**
 *Settings → Secrets and variables → Actions → New repository secret*. Nothing
