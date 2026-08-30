@@ -93,9 +93,13 @@ When('I delete the employee from the employee list', async function (this: Orang
 
   await this.pages.employeeList.open(this.baseUrl);
   await this.pages.employeeList.searchByEmployeeId(employee.employeeId);
-  await expect(this.pages.employeeList.rows).toHaveCount(1);
 
-  const { status, toast } = await this.pages.employeeList.deleteFirstRow();
+  // Guarded rather than trusting the filter: one row is not enough, it has to
+  // be *this* row. The instance is shared, and a stale filter response could
+  // leave a single unrelated record on screen.
+  const { status, toast } = await this.pages.employeeList.deleteOnlyRowMatching(
+    employee.employeeId
+  );
   expect(status).toBe(200);
   logVerify(`Delete returned ${status}${toast ? ` with toast "${toast}"` : ''}`);
 

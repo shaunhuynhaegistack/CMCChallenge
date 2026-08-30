@@ -211,7 +211,7 @@ for anybody willing to ask twice.
 | # | Scenario | Tags | |
 | --- | --- | --- | --- |
 | 28 | The dashboard presents its widgets | `@smoke` | Extra |
-| 29 | Every module an administrator can see opens its own screen (9 modules) | `@regression` | Extra |
+| 29 | The modules the brief names open from the side menu | `@regression` | Extra |
 
 ### `features/recruitment.feature` — `@recruitment` (all Extra)
 
@@ -542,12 +542,20 @@ Later branches carry the fixes and the extra coverage.
 
 OrangeHRM ships no test ids, so the rule is:
 
-1. **Anything a user can name** — a button, a field, a menu item — is addressed
-   by that name: `getByRole('button', { name: 'Search' })`, or a field looked up
-   through its label. Those survive a restyle and read like the interface.
+1. **Anything a user can name** — a field, a menu item, a row action — is
+   addressed by that name, or by the label beside it. Those survive a restyle
+   and read like the interface.
 2. **Everything else** uses the component class, and every one of those lives in
    [`lib/BasePage.ts`](lib/BasePage.ts). When the design system moves, that
    file is the diff — not fifteen page objects.
+3. **One documented exception: the form buttons.** Sign in, Search, Save, Reset
+   and Cancel are addressed structurally — the form's `type="submit"`, or the
+   ghost variant of the button component — rather than by the word on them.
+   That is not inconsistency, it is the same rule applied to a screen whose
+   labels are somebody else's setting: the display language is instance-wide,
+   this suite has watched it change under a running scenario, and the
+   localization scenarios have to *read* those labels back to prove it. A
+   locator that already assumes the label cannot do that.
 
 No page object contains a raw `.oxd-*` string; `npm run check:guardrails` keeps
 hard coded URLs and credentials out of them as well.

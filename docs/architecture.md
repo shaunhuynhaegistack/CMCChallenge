@@ -62,14 +62,21 @@ There is no `waitForTimeout` anywhere in the suite.
 
 ## Locators
 
-OrangeHRM ships no test ids, so there are two tiers:
+OrangeHRM ships no test ids, so there are three tiers:
 
-1. **Anything a user can name** is addressed by that name - `getByRole('button',
-   { name: 'Search' })`, or a field looked up through its label with
-   `BasePage.fieldByLabel`. Those survive a restyle and read like the interface.
+1. **Anything a user can name** is addressed by that name - a menu item, a row
+   action, or a field looked up through its label with `BasePage.fieldByLabel`.
+   Those survive a restyle and read like the interface.
 2. **Everything else** uses the component class, and every one of those lives in
    `lib/BasePage.ts`. No page object contains a raw `.oxd-*` string, so a design
    system change is one file rather than fifteen.
+3. **The form buttons are the documented exception.** Sign in, Search, Save,
+   Reset and Cancel are addressed structurally - the form's `type="submit"`, or
+   the ghost variant of the button component - because the words on them are an
+   instance-wide setting rather than a property of the screen. This suite has
+   watched that setting change mid-run, and the localization scenarios have to
+   read those labels back to prove it, which a locator that assumes the label
+   cannot do.
 
 ## Reuse
 
