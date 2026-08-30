@@ -199,7 +199,7 @@ jobs:
         uses: actions/cache/restore@v6
         with:
           path: reports/flaky-history.json
-          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}
+          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: flaky-history-${{ matrix.browser }}-
 
       - name: Detect flaky scenarios
@@ -221,7 +221,7 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: reports/flaky-history.json
-          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}
+          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       # Its own artifact rather than a second path on the results upload: adding
       # one would move that artifact's root from reports/<browser> to reports/,
