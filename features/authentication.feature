@@ -92,10 +92,10 @@ Feature: Authentication
 
   # The browser will happily redraw the dashboard from its own cache, which
   # proves nothing either way. What matters is whether the session behind it is
-  # still good, so the page is asked for again.
+  # still good, so the server is asked for that page again.
   @regression @security
   Scenario: The back button does not restore a signed out session
     When I sign in as "admin"
     And I sign out
     And I go back in the browser history
-    Then the restored page should not survive a reload
+    Then the signed out session cannot open the dashboard again

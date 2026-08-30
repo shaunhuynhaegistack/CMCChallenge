@@ -143,27 +143,41 @@ Then('the session cookie should be flagged HttpOnly', async function (this: Oran
 
 When('I go back in the browser history', async function (this: OrangeHrmWorld) {
   await this.page.goBack();
-  await this.pages.login.waitForSpinnerToDisappear();
   logVerify(`The back button landed on ${this.page.url()}`);
 });
 
 /**
- * A browser restores a page from its own cache without asking the server, so
- * the dashboard reappearing says nothing about the session. Asking for it again
- * does: a signed out session cannot answer, and the application sends the
- * browser back to the login form.
+ * What the back button restores is the browser's own copy, so nothing it shows
+ * says anything about the session. Two things are asserted instead, and neither
+ * is a navigation this step performs.
  *
- * Asked with a fresh navigation to the same address rather than with `reload`.
- * Firefox aborts a reload with `NS_BINDING_ABORTED` when the server answers it
- * with a redirect - the document that issued the request is replaced before the
- * request finishes - which failed this scenario on Firefox alone while proving
- * nothing about the session. The question is the same either way, and the
- * answer is the address the browser ends up on.
+ * The browser arrives at the login form on its own, and how it gets there
+ * differs by engine: Chromium redraws the dashboard from its cache and then
+ * leaves once the page finds the session gone, while Firefox never restores it
+ * at all. Driving a reload or a navigation into either of those transitions is
+ * aborted by the browser - NS_BINDING_ABORTED on one engine, ERR_ABORTED on the
+ * other - and the scenario then fails on the very redirect it is waiting for.
+ * Both engines were observed doing this. So the browser is waited on, not
+ * pushed.
+ *
+ * That leaves a URL, which is still the browser's decision. The assertion that
+ * matters is the server's: the same address, asked for with the same cookies,
+ * has to be refused.
  */
-Then('the restored page should not survive a reload', async function (this: OrangeHrmWorld) {
-  const restored = this.page.url();
-  await this.page.goto(restored, { waitUntil: 'domcontentloaded' });
+Then(
+  'the signed out session cannot open the dashboard again',
+  async function (this: OrangeHrmWorld) {
+    await this.page.waitForURL(/auth\/login/);
+    logVerify(`The browser settled on ${this.page.url()}`);
 
-  logVerify(`After asking for ${restored} again, the browser is on ${this.page.url()}`);
-  await expect(this.page).toHaveURL(/auth\/login/);
-});
+    const protectedUrl = `${this.baseUrl}${this.pages.dashboard.path}`;
+    const response = await this.context.request.get(protectedUrl, { maxRedirects: 0 });
+
+    logVerify(`Asking for the dashboard again returned ${response.status()}`);
+    expect(response.status(), 'a signed out session is still served the dashboard').toBe(302);
+    expect(
+      response.headers().location,
+      'the refusal does not send the browser to the login form'
+    ).toMatch(/auth\/login/);
+  }
+);
