@@ -188,6 +188,20 @@ jobs:
             npx ts-node tools/run-suite.ts "$BROWSER"
           fi
 
+      # The counts only mean something if they survive the runner. Each run saves
+      # its own entry and restores the most recent previous one, so a scenario
+      # that flakes week after week is distinguishable from one bad night.
+      - name: Restore the flaky history
+        if: always() && steps.preflight.outputs.healthy == 'true'
+        # A cache miss is the normal state on the first run, and a refused cache
+        # says nothing about whether the tests passed.
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          path: reports/flaky-history.json
+          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}
+          restore-keys: flaky-history-${{ matrix.browser }}-
+
       - name: Detect flaky scenarios
         if: always() && steps.preflight.outputs.healthy == 'true'
         run: |
@@ -197,6 +211,29 @@ jobs:
             npx ts-node tools/flaky-detector.ts
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # Separate from the restore because the combined action only saves when the
+      # job succeeds, and a run that failed is exactly the one whose retry counts
+      # are worth carrying forward.
+      - name: Save the flaky history
+        if: always() && hashFiles('reports/flaky-history.json') != ''
+        continue-on-error: true
+        uses: actions/cache/save@v6
+        with:
+          path: reports/flaky-history.json
+          key: flaky-history-${{ matrix.browser }}-${{ github.run_id }}
+
+      # Its own artifact rather than a second path on the results upload: adding
+      # one would move that artifact's root from reports/<browser> to reports/,
+      # and the aggregate job's layout step expects the former.
+      - name: Publish the flaky history
+        if: always() && hashFiles('reports/flaky-history.json') != ''
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: flaky-history-${{ matrix.browser }}
+          path: reports/flaky-history.json
+          retention-days: 7
 
       - name: Upload raw results
         if: always() && steps.preflight.outputs.healthy == 'true'
